@@ -31,7 +31,7 @@ A `.step` CAD file arrives on a machine without FreeCAD. `file` says
 desktop has no handler for. A stock GNOME desktop offers nothing. With this
 project installed, double-click opens a window that says:
 
-- the file is a *STEP 3D model* (`model/step`);
+- the file is a *STEP model* (`model/step`);
 - the name was the decisive evidence, because the bytes are only text;
 - no installed application can open it;
 - these applications could, why each is suggested, and the exact install

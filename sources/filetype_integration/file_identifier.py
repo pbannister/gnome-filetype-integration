@@ -339,10 +339,11 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
         reasons.append("Neither the bytes nor the name identify this file.")
 
     chosen = index.canonical(chosen)
+    # The MIME database's description is the one a desktop shows.  libmagic's
+    # prose ("ASCII text", "data") is evidence, not a type name, and stays in
+    # the magic block rather than replacing the type's own description.
     description = index.description(chosen)
     category = index.category(chosen)
-    if not description or description == humanize_mime(chosen):
-        description = magic.description or description
 
     return Identification(
         path=target,
