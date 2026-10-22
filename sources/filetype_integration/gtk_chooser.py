@@ -72,6 +72,7 @@ def _css() -> str:
     .filetype-warning { padding: 12px; border-radius: 10px; background: alpha(#e5a50a, 0.18); }
     .filetype-danger { padding: 12px; border-radius: 10px; background: alpha(#e01b24, 0.15); }
     .filetype-mono { font-family: monospace; font-size: 0.9em; }
+    .filetype-about { font-size: 0.9em; }
     .filetype-title { font-size: 1.35em; font-weight: bold; }
     .filetype-section { font-weight: bold; margin-top: 6px; }
     """
@@ -183,6 +184,26 @@ def _application_row(parent, application: RankedApplication, path: str,
     box.set_margin_start(8)
     box.set_margin_end(8)
 
+    # The action belongs on the left of the row, before the icon and text, so
+    # the buttons line up and the name column starts at a predictable edge.
+    if application.installed and application.usable:
+        button = Gtk.Button(label="Open")
+        button.add_css_class("suggested-action")
+        button.set_size_request(88, -1)
+        button.connect("clicked", lambda _button: _open_application(
+            parent, application, path, display, on_refresh))
+        box.append(button)
+    elif application.installed:
+        button = Gtk.Button(label="Installed")
+        button.set_sensitive(False)
+        button.set_size_request(88, -1)
+        box.append(button)
+    elif application.catalog is not None:
+        button = Gtk.Button(label="Install…")
+        button.set_size_request(88, -1)
+        button.connect("clicked", lambda _button: _install_dialog(parent, application))
+        box.append(button)
+
     icon_name = (application.desktop.icon if application.desktop is not None else "")
     if not icon_name and application.catalog is not None:
         icon_name = application.identifier
@@ -198,6 +219,13 @@ def _application_row(parent, application: RankedApplication, path: str,
     name.set_xalign(0)
     name.add_css_class("heading")
     name_row.append(name)
+    about_url = application.about_url
+    if about_url:
+        about = Gtk.LinkButton.new_with_label(about_url, "About")
+        about.add_css_class("filetype-about")
+        about.set_tooltip_text(f"Open the project page: {about_url}")
+        about.set_valign(Gtk.Align.CENTER)
+        name_row.append(about)
     if application.installed:
         name_row.append(_badge("Installed"))
     elif application.catalog is not None:
@@ -216,17 +244,6 @@ def _application_row(parent, application: RankedApplication, path: str,
         reason_label.add_css_class("filetype-dim")
         text_box.append(reason_label)
     box.append(text_box)
-
-    if application.installed and application.usable:
-        button = Gtk.Button(label="Open")
-        button.add_css_class("suggested-action")
-        button.connect("clicked", lambda _button: _open_application(
-            parent, application, path, display, on_refresh))
-        box.append(button)
-    elif application.catalog is not None:
-        button = Gtk.Button(label="Install…")
-        button.connect("clicked", lambda _button: _install_dialog(parent, application))
-        box.append(button)
 
     row.set_child(box)
     row.connect("activate", lambda _row: (

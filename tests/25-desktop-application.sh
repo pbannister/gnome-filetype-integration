@@ -17,6 +17,7 @@ trap filetype_cleanup EXIT HUP INT TERM
 
 PYTHONPATH="$REPOSITORY_ROOT/sources${PYTHONPATH:+:$PYTHONPATH}" python3 - <<'PY'
 from filetype_integration.desktop_application import (ApplicationIndex,
+                                                       application_homepage,
                                                        command_for_file,
                                                        command_template,
                                                        discover_desktop_entries,
@@ -80,7 +81,11 @@ assert entry_is_visible({}) is True
 assert entry_is_visible({"NoDisplay": "true"}) is False
 assert entry_is_visible({"Hidden": "true"}) is False
 
-# 7. The parser keeps the fields this tool uses.
+# 7. AppStream metadata supplies a project page.
+assert application_homepage(entries["test-editor.desktop"]) == "https://example.org/test-editor"
+assert application_homepage(entries["test-image-viewer.desktop"]) == "https://example.org/test-image-viewer"
+
+# 8. The parser keeps the fields this tool uses.
 values = parse_desktop_entry(__import__("pathlib").Path(
     entries["test-editor.desktop"].source_path))
 assert values["Name"] == "Test Editor"

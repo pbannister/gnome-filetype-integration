@@ -67,8 +67,13 @@ recommendation = recommend(identification, applications, catalog, index)
 assert recommendation.unhandled is False
 assert recommendation.installed, recommendation.installed
 assert recommendation.installed[0].name == "Test Image Viewer", recommendation.installed[0]
+assert recommendation.installed[0].about_url == "https://example.org/test-image-viewer"
 assert any(application.identifier == "org.gimp.GIMP" for application in recommendation.available)
 assert all(application.reasons for application in recommendation.available)
+gimp_offer = next(application for application in recommendation.available
+                  if application.identifier == "org.gimp.GIMP")
+assert gimp_offer.about_url == "https://flathub.org/apps/org.gimp.GIMP", gimp_offer.about_url
+assert "about_url" in gimp_offer.to_dict()
 
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)

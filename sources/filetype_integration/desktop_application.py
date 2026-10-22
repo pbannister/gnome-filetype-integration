@@ -11,7 +11,9 @@ from __future__ import annotations
 import os
 import shlex
 import shutil
+import xml.etree.ElementTree as ElementTree
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 from . import paths
@@ -118,6 +120,49 @@ def current_desktop_names() -> set[str]:
             if name.startswith("gnome"):
                 names.add("gnome")
     return names
+
+
+def _local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+@lru_cache(maxsize=1)
+def appstream_homepages() -> dict[str, str]:
+    """Map an application id to the homepage AppStream records for it."""
+    homepages: dict[str, str] = {}
+    for directory in paths.metainfo_dirs():
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.glob("*.xml")):
+            try:
+                tree = ElementTree.parse(path)
+            except (ElementTree.ParseError, OSError):
+                continue
+            identifier = ""
+            homepage = ""
+            for element in tree.getroot().iter():
+                name = _local_name(element.tag)
+                if name == "id" and not identifier:
+                    identifier = (element.text or "").strip()
+                elif name == "url" and element.get("type") == "homepage" and not homepage:
+                    homepage = (element.text or "").strip()
+            if not homepage:
+                continue
+            for key in (identifier, identifier.removesuffix(".desktop")):
+                if key:
+                    homepages.setdefault(key, homepage)
+    return homepages
+
+
+def application_homepage(application: InstalledApplication) -> str:
+    """The project page AppStream records for this desktop entry, if any."""
+    homepages = appstream_homepages()
+    for key in (application.desktop_id,
+                application.desktop_id.removesuffix(".desktop"),
+                application.flatpak_id):
+        if key and key in homepages:
+            return homepages[key]
+    return ""
 
 
 def entry_is_visible(values: dict[str, str]) -> bool:

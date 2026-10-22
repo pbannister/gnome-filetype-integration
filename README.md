@@ -18,6 +18,11 @@ The same work is available in four places:
   handler already exists.
 - **`filetype`** on the command line carries every capability, with stable JSON.
 
+Inside the chooser, each application row has its action button on the left and an
+**About** link beside the application name. The link opens the project page,
+the Flathub page, or the distribution package page that describes the
+application.
+
 **Status: implemented and tested** (2026-10-22). The identifier, the MIME
 index, the desktop discovery, the catalog, the chooser, the handler install and
 uninstall, and the command line are built. The test suite runs with

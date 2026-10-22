@@ -17,6 +17,8 @@ filetype_sandbox() {
              "$DIRECTORY_TEST/cache" "$DIRECTORY_TEST/xdg" "$DIRECTORY_TEST/xdgconfig"
     cp -R "$REPOSITORY_ROOT/dataflow.in/mime/." "$DIRECTORY_TEST/xdg/mime/"
     cp -R "$REPOSITORY_ROOT/dataflow.in/applications/." "$DIRECTORY_TEST/xdg/applications/"
+    mkdir -p "$DIRECTORY_TEST/xdg/metainfo"
+    cp -R "$REPOSITORY_ROOT/dataflow.in/metainfo/." "$DIRECTORY_TEST/xdg/metainfo/"
     cp "$REPOSITORY_ROOT/dataflow.in/mimeapps.list" "$DIRECTORY_TEST/config/mimeapps.list"
 
     HOME="$DIRECTORY_TEST/home"
@@ -32,6 +34,16 @@ filetype_sandbox() {
     export HOME XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME XDG_CONFIG_DIRS \
            XDG_DATA_DIRS XDG_CURRENT_DESKTOP FILETYPE_MIME_TYPES_FILE \
            FILETYPE_INTEGRATION_NO_GIO FILETYPE_EXECUTABLE
+
+    # Fail loudly if a caller ever leaks the real HOME into a test: a handler
+    # install here would change the developer's desktop.
+    case "$HOME:$XDG_DATA_HOME:$XDG_CONFIG_HOME" in
+        "$DIRECTORY_TEST"/*:"$DIRECTORY_TEST"/*:"$DIRECTORY_TEST"/*) ;;
+        *)
+            echo "filetype_env: refusing to run outside the sandbox: $HOME" >&2
+            exit 1
+            ;;
+    esac
 
     if [ -x "$REPOSITORY_ROOT/dataflow.out/build/program/bin/filetype" ]; then
         FILETYPE="$REPOSITORY_ROOT/dataflow.out/build/program/bin/filetype"

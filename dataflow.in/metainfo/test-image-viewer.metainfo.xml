@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>test-image-viewer.desktop</id>
+  <name>Test Image Viewer</name>
+  <summary>Shows images in the fixture desktop</summary>
+  <url type="homepage">https://example.org/test-image-viewer</url>
+</component>

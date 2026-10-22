@@ -14,8 +14,10 @@ import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.parse import quote
 
-from .desktop_application import ApplicationIndex, InstalledApplication
+from .desktop_application import (ApplicationIndex, InstalledApplication,
+                                  application_homepage)
 from .file_identifier import Identification
 from .mime_index import TypeIndex, category_label, normalize_mime
 
@@ -338,6 +340,29 @@ class RankedApplication:
     def terminal(self) -> bool:
         return bool(self.desktop and self.desktop.terminal)
 
+    @property
+    def about_url(self) -> str:
+        """Where this application is described: project page, Flathub, or package page."""
+        if self.desktop is not None:
+            homepage = application_homepage(self.desktop)
+            if homepage:
+                return homepage
+        if self.catalog is not None:
+            install = self.catalog.install
+            if install.get("url"):
+                return install["url"]
+            if install.get("flatpak"):
+                return f"https://flathub.org/apps/{quote(install['flatpak'])}"
+            if install.get("apt"):
+                return f"https://packages.ubuntu.com/search?keywords={quote(install['apt'])}"
+            if install.get("snap"):
+                return f"https://snapcraft.io/{quote(install['snap'])}"
+        if self.desktop is not None:
+            executable = self.desktop.executable or self.desktop.name
+            if executable:
+                return f"https://packages.ubuntu.com/search?keywords={quote(executable)}"
+        return ""
+
     def to_dict(self) -> dict[str, object]:
         return {
             "id": self.identifier,
@@ -352,6 +377,7 @@ class RankedApplication:
             "source": self.source,
             "desktop_id": self.desktop_id,
             "terminal": self.terminal,
+            "about_url": self.about_url,
             "match_kind": self.match_kind,
             "match_mime": self.match_mime,
             "score": round(self.score, 1),

@@ -85,6 +85,17 @@ def applications_dirs() -> list[Path]:
     return directories
 
 
+def metainfo_dirs() -> list[Path]:
+    """Directories searched for AppStream metadata (project pages)."""
+    directories: list[Path] = []
+    for base in [data_home(), *data_dirs()]:
+        for name in ("metainfo", "appdata"):
+            candidate = base / name
+            if candidate not in directories:
+                directories.append(candidate)
+    return directories
+
+
 def mime_data_dirs() -> list[Path]:
     directories: list[Path] = []
     for directory in [data_home(), *data_dirs()]:

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>test-editor.desktop</id>
+  <name>Test Editor</name>
+  <summary>Edits plain text in the fixture desktop</summary>
+  <url type="homepage">https://example.org/test-editor</url>
+</component>
