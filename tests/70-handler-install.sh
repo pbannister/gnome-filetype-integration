@@ -129,6 +129,7 @@ python3 - "$DIRECTORY_TEST/install2.json" "$FILE_MIMEAPPS" <<'PY' || fail 'the s
 import json, sys
 r = json.load(open(sys.argv[1], encoding="utf-8"))["result"]
 assert r["defaults_set"] == 0, r
+assert not any("Replaced a broken default" in note for note in r["notes"]), r["notes"]
 text = open(sys.argv[2], encoding="utf-8").read()
 assert text.count("application/pdf=filetype-handler.desktop;") == 1
 PY
@@ -181,6 +182,7 @@ python3 - "$DIRECTORY_TEST/nodefaults.json" "$XDG_CONFIG_HOME/mimeapps.list" <<'
 import json, sys
 r = json.load(open(sys.argv[1], encoding="utf-8"))["result"]
 assert r["defaults_set"] == 0, r
+assert not any("Replaced a broken default" in note for note in r["notes"]), r["notes"]
 text = open(sys.argv[2], encoding="utf-8").read()
 assert "filetype-handler.desktop" not in text, text
 PY

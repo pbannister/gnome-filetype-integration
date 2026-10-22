@@ -379,8 +379,8 @@ def install_handler(index: TypeIndex | None = None,
         if mime not in previous_defaults:
             previous_defaults[mime] = current
         current_entry = app_index.entry(current) if current else None
-        broken_default = bool(current) and (
-            current_entry is None or not current_entry.executable_available)
+        broken_default = (bool(current) and current != paths.HANDLER_DESKTOP_ID
+                          and (current_entry is None or not current_entry.executable_available))
         if broken_default:
             # A default that names an entry not installed leaves the file
             # unusable even when another handler exists, so it is replaced.
@@ -393,6 +393,7 @@ def install_handler(index: TypeIndex | None = None,
 
     if not set_defaults:
         defaults_to_set = {}
+        notes = []
 
     written.append(str(desktop_path))
     written.append(str(icon_path))
