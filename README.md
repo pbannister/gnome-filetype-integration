@@ -269,3 +269,6 @@ Nautilus Python bindings.
 - Automatic task commits: enabled (see `prompts/02-workflow.md` §7.1).
 - Off-limits content: none declared. The tool reads only the paths named above
   and never indexes the user's home directory except for an explicit `scan`.
+- Installation: the owner runs `make install` manually. The agent builds and
+  tests the source, then reports that an install is needed; it does not request
+  privileged escalation to update the user's `~/.local`.
