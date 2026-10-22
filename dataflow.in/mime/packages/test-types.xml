@@ -25,6 +25,10 @@
   <mime-type type="application/x-compressed-tar">
     <comment>Tar archive (gzip-compressed)</comment>
   </mime-type>
+  <mime-type type="application/x-php">
+    <comment>PHP script</comment>
+    <icon name="text-x-script"/>
+  </mime-type>
   <mime-type type="application/x-custom-format">
     <comment>Fixture custom format</comment>
     <glob pattern="*.custom" weight="50"/>

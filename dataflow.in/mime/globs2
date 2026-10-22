@@ -14,3 +14,5 @@
 50:haptics/ivs:*.ivs
 50:message/rfc822:*.eml
 50:x-content/software:*.software
+50:application/x-php:*.php
+50:application/x-php:*.phtml

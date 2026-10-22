@@ -20,6 +20,13 @@ from . import paths
 
 MIME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*$")
 
+# libmagic calls the same language text/x-php while the shared MIME database
+# uses application/x-php.  They are one type, not two.
+BUILTIN_ALIASES = {
+    "text/x-php": "application/x-php",
+    "application/x-httpd-php": "application/x-php",
+}
+
 GENERIC_MIME_TYPES = frozenset(
     {
         "application/octet-stream",
@@ -368,6 +375,9 @@ class TypeIndex:
                            for existing in self.globs):
                     self.globs.append(rule)
         self.globs.sort(key=lambda rule: (-rule.weight, -rule.specificity, len(rule.pattern), rule.mime))
+
+        for alias, target in BUILTIN_ALIASES.items():
+            self.aliases.setdefault(alias, target)
 
         for info in self.types.values():
             if not info.description:

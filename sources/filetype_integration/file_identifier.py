@@ -18,6 +18,29 @@ from pathlib import Path
 from .mime_index import (GENERIC_MIME_TYPES, GlobMatch, TypeIndex, category_label,
                          humanize_mime, normalize_mime)
 
+# A template language's body is often ordinary HTML; the language, not the
+# body, is the file's kind.
+TEMPLATE_MIME_TYPES = frozenset(
+    {
+        "application/x-php",
+        "text/x-php",
+        "application/x-httpd-php",
+        "application/x-jsp",
+        "application/x-aspx",
+        "application/x-asp",
+        "text/x-eruby",
+    }
+)
+TEMPLATE_BODY_MIME_TYPES = frozenset(
+    {
+        "text/html",
+        "application/xhtml+xml",
+        "text/plain",
+        "application/xml",
+        "text/xml",
+    }
+)
+
 
 @dataclass
 class MagicResult:
@@ -292,7 +315,15 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
 
     magic_specific = bool(magic.mime) and magic.mime not in GENERIC_MIME_TYPES
     if magic_specific and hint.mime:
-        if _compatible(magic.mime, hint.mime, index):
+        if hint.mime in TEMPLATE_MIME_TYPES and magic.mime in TEMPLATE_BODY_MIME_TYPES:
+            chosen = hint.mime
+            source = "name"
+            confidence = 0.92
+            reasons.append(
+                f"The name says {index.description(hint.mime)}; the "
+                f"{magic.mime} body is the template content, not the file type."
+            )
+        elif _compatible(magic.mime, hint.mime, index):
             chosen = hint.mime
             source = "agreement"
             confidence = 0.97

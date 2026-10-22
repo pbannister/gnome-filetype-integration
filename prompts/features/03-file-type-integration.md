@@ -40,6 +40,7 @@ never a dead end.
 - `FILETYPE-R028` — A package search page must not be used as an About candidate unless its content is fetched and checked for a useful result; direct package pages are preferred.
 - `FILETYPE-R029` — A catalog application with a Flathub id but no homepage must take its project website from the Flathub page's Project Website link, recorded as the catalog homepage.
 - `FILETYPE-R030` — A catalog application with an apt package but no homepage must take its upstream homepage from the Debian tracker package page, recorded as the catalog homepage.
+- `FILETYPE-R031` — A template or scripting language whose body is HTML, such as PHP, must be identified by its language name rather than as HTML, and its libmagic alias must resolve to the same MIME type.
 
 ## Behavior
 

@@ -142,6 +142,9 @@ The decision follows the evidence:
 - If the bytes are a generic container (`text/plain`, `application/zip`,
   `application/octet-stream`, `application/x-empty`), the name supplies the
   type. This is how an empty `.png` or a Markdown file is identified.
+- A template language whose body is HTML is named by its language, not its
+  body: a `.php` file that starts with `<html>` is a PHP script, not an HTML
+  document.
 - If the bytes are specific and disagree with the name, the **bytes win** and
   the report names both types. A PNG renamed to `.txt` is reported as a PNG
   with a conflict, not silently as text.

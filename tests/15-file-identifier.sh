@@ -77,6 +77,13 @@ assert d['exists'] is False, d
 assert d['mime'] == 'application/x-missing-file', d
 " || fail "the missing-file report is wrong"
 
+# 8.1 A PHP template starts with an HTML body; the name still decides.
+check_field "$FIXTURES/sample-template.php" "f['mime']" "application/x-php"
+check_field "$FIXTURES/sample-template.php" "f['description']" "PHP script"
+check_field "$FIXTURES/sample-template.php" "f['source']" "name"
+check_field "$FIXTURES/sample-template.php" "f['conflict'] is None" "True"
+check_field "$FIXTURES/sample-code.php" "f['mime']" "application/x-php"
+
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
     fail 'identify exited zero for a missing file'

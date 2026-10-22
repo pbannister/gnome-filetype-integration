@@ -3,3 +3,4 @@ text/x-python text/plain
 text/markdown text/plain
 application/vnd.openxmlformats-officedocument.wordprocessingml.document application/zip
 text/x-python application/x-executable
+application/x-php text/plain

@@ -31,6 +31,13 @@ tests run without touching the real desktop.
 | unavailable | known | the name type | low | libmagic was unavailable |
 | generic | unknown | the generic content type | low | unknown file |
 
+A template language is a deliberate exception. PHP often begins with an HTML
+body, so libmagic reports `text/html` while the name says `application/x-php`.
+The name wins for PHP and the other template/script types listed in
+`TEMPLATE_MIME_TYPES`; the HTML is the template body, not the file's kind.
+libmagic's `text/x-php` is also aliased to `application/x-php`, because the two
+databases spell the same language differently.
+
 A generic content type does not mean "unidentified": it means the bytes carry
 no format signature, so the name is the better evidence. A *specific* content
 type is different — if the bytes say PNG and the name says `.txt`, the bytes
