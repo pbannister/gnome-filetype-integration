@@ -97,7 +97,14 @@ def check(window, application, recommendation):
     output_view = output_views[0]
     run_buttons[0].emit("clicked")
 
+    about_opened = []
+    chooser.find_first_available = lambda urls, timeout=4.0: (urls[0], [])
+    chooser.open_uri = lambda url: about_opened.append(url) or True
+    links[0].emit("activate-link")
+
     def finish():
+        assert about_opened, "clicking About did not open the first candidate"
+        print("ABOUT-CLICK ok")
         text = output_view.get_buffer().get_text(
             output_view.get_buffer().get_start_iter(),
             output_view.get_buffer().get_end_iter(), False)
@@ -147,6 +154,11 @@ printf '%s\n' "$output" | grep -q '^RUN-BUTTONS [1-9]' || {
 printf '%s\n' "$output" | grep -q '^OUTPUT-VIEW ok' || {
     printf '%s\n' "$output" >&2
     echo '82-about-link: the install dialog has no output view' >&2
+    exit 1
+}
+printf '%s\n' "$output" | grep -q '^ABOUT-CLICK ok' || {
+    printf '%s\n' "$output" >&2
+    echo '82-about-link: clicking About did not open a candidate' >&2
     exit 1
 }
 printf '%s\n' "$output" | grep -q '^ABOUT About https://' || {

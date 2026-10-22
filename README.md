@@ -19,11 +19,13 @@ The same work is available in four places:
 - **`filetype`** on the command line carries every capability, with stable JSON.
 
 Inside the chooser, each application row has its action button on the left and an
-**About** link beside the application name. The link opens the project page,
-the Flathub page, or the distribution package page that describes the
-application. The install dialog's **Run** button performs the selected install
-and streams its output and exit status into the dialog. The chooser itself is
-never listed as an installed application.
+**About** link beside the application name. The link keeps an ordered list of
+candidate pages (AppStream project page, vendor page, Flathub, Snapcraft, and
+the distribution package page). On click it makes a short HEAD request, falls
+back to a one-byte GET when HEAD is rejected, and opens the first page that
+answers; a dead site moves to the next candidate. The install dialog's **Run**
+button performs the selected install and streams its output and exit status into
+the dialog. The chooser itself is never listed as an installed application.
 
 **Status: implemented and tested** (2026-10-22). The identifier, the MIME
 index, the desktop discovery, the catalog, the chooser, the handler install and
@@ -210,8 +212,9 @@ work; `filetype doctor` says what is missing.
 
 ## Security and privacy
 
-- No network access, no telemetry, no uploads. The tool reads local files and
-  local databases.
+- No telemetry and no uploads. The tool reads local files and local databases.
+  The only network request is the About check the user explicitly starts: one
+  short HEAD (or one-byte GET) per candidate page, with no file content sent.
 - The file is never executed. Opening it is a separate, explicit action.
 - Launching uses an argument vector, never a shell; a file name with shell
   metacharacters is one argument.

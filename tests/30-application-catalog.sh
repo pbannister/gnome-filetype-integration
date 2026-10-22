@@ -79,8 +79,9 @@ assert any(application.identifier == "org.gimp.GIMP" for application in recommen
 assert all(application.reasons for application in recommendation.available)
 gimp_offer = next(application for application in recommendation.available
                   if application.identifier == "org.gimp.GIMP")
-assert gimp_offer.about_url == "https://flathub.org/apps/org.gimp.GIMP", gimp_offer.about_url
-assert "about_url" in gimp_offer.to_dict()
+assert gimp_offer.about_url == "https://www.gimp.org/", gimp_offer.about_url
+assert "https://flathub.org/apps/org.gimp.GIMP" in gimp_offer.about_urls
+assert "about_urls" in gimp_offer.to_dict()
 
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)

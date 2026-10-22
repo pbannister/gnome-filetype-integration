@@ -44,6 +44,7 @@ application, it prints the command the user's package manager already knows.
     "apt": "gimp",
     "flatpak": "org.gimp.GIMP"
   },
+  "homepage": "https://www.gimp.org/",
   "desktop_ids": ["gimp.desktop"],
   "binary": "gimp",
   "notes": ""
@@ -62,6 +63,11 @@ application, it prints the command the user's package manager already knows.
   end in `/*` for a family. Extensions omit the leading dot.
 - `install` — at least one of `apt`, `flatpak`, `snap`, or `url`. A `url` is a
   vendor download page, not a direct binary.
+- `homepage` — optional; the project page shown first by the About link. The
+  About candidates are built in this order: AppStream homepage, `homepage`,
+  `install.url`, Flathub, Snapcraft, and the distribution package page. On click
+  the chooser probes them with a short HEAD request (one-byte GET fallback) and
+  opens the first that answers.
 - `desktop_ids` — optional; used to notice that a catalog application is
   already installed but not registered for this type.
 - `binary` — optional; used to notice a command-line application on `PATH`.

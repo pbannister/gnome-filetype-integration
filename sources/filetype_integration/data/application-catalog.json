@@ -43,7 +43,8 @@
       "desktop_ids": [
         "org.gnome.Nautilus.desktop"
       ],
-      "binary": "nautilus"
+      "binary": "nautilus",
+      "homepage": "https://apps.gnome.org/Nautilus/"
     },
     {
       "id": "org.kde.dolphin",
@@ -95,7 +96,8 @@
       "desktop_ids": [
         "org.gnome.TextEditor.desktop"
       ],
-      "binary": "gnome-text-editor"
+      "binary": "gnome-text-editor",
+      "homepage": "https://apps.gnome.org/TextEditor/"
     },
     {
       "id": "org.gnome.gedit",
@@ -515,7 +517,8 @@
         "libreoffice-draw.desktop",
         "libreoffice-base.desktop"
       ],
-      "binary": "libreoffice"
+      "binary": "libreoffice",
+      "homepage": "https://www.libreoffice.org/"
     },
     {
       "id": "org.onlyoffice.desktopeditors",
@@ -544,7 +547,8 @@
       "desktop_ids": [
         "onlyoffice-desktopeditors.desktop"
       ],
-      "binary": "onlyoffice-desktopeditors"
+      "binary": "onlyoffice-desktopeditors",
+      "homepage": "https://www.onlyoffice.com/"
     },
     {
       "id": "abiword",
@@ -629,7 +633,8 @@
       "desktop_ids": [
         "org.gnome.Papers.desktop"
       ],
-      "binary": "papers"
+      "binary": "papers",
+      "homepage": "https://apps.gnome.org/Papers/"
     },
     {
       "id": "org.gnome.Evince",
@@ -655,7 +660,8 @@
       "desktop_ids": [
         "org.gnome.Evince.desktop"
       ],
-      "binary": "evince"
+      "binary": "evince",
+      "homepage": "https://wiki.gnome.org/Apps/Evince"
     },
     {
       "id": "org.kde.okular",
@@ -682,7 +688,8 @@
       "desktop_ids": [
         "org.kde.okular.desktop"
       ],
-      "binary": "okular"
+      "binary": "okular",
+      "homepage": "https://okular.kde.org/"
     },
     {
       "id": "zathura",
@@ -738,7 +745,8 @@
       "desktop_ids": [
         "com.github.xournalpp.xournalpp.desktop"
       ],
-      "binary": "xournalpp"
+      "binary": "xournalpp",
+      "homepage": "https://xournalpp.github.io/"
     },
     {
       "id": "pdfarranger",
@@ -981,7 +989,8 @@
       "desktop_ids": [
         "calibre.desktop"
       ],
-      "binary": "calibre"
+      "binary": "calibre",
+      "homepage": "https://calibre-ebook.com/"
     },
     {
       "id": "com.github.johnfactotum.Foliate",
@@ -1012,7 +1021,8 @@
       "desktop_ids": [
         "com.github.johnfactotum.Foliate.desktop"
       ],
-      "binary": "foliate"
+      "binary": "foliate",
+      "homepage": "https://johnfactotum.github.io/foliate/"
     },
     {
       "id": "com.sigil_ebook.Sigil",
@@ -1097,7 +1107,8 @@
       "desktop_ids": [
         "org.gnome.Loupe.desktop"
       ],
-      "binary": "loupe"
+      "binary": "loupe",
+      "homepage": "https://apps.gnome.org/Loupe/"
     },
     {
       "id": "org.gnome.gThumb",
@@ -1220,7 +1231,8 @@
       "desktop_ids": [
         "gimp.desktop"
       ],
-      "binary": "gimp"
+      "binary": "gimp",
+      "homepage": "https://www.gimp.org/"
     },
     {
       "id": "org.kde.krita",
@@ -1248,7 +1260,8 @@
       "desktop_ids": [
         "org.kde.krita.desktop"
       ],
-      "binary": "krita"
+      "binary": "krita",
+      "homepage": "https://krita.org/"
     },
     {
       "id": "org.inkscape.Inkscape",
@@ -1283,7 +1296,8 @@
       "desktop_ids": [
         "org.inkscape.Inkscape.desktop"
       ],
-      "binary": "inkscape"
+      "binary": "inkscape",
+      "homepage": "https://inkscape.org/"
     },
     {
       "id": "com.github.PintaProject.Pinta",
@@ -1362,7 +1376,8 @@
       "desktop_ids": [
         "org.darktable.Darktable.desktop"
       ],
-      "binary": "darktable"
+      "binary": "darktable",
+      "homepage": "https://www.darktable.org/"
     },
     {
       "id": "com.rawtherapee.RawTherapee",
@@ -1395,7 +1410,8 @@
       "desktop_ids": [
         "rawtherapee.desktop"
       ],
-      "binary": "rawtherapee"
+      "binary": "rawtherapee",
+      "homepage": "https://rawtherapee.com/"
     },
     {
       "id": "imagemagick",
@@ -1565,7 +1581,8 @@
       "desktop_ids": [
         "vlc.desktop"
       ],
-      "binary": "vlc"
+      "binary": "vlc",
+      "homepage": "https://www.videolan.org/vlc/"
     },
     {
       "id": "io.mpv.Mpv",
@@ -1806,7 +1823,8 @@
       "desktop_ids": [
         "audacity.desktop"
       ],
-      "binary": "audacity"
+      "binary": "audacity",
+      "homepage": "https://www.audacityteam.org/"
     },
     {
       "id": "org.ardour.Ardour",
@@ -1831,7 +1849,8 @@
       "desktop_ids": [
         "ardour.desktop"
       ],
-      "binary": "ardour"
+      "binary": "ardour",
+      "homepage": "https://ardour.org/"
     },
     {
       "id": "io.lmms.LMMS",
@@ -1888,7 +1907,8 @@
       "desktop_ids": [
         "org.musescore.MuseScore.desktop"
       ],
-      "binary": "musescore3"
+      "binary": "musescore3",
+      "homepage": "https://musescore.org/"
     },
     {
       "id": "hydrogen",
@@ -1975,7 +1995,8 @@
       "desktop_ids": [
         "org.kde.kdenlive.desktop"
       ],
-      "binary": "kdenlive"
+      "binary": "kdenlive",
+      "homepage": "https://kdenlive.org/"
     },
     {
       "id": "org.shotcut.Shotcut",
@@ -2000,7 +2021,8 @@
       "desktop_ids": [
         "shotcut.desktop"
       ],
-      "binary": "shotcut"
+      "binary": "shotcut",
+      "homepage": "https://shotcut.org/"
     },
     {
       "id": "pitivi",
@@ -2046,7 +2068,8 @@
       "desktop_ids": [
         "fr.handbrake.ghb.desktop"
       ],
-      "binary": "ghb"
+      "binary": "ghb",
+      "homepage": "https://handbrake.fr/"
     },
     {
       "id": "com.obsproject.Studio",
@@ -2068,7 +2091,8 @@
       "desktop_ids": [
         "com.obsproject.Studio.desktop"
       ],
-      "binary": "obs"
+      "binary": "obs",
+      "homepage": "https://obsproject.com/"
     },
     {
       "id": "org.avidemux.Avidemux",
@@ -2148,7 +2172,8 @@
       "desktop_ids": [
         "org.gnome.FileRoller.desktop"
       ],
-      "binary": "file-roller"
+      "binary": "file-roller",
+      "homepage": "https://apps.gnome.org/FileRoller/"
     },
     {
       "id": "org.kde.ark",
@@ -3270,7 +3295,8 @@
       "desktop_ids": [
         "blender.desktop"
       ],
-      "binary": "blender"
+      "binary": "blender",
+      "homepage": "https://www.blender.org/"
     },
     {
       "id": "org.freecad.FreeCAD",
@@ -3304,7 +3330,8 @@
       "desktop_ids": [
         "org.freecad.FreeCAD.desktop"
       ],
-      "binary": "freecad"
+      "binary": "freecad",
+      "homepage": "https://www.freecad.org/"
     },
     {
       "id": "org.openscad.OpenSCAD",
@@ -3331,7 +3358,8 @@
       "desktop_ids": [
         "org.openscad.OpenSCAD.desktop"
       ],
-      "binary": "openscad"
+      "binary": "openscad",
+      "homepage": "https://openscad.org/"
     },
     {
       "id": "librecad",
@@ -3522,7 +3550,8 @@
       "desktop_ids": [
         "org.kicad.KiCad.desktop"
       ],
-      "binary": "kicad"
+      "binary": "kicad",
+      "homepage": "https://www.kicad.org/"
     },
     {
       "id": "org.f3d.F3D",
@@ -3746,7 +3775,8 @@
       "desktop_ids": [
         "org.gnome.Boxes.desktop"
       ],
-      "binary": "gnome-boxes"
+      "binary": "gnome-boxes",
+      "homepage": "https://apps.gnome.org/Boxes/"
     },
     {
       "id": "virt-manager",
@@ -3834,7 +3864,8 @@
       "desktop_ids": [
         "thunderbird.desktop"
       ],
-      "binary": "thunderbird"
+      "binary": "thunderbird",
+      "homepage": "https://www.thunderbird.net/"
     },
     {
       "id": "org.gnome.Evolution",
@@ -3895,7 +3926,8 @@
       "desktop_ids": [
         "org.gnome.Geary.desktop"
       ],
-      "binary": "geary"
+      "binary": "geary",
+      "homepage": "https://apps.gnome.org/Geary/"
     },
     {
       "id": "org.gnome.Calendar",
@@ -3923,7 +3955,8 @@
       "desktop_ids": [
         "org.gnome.Calendar.desktop"
       ],
-      "binary": "gnome-calendar"
+      "binary": "gnome-calendar",
+      "homepage": "https://apps.gnome.org/Calendar/"
     },
     {
       "id": "org.gnome.Contacts",
@@ -3952,7 +3985,8 @@
       "desktop_ids": [
         "org.gnome.Contacts.desktop"
       ],
-      "binary": "gnome-contacts"
+      "binary": "gnome-contacts",
+      "homepage": "https://apps.gnome.org/Contacts/"
     },
     {
       "id": "org.mozilla.firefox",
@@ -3987,7 +4021,8 @@
       "desktop_ids": [
         "firefox.desktop"
       ],
-      "binary": "firefox"
+      "binary": "firefox",
+      "homepage": "https://www.mozilla.org/firefox/"
     },
     {
       "id": "org.chromium.Chromium",
@@ -4046,7 +4081,8 @@
       "desktop_ids": [
         "org.gnome.Epiphany.desktop"
       ],
-      "binary": "epiphany"
+      "binary": "epiphany",
+      "homepage": "https://apps.gnome.org/Web/"
     },
     {
       "id": "com.transmissionbt.Transmission",
@@ -4282,7 +4318,8 @@
       "desktop_ids": [
         "org.keepassxc.KeePassXC.desktop"
       ],
-      "binary": "keepassxc"
+      "binary": "keepassxc",
+      "homepage": "https://keepassxc.org/"
     }
   ]
 }

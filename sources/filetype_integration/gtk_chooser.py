@@ -14,6 +14,7 @@ import sys
 import threading
 from pathlib import Path
 
+from .about_links import find_first_available, open_uri
 from .application_catalog import (RankedApplication, Recommendation, install_argv,
                                   install_commands, recommend)
 from .desktop_application import ApplicationIndex
@@ -270,6 +271,46 @@ def _badge(text: str):
     return label
 
 
+def _about_clicked(parent, application: RankedApplication, link) -> bool:
+    """Probe the About candidates, then open the first live one."""
+    _gdk, Gtk = _gtk()
+    urls = application.about_urls
+    if not urls:
+        _message(parent, "No About page",
+                 f"No page is recorded for {application.name}.")
+        return True
+    link.set_sensitive(False)
+    link.set_label("Checking…")
+
+    def done(url: str, results) -> bool:
+        link.set_label("About")
+        link.set_sensitive(True)
+        if url:
+            if not open_uri(url):
+                _message(parent, "Could not open the page",
+                         f"The page answered, but no browser could open it:\n{url}")
+        else:
+            tried = "\n".join(result.url for result in results) or "\n".join(urls)
+            _message(parent, "About page unavailable",
+                     "None of the candidate pages answered. Tried:\n" + tried)
+        return False
+
+    def worker() -> None:
+        try:
+            url, results = find_first_available(urls)
+        except Exception as error:
+            url, results = "", []
+            from gi.repository import GLib
+            GLib.idle_add(done, "", [])
+            print(f"filetype: About check failed: {error}", file=sys.stderr)
+            return
+        from gi.repository import GLib
+        GLib.idle_add(done, url, results)
+
+    threading.Thread(target=worker, daemon=True).start()
+    return True
+
+
 def _application_row(parent, application: RankedApplication, path: str,
                      display, on_refresh) -> "object":
     _gdk, Gtk = _gtk()
@@ -316,12 +357,17 @@ def _application_row(parent, application: RankedApplication, path: str,
     name.set_xalign(0)
     name.add_css_class("heading")
     name_row.append(name)
-    about_url = application.about_url
+    about_urls = application.about_urls
+    about_url = about_urls[0] if about_urls else ""
     if about_url:
         about = Gtk.LinkButton.new_with_label(about_url, "About")
         about.add_css_class("filetype-about")
-        about.set_tooltip_text(f"Open the project page: {about_url}")
+        about.set_tooltip_text(
+            "Check the project page and open the first one that answers:\n"
+            + "\n".join(about_urls))
         about.set_valign(Gtk.Align.CENTER)
+        about.connect("activate-link",
+                      lambda link: _about_clicked(parent, application, link))
         name_row.append(about)
     if application.installed:
         name_row.append(_badge("Installed"))

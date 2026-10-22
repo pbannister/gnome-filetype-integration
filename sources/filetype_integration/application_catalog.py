@@ -57,6 +57,7 @@ class CatalogApplication:
     usefulness: str
     handles: dict[str, list[str]]
     install: dict[str, str]
+    homepage: str = ""
     desktop_ids: list[str] = field(default_factory=list)
     binary: str = ""
     notes: str = ""
@@ -84,6 +85,7 @@ class CatalogApplication:
             "usefulness": self.usefulness,
             "handles": self.handles,
             "install": self.install,
+            "homepage": self.homepage,
             "desktop_ids": self.desktop_ids,
             "binary": self.binary,
             "notes": self.notes,
@@ -268,6 +270,9 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
     if not isinstance(install, dict) or not all(isinstance(key, str) and isinstance(value, str)
                                                 for key, value in install.items()):
         raise CatalogError(f"{label}: install must map a method to a package or URL")
+    homepage = raw.get("homepage", "")
+    if not isinstance(homepage, str):
+        raise CatalogError(f"{label}: homepage must be a URL string")
     if "flatpak" in install and not validate_flatpak_id(install["flatpak"]):
         raise CatalogError(f"{label}: invalid Flatpak application id: {install['flatpak']}")
     desktop_ids = raw.get("desktop_ids", [])
@@ -287,6 +292,7 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
         usefulness=usefulness,
         handles=parsed_handles,
         install=install,
+        homepage=homepage,
         desktop_ids=desktop_ids,
         binary=binary,
         notes=notes,
@@ -341,29 +347,44 @@ class RankedApplication:
         return bool(self.desktop and self.desktop.terminal)
 
     @property
-    def about_url(self) -> str:
-        """Where this application is described: project page, Flathub, or package page."""
+    def about_urls(self) -> list[str]:
+        """Candidate pages for About, best first.
+
+        A URL recorded when the catalog was written may disappear.  The
+        chooser keeps every candidate it can derive, checks them in order, and
+        opens the first one that answers.
+        """
+        urls: list[str] = []
+
+        def add(url: str) -> None:
+            if url and url.startswith(("http://", "https://")) and url not in urls:
+                urls.append(url)
+
         if self.desktop is not None:
-            homepage = application_homepage(self.desktop)
-            if homepage:
-                return homepage
+            add(application_homepage(self.desktop))
         if self.catalog is not None:
+            add(self.catalog.homepage)
             install = self.catalog.install
-            if install.get("url"):
-                return install["url"]
+            add(install.get("url", ""))
             if install.get("flatpak"):
-                return f"https://flathub.org/apps/{quote(install['flatpak'])}"
-            if install.get("apt"):
-                return f"https://packages.ubuntu.com/search?keywords={quote(install['apt'])}"
+                add(f"https://flathub.org/apps/{quote(install['flatpak'])}")
             if install.get("snap"):
-                return f"https://snapcraft.io/{quote(install['snap'])}"
+                add(f"https://snapcraft.io/{quote(install['snap'])}")
+            if install.get("apt"):
+                add(f"https://packages.ubuntu.com/search?keywords={quote(install['apt'])}")
         if self.desktop is not None:
             executable = self.desktop.executable or self.desktop.name
             if executable:
                 # A path such as /snap/bin/gimp names the package "gimp".
                 executable = executable.rsplit("/", 1)[-1]
-                return f"https://packages.ubuntu.com/search?keywords={quote(executable)}"
-        return ""
+                add(f"https://packages.ubuntu.com/search?keywords={quote(executable)}")
+        return urls
+
+    @property
+    def about_url(self) -> str:
+        """The first candidate, kept for JSON consumers."""
+        urls = self.about_urls
+        return urls[0] if urls else ""
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -380,6 +401,7 @@ class RankedApplication:
             "desktop_id": self.desktop_id,
             "terminal": self.terminal,
             "about_url": self.about_url,
+            "about_urls": self.about_urls,
             "match_kind": self.match_kind,
             "match_mime": self.match_mime,
             "score": round(self.score, 1),

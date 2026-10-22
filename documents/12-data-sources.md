@@ -43,9 +43,10 @@ The scale and schema are in `documents/11-application-catalog.md`.
 
 ## What is deliberately not used
 
-- No web service, search API, or telemetry endpoint. The tool makes no network
-  request, by design; a downloaded file type should not require an upload to
-  identify.
+- No web service, search API, or telemetry endpoint. Identification itself makes
+  no network request; a downloaded file type should not require an upload to
+  identify. The one exception is the About link the user clicks: it probes the
+  candidate pages with a short HEAD or one-byte GET, and sends no file data.
 - No filename-only lookup. The name is one witness, never the only one when
   the bytes are specific.
 - No package-manager integration beyond printing a command. Installing an
