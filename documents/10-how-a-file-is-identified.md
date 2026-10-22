@@ -63,9 +63,9 @@ $ filetype identify empty.png
 # content: application/x-empty  name: .png -> image/png
 # mime: image/png, source: name, confidence: 0.80
 
-$ filetype identify notes.custom
-# content: text/plain  name: .custom -> application/x-custom-format
-# mime: application/x-custom-format, source: name, confidence: 0.80
+$ filetype identify notes.scad
+# content: text/plain  name: .scad -> application/x-openscad
+# mime: application/x-openscad, source: name, confidence: 0.80
 ```
 
 ## What the report contains

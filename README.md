@@ -26,12 +26,12 @@ release are pending; see `PHASES.md` and `TODO.md`.
 
 ## The problem, in one example
 
-A `.custom` file arrives. `file` says `text/plain`; the name says a type the
-MIME database knows but the desktop has no handler for. A stock GNOME desktop
-offers nothing. With this project installed, double-click opens a window that
-says:
+A `.step` CAD file arrives on a machine without FreeCAD. `file` says
+`text/plain`; the name says `model/step`, a type the MIME database knows but the
+desktop has no handler for. A stock GNOME desktop offers nothing. With this
+project installed, double-click opens a window that says:
 
-- the file is a *Fixture custom format* (`application/x-custom-format`);
+- the file is a *STEP 3D model* (`model/step`);
 - the name was the decisive evidence, because the bytes are only text;
 - no installed application can open it;
 - these applications could, why each is suggested, and the exact install
