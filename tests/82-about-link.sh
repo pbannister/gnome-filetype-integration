@@ -101,7 +101,7 @@ def check(window, application, recommendation):
     notebook = notebooks[0]
     labels = [notebook.get_tab_label_text(notebook.get_nth_page(index))
               for index in range(notebook.get_n_pages())]
-    assert labels == ["Installed", "Relevant", "About"], labels
+    assert labels == ["Installed", "Relevant", "About", "Why"], labels
 
     # The About tab starts with the project, version, and project links.
     notebook.set_current_page(2)
@@ -116,6 +116,18 @@ def check(window, application, recommendation):
     assert PROJECT_REPOSITORY_URL in project_uris, project_uris
     assert PROJECT_PAGES_URL in project_uris, project_uris
     print("PROJECT-ABOUT ok")
+
+    # The Why tab holds the explanation and commands without collapsing them.
+    notebook.set_current_page(3)
+    why_page = notebook.get_nth_page(3)
+    why_labels = [widget.get_text() for widget in walk(why_page)
+                  if isinstance(widget, Gtk.Label) and widget.get_text()]
+    assert "How this file was identified" in why_labels, why_labels
+    assert "Command line" in why_labels, why_labels
+    assert any("filetype identify --apps" in text for text in why_labels), why_labels
+    assert not any(isinstance(widget, Gtk.Expander) for widget in walk(why_page)), \
+        "the Why tab still collapses its sections"
+    print("WHY-TAB ok")
 
     output_view = output_views[0]
     run_buttons[0].emit("clicked")
@@ -203,6 +215,11 @@ printf '%s\n' "$output" | grep -q '^RUN-BUTTONS [1-9]' || {
 printf '%s\n' "$output" | grep -q '^OUTPUT-VIEW ok' || {
     printf '%s\n' "$output" >&2
     echo '82-about-link: the install dialog has no output view' >&2
+    exit 1
+}
+printf '%s\n' "$output" | grep -q '^WHY-TAB ok' || {
+    printf '%s\n' "$output" >&2
+    echo '82-about-link: the Why tab is missing or collapsed' >&2
     exit 1
 }
 printf '%s\n' "$output" | grep -q '^PROJECT-ABOUT ok' || {

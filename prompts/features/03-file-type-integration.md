@@ -42,7 +42,7 @@ never a dead end.
 - `FILETYPE-R030` — A catalog application with an apt package but no homepage must take its upstream homepage from the Debian tracker package page, recorded as the catalog homepage.
 - `FILETYPE-R031` — A template or scripting language whose body is HTML, such as PHP, must be identified by its language name rather than as HTML, and its libmagic alias must resolve to the same MIME type.
 - `FILETYPE-R032` — The built-in template set must include JSP, ASP.NET, Razor, ERB, EJS, Handlebars, Mustache, Twig, Liquid, Nunjucks, Jinja, Pug, Haml, Slim, ColdFusion, Vue, Svelte, Astro, JSX/TSX, and server-side includes, with a code category and description.
-- `FILETYPE-R033` — The main window must use three tabs: Installed, Relevant, and About. About must initially show the project version, the GitHub repository link, and the labs.bannister.us project link; clicking an application's About action must replace that page with the candidate list for the application.
+- `FILETYPE-R033` — The main window must use four tabs: Installed, Relevant, About, and Why. About must initially show the project version, the GitHub repository link, and the labs.bannister.us project link; clicking an application's About action must replace that page with the candidate list for the application. Why must contain the identification evidence and the command-line equivalents without collapsing either section.
 
 ## Behavior
 

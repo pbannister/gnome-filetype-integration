@@ -19,10 +19,12 @@ The same work is available in four places:
 - **`filetype`** on the command line carries every capability, with stable JSON.
 
 The chooser window is tabbed: **Installed**, **Relevant** (applications worth
-installing), and **About**. The About tab starts with the project version and
+installing), **About**, and **Why**. The About tab starts with the project version and
 links to the GitHub repository and the labs.bannister.us project page. Clicking
 an application's **About** action replaces that page with the application's
-grouped candidate list. Each application row has its action button on the left
+grouped candidate list. The **Why** tab contains the identification evidence
+and the command-line equivalents, open rather than collapsed. Each application
+row has its action button on the left
 and an **About** action beside the application name. The action opens the About
 tab with a list of candidate pages (AppStream project page, catalog project/reference pages, vendor page,
 Flathub, Snapcraft, and direct distribution package pages) grouped by category

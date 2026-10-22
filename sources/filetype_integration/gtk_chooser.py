@@ -619,6 +619,7 @@ def build_window(application, identification: Identification,
 
     installed_page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     relevant_page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    why_page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     about_holder = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     for side in ("top", "bottom", "start", "end"):
         getattr(about_holder, f"set_margin_{side}")(12)
@@ -639,6 +640,7 @@ def build_window(application, identification: Identification,
     notebook.append_page(page_scroller(installed_page), Gtk.Label(label="Installed"))
     notebook.append_page(page_scroller(relevant_page), Gtk.Label(label="Relevant"))
     about_index = notebook.append_page(about_scroller, Gtk.Label(label="About"))
+    notebook.append_page(page_scroller(why_page), Gtk.Label(label="Why"))
 
     if recommendation.installed:
         installed_list = Gtk.ListBox()
@@ -686,9 +688,11 @@ def build_window(application, identification: Identification,
         no_suggestion.add_css_class("filetype-dim")
         relevant_page.append(no_suggestion)
 
-    details = Gtk.Expander(label="How this file was identified")
+    identification_heading = Gtk.Label(label="How this file was identified")
+    identification_heading.set_xalign(0)
+    identification_heading.add_css_class("filetype-section")
+    why_page.append(identification_heading)
     grid = Gtk.Grid(column_spacing=14, row_spacing=8)
-    grid.set_margin_top(8)
     _add_detail_row(grid, 0, "Detected by", f"{identification.source} ({identification.confidence_label} confidence)")
     _add_detail_row(grid, 1, "libmagic", f"{identification.magic.mime or 'unavailable'} — {identification.magic.description or 'no description'}")
     extension = identification.extension
@@ -697,12 +701,13 @@ def build_window(application, identification: Identification,
     _add_detail_row(grid, 4, "Path", str(identification.path), mono=True)
     for index, reason in enumerate(identification.reasons):
         _add_detail_row(grid, 5 + index, "Why", reason)
-    details.set_child(grid)
-    outer.append(details)
+    why_page.append(grid)
 
-    commands = Gtk.Expander(label="Command line")
+    command_heading = Gtk.Label(label="Command line")
+    command_heading.set_xalign(0)
+    command_heading.add_css_class("filetype-section")
+    why_page.append(command_heading)
     command_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-    command_box.set_margin_top(8)
     command_list = [
         f"filetype identify --apps {identification.path}",
         f"filetype apps {identification.path}",
@@ -721,13 +726,14 @@ def build_window(application, identification: Identification,
         copy.connect("clicked", lambda _button, text=command: _copy(display, text))
         row.append(copy)
         command_box.append(row)
-    commands.set_child(command_box)
-    outer.append(commands)
+    why_page.append(command_box)
 
     if recommendation.notes:
-        notes = Gtk.Expander(label="Notes")
+        note_heading = Gtk.Label(label="Notes")
+        note_heading.set_xalign(0)
+        note_heading.add_css_class("filetype-section")
+        why_page.append(note_heading)
         note_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        note_box.set_margin_top(8)
         for note in recommendation.notes:
             if not note:
                 continue
@@ -735,8 +741,7 @@ def build_window(application, identification: Identification,
             label.set_wrap(True)
             label.set_xalign(0)
             note_box.append(label)
-        notes.set_child(note_box)
-        outer.append(notes)
+        why_page.append(note_box)
 
     action = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
     action.set_halign(Gtk.Align.END)
