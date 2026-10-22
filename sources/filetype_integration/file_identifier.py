@@ -84,6 +84,7 @@ class Identification:
     is_symlink: bool = False
     is_regular: bool = False
     size: int = 0
+    generic_icon: str = ""
 
     @property
     def name(self) -> str:
@@ -110,6 +111,7 @@ class Identification:
             "description": self.description,
             "category": self.category,
             "category_label": self.category_label,
+            "generic_icon": self.generic_icon,
             "source": self.source,
             "confidence": round(self.confidence, 2),
             "confidence_label": self.confidence_label,
@@ -247,6 +249,7 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
             magic=MagicResult(error="path does not exist"),
             extension=ExtensionHint(),
             exists=False,
+            generic_icon="text-x-generic",
             reasons=["The path does not exist on this machine."],
         )
 
@@ -266,6 +269,7 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
             is_symlink=is_symlink,
             is_regular=False,
             size=size,
+            generic_icon="folder",
             reasons=["The path is a directory, not a file."],
         )
 
@@ -357,6 +361,7 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
         is_symlink=is_symlink,
         is_regular=is_regular,
         size=size,
+        generic_icon=index.generic_icon(chosen),
     )
 
 

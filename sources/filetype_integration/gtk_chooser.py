@@ -46,6 +46,24 @@ def _icon_name(identification: Identification) -> str:
     return identification.mime.replace("/", "-")
 
 
+def _resolve_icon(display, name: str, fallback: str = "application-x-executable") -> str:
+    if not name:
+        return fallback
+    try:
+        theme = _gtk()[1].IconTheme.get_for_display(display)
+        if theme is not None and theme.has_icon(name):
+            return name
+    except Exception:
+        pass
+    try:
+        theme = _gtk()[1].IconTheme.get_for_display(display)
+        if theme is not None and theme.has_icon(fallback):
+            return fallback
+    except Exception:
+        pass
+    return fallback
+
+
 def _css() -> str:
     return """
     .filetype-card { padding: 16px; border-radius: 14px; background: alpha(currentColor, 0.06); }
@@ -168,7 +186,8 @@ def _application_row(parent, application: RankedApplication, path: str,
     icon_name = (application.desktop.icon if application.desktop is not None else "")
     if not icon_name and application.catalog is not None:
         icon_name = application.identifier
-    image = Gtk.Image.new_from_icon_name(icon_name or "application-x-executable")
+    image = Gtk.Image.new_from_icon_name(
+        _resolve_icon(display, icon_name, "application-x-executable"))
     image.set_pixel_size(36)
     box.append(image)
 
@@ -283,7 +302,9 @@ def build_window(application, identification: Identification,
 
     card = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
     card.add_css_class("filetype-card")
-    icon = Gtk.Image.new_from_icon_name(_icon_name(identification))
+    icon = Gtk.Image.new_from_icon_name(
+        _resolve_icon(display, _icon_name(identification),
+                      identification.generic_icon or "text-x-generic"))
     icon.set_pixel_size(72)
     card.append(icon)
     text = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
@@ -493,7 +514,6 @@ def run(path: str, self_test: bool = False) -> int:
             Adw.init()
         except Exception:
             pass
-    _configure_css()
     index = TypeIndex.load()
 
     if not path:
@@ -509,6 +529,7 @@ def run(path: str, self_test: bool = False) -> int:
         return 1
 
     def on_activate(app):
+        _configure_css()
         window = build_window(app, identification, recommendation, installed,
                               self_test=self_test)
         window.present()

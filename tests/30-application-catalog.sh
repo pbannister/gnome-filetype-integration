@@ -94,7 +94,21 @@ except CatalogError as error:
 else:
     raise AssertionError("a malformed catalog was accepted")
 
-# 7. Duplicate identifiers are refused.
+# 7. An invalid Flatpak id is refused rather than printed as a command.
+bad_flatpak = {"schema": 1, "applications": [
+    {"id": "bad.flatpak", "name": "Bad", "purpose": "Bad flatpak", "kind": "gui",
+     "maturity": "stable", "popularity": 1, "usefulness": "general",
+     "handles": {"categories": ["text"]},
+     "install": {"flatpak": "io.github.koodo-reader.Koodo-Reader"}},
+]}
+try:
+    ApplicationCatalog.from_document(bad_flatpak)
+except CatalogError as error:
+    assert "Flatpak" in str(error), error
+else:
+    raise AssertionError("an invalid Flatpak id was accepted")
+
+# 8. Duplicate identifiers are refused.
 duplicate = {"schema": 1, "applications": [
     {"id": "same", "name": "A", "purpose": "A", "kind": "gui", "maturity": "stable",
      "popularity": 1, "usefulness": "general", "handles": {"categories": ["text"]}, "install": {}},

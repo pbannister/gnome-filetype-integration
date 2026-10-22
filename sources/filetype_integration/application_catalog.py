@@ -266,6 +266,8 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
     if not isinstance(install, dict) or not all(isinstance(key, str) and isinstance(value, str)
                                                 for key, value in install.items()):
         raise CatalogError(f"{label}: install must map a method to a package or URL")
+    if "flatpak" in install and not validate_flatpak_id(install["flatpak"]):
+        raise CatalogError(f"{label}: invalid Flatpak application id: {install['flatpak']}")
     desktop_ids = raw.get("desktop_ids", [])
     if not isinstance(desktop_ids, list) or not all(isinstance(item, str) for item in desktop_ids):
         raise CatalogError(f"{label}: desktop_ids must be a list of strings")
@@ -287,6 +289,18 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
         binary=binary,
         notes=notes,
     )
+
+
+def validate_flatpak_id(identifier: str) -> bool:
+    """A Flatpak application id: dotted components, hyphens only last."""
+    if "." not in identifier:
+        return False
+    components = identifier.split(".")
+    if not all(component and all(character.isalnum() or character == "_" for character in component)
+               for component in components[:-1]):
+        return False
+    return bool(components[-1]) and all(
+        character.isalnum() or character in {"_", "-"} for character in components[-1])
 
 
 def _require_string(raw: dict[str, object], key: str, label: str) -> str:

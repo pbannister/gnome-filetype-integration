@@ -429,7 +429,7 @@
         ]
       },
       "install": {
-        "flatpak": "com.zettlr.Zettlr"
+        "url": "https://www.zettlr.com/"
       },
       "binary": "zettlr"
     },
@@ -1062,7 +1062,7 @@
         ]
       },
       "install": {
-        "flatpak": "io.github.koodo-reader.Koodo-Reader"
+        "url": "https://koodoreader.com/"
       },
       "binary": "koodo-reader"
     },
