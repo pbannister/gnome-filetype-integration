@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Image Viewer
+Comment=Shows images
+Exec=/bin/true %f
+Icon=image-x-generic
+MimeType=image/png;image/jpeg;
+Categories=Graphics;Viewer;
+Terminal=false

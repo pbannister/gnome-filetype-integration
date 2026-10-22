@@ -1,0 +1,4288 @@
+{
+  "schema": 1,
+  "updated": "2026-10-22",
+  "note": "Curated suggestions for applications that may not be installed. Installed applications are discovered from the desktop itself.",
+  "scales": {
+    "maturity": [
+      "mature",
+      "stable",
+      "beta",
+      "experimental",
+      "legacy"
+    ],
+    "usefulness": [
+      "primary",
+      "general",
+      "specialized",
+      "companion",
+      "fallback"
+    ],
+    "popularity": "0-100, an editorial estimate of how widely the application is used"
+  },
+  "applications": [
+    {
+      "id": "org.gnome.Nautilus",
+      "name": "Files",
+      "purpose": "Browse folders, preview files, and manage the desktop.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "inode/directory"
+        ],
+        "categories": [
+          "directory"
+        ]
+      },
+      "install": {
+        "apt": "nautilus",
+        "flatpak": "org.gnome.Nautilus"
+      },
+      "desktop_ids": [
+        "org.gnome.Nautilus.desktop"
+      ],
+      "binary": "nautilus"
+    },
+    {
+      "id": "org.kde.dolphin",
+      "name": "Dolphin",
+      "purpose": "KDE file manager with split views and a terminal panel.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "inode/directory"
+        ],
+        "categories": [
+          "directory"
+        ]
+      },
+      "install": {
+        "apt": "dolphin",
+        "flatpak": "org.kde.dolphin"
+      },
+      "desktop_ids": [
+        "org.kde.dolphin.desktop"
+      ],
+      "binary": "dolphin"
+    },
+    {
+      "id": "org.gnome.TextEditor",
+      "name": "Text Editor",
+      "purpose": "Simple GNOME editor for plain text and source files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "gnome-text-editor",
+        "flatpak": "org.gnome.TextEditor"
+      },
+      "desktop_ids": [
+        "org.gnome.TextEditor.desktop"
+      ],
+      "binary": "gnome-text-editor"
+    },
+    {
+      "id": "org.gnome.gedit",
+      "name": "gedit",
+      "purpose": "Classic GNOME text editor with plugins and syntax highlighting.",
+      "kind": "gui",
+      "maturity": "legacy",
+      "popularity": 70,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "gedit",
+        "flatpak": "org.gnome.gedit"
+      },
+      "desktop_ids": [
+        "gedit_gedit.desktop",
+        "org.gnome.gedit.desktop"
+      ],
+      "binary": "gedit"
+    },
+    {
+      "id": "org.kde.kate",
+      "name": "Kate",
+      "purpose": "Advanced KDE editor with sessions, terminal, and language servers.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "kate",
+        "flatpak": "org.kde.kate"
+      },
+      "desktop_ids": [
+        "org.kde.kate.desktop"
+      ],
+      "binary": "kate"
+    },
+    {
+      "id": "com.visualstudio.code",
+      "name": "Visual Studio Code",
+      "purpose": "Extensible code editor with debugging and language support.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/json",
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "snap": "code",
+        "url": "https://code.visualstudio.com/"
+      },
+      "desktop_ids": [
+        "code.desktop"
+      ],
+      "binary": "code"
+    },
+    {
+      "id": "com.vscodium.codium",
+      "name": "VSCodium",
+      "purpose": "Telemetry-free build of Visual Studio Code.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/json",
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "flatpak": "com.vscodium.codium"
+      },
+      "desktop_ids": [
+        "codium.desktop"
+      ],
+      "binary": "codium"
+    },
+    {
+      "id": "org.vim.Vim",
+      "name": "Vim",
+      "purpose": "Terminal editor with modal editing and a large plugin ecosystem.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "vim",
+        "flatpak": "org.vim.Vim"
+      },
+      "binary": "vim"
+    },
+    {
+      "id": "io.neovim.nvim",
+      "name": "Neovim",
+      "purpose": "Modern Vim fork with Lua configuration and built-in LSP.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "neovim",
+        "flatpak": "io.neovim.nvim"
+      },
+      "binary": "nvim"
+    },
+    {
+      "id": "org.gnu.emacs",
+      "name": "GNU Emacs",
+      "purpose": "Self-documenting editor and computing environment.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "emacs",
+        "flatpak": "org.gnu.emacs"
+      },
+      "desktop_ids": [
+        "emacs.desktop"
+      ],
+      "binary": "emacs"
+    },
+    {
+      "id": "com.github.helix",
+      "name": "Helix",
+      "purpose": "Modal editor with multiple selections and built-in language servers.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "helix"
+      },
+      "binary": "hx"
+    },
+    {
+      "id": "org.geany.Geany",
+      "name": "Geany",
+      "purpose": "Lightweight IDE with build commands and many language modes.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "categories": [
+          "code",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "geany",
+        "flatpak": "org.geany.Geany"
+      },
+      "desktop_ids": [
+        "geany.desktop"
+      ],
+      "binary": "geany"
+    },
+    {
+      "id": "org.gnome.Meld",
+      "name": "Meld",
+      "purpose": "Visual diff and merge for files, directories, and version control.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "text/plain"
+        ],
+        "extensions": [
+          "diff",
+          "patch"
+        ],
+        "categories": [
+          "code",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "meld",
+        "flatpak": "org.gnome.Meld"
+      },
+      "desktop_ids": [
+        "org.gnome.Meld.desktop"
+      ],
+      "binary": "meld"
+    },
+    {
+      "id": "com.obsidian.Obsidian",
+      "name": "Obsidian",
+      "purpose": "Markdown knowledge base with links, graph view, and plugins.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "markdown",
+          "md"
+        ],
+        "categories": [
+          "document",
+          "text"
+        ]
+      },
+      "install": {
+        "flatpak": "md.obsidian.Obsidian",
+        "url": "https://obsidian.md/"
+      },
+      "binary": "obsidian"
+    },
+    {
+      "id": "net.cozic.joplin_desktop",
+      "name": "Joplin",
+      "purpose": "Encrypted note-taking with Markdown and sync.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "markdown",
+          "md"
+        ],
+        "categories": [
+          "document",
+          "text"
+        ]
+      },
+      "install": {
+        "flatpak": "net.cozic.joplin_desktop"
+      },
+      "desktop_ids": [
+        "joplin.desktop"
+      ],
+      "binary": "joplin"
+    },
+    {
+      "id": "com.zettlr.Zettlr",
+      "name": "Zettlr",
+      "purpose": "Markdown editor for academic writing with citations.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "markdown",
+          "md"
+        ],
+        "categories": [
+          "document",
+          "text"
+        ]
+      },
+      "install": {
+        "flatpak": "com.zettlr.Zettlr"
+      },
+      "binary": "zettlr"
+    },
+    {
+      "id": "org.gnome.CherryTree",
+      "name": "CherryTree",
+      "purpose": "Hierarchical notes with rich text and code blocks.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "ctb",
+          "ctd"
+        ],
+        "categories": [
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "cherrytree"
+      },
+      "binary": "cherrytree"
+    },
+    {
+      "id": "org.zim.Zim",
+      "name": "Zim",
+      "purpose": "Desktop wiki with a plain-text notebook format.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "zim"
+        ],
+        "categories": [
+          "data",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "zim"
+      },
+      "binary": "zim"
+    },
+    {
+      "id": "org.libreoffice.LibreOffice",
+      "name": "LibreOffice",
+      "purpose": "Full office suite for documents, spreadsheets, presentations, drawings, and databases.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/msword",
+          "application/pdf",
+          "application/rtf",
+          "application/vnd.oasis.opendocument.graphics",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text"
+        ],
+        "categories": [
+          "database",
+          "document",
+          "drawing",
+          "presentation",
+          "spreadsheet"
+        ]
+      },
+      "install": {
+        "apt": "libreoffice",
+        "flatpak": "org.libreoffice.LibreOffice"
+      },
+      "desktop_ids": [
+        "libreoffice-writer.desktop",
+        "libreoffice-calc.desktop",
+        "libreoffice-impress.desktop",
+        "libreoffice-draw.desktop",
+        "libreoffice-base.desktop"
+      ],
+      "binary": "libreoffice"
+    },
+    {
+      "id": "org.onlyoffice.desktopeditors",
+      "name": "ONLYOFFICE Desktop Editors",
+      "purpose": "Office suite with high-fidelity Microsoft format compatibility.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/msword",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text"
+        ],
+        "categories": [
+          "document",
+          "presentation",
+          "spreadsheet"
+        ]
+      },
+      "install": {
+        "flatpak": "org.onlyoffice.desktopeditors"
+      },
+      "desktop_ids": [
+        "onlyoffice-desktopeditors.desktop"
+      ],
+      "binary": "onlyoffice-desktopeditors"
+    },
+    {
+      "id": "abiword",
+      "name": "AbiWord",
+      "purpose": "Lightweight word processor for common document formats.",
+      "kind": "gui",
+      "maturity": "legacy",
+      "popularity": 40,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/msword",
+          "application/rtf",
+          "application/vnd.oasis.opendocument.text"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "abiword"
+      },
+      "desktop_ids": [
+        "abiword.desktop"
+      ],
+      "binary": "abiword"
+    },
+    {
+      "id": "gnumeric",
+      "name": "Gnumeric",
+      "purpose": "Precise spreadsheet application with strong statistical functions.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/vnd.oasis.opendocument.spreadsheet"
+        ],
+        "extensions": [
+          "gnm",
+          "gnumeric"
+        ],
+        "categories": [
+          "spreadsheet"
+        ]
+      },
+      "install": {
+        "apt": "gnumeric"
+      },
+      "desktop_ids": [
+        "gnumeric.desktop"
+      ],
+      "binary": "gnumeric"
+    },
+    {
+      "id": "org.gnome.Papers",
+      "name": "Papers",
+      "purpose": "GNOME document viewer for PDF and comic book archives.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 75,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/postscript"
+        ],
+        "extensions": [
+          "cbr",
+          "cbz"
+        ],
+        "categories": [
+          "document",
+          "ebook"
+        ]
+      },
+      "install": {
+        "apt": "papers",
+        "flatpak": "org.gnome.Papers"
+      },
+      "desktop_ids": [
+        "org.gnome.Papers.desktop"
+      ],
+      "binary": "papers"
+    },
+    {
+      "id": "org.gnome.Evince",
+      "name": "Document Viewer",
+      "purpose": "Long-standing GNOME PDF and PostScript viewer.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/postscript"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "evince",
+        "flatpak": "org.gnome.Evince"
+      },
+      "desktop_ids": [
+        "org.gnome.Evince.desktop"
+      ],
+      "binary": "evince"
+    },
+    {
+      "id": "org.kde.okular",
+      "name": "Okular",
+      "purpose": "KDE document viewer with annotations and many formats.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/postscript"
+        ],
+        "categories": [
+          "document",
+          "ebook"
+        ]
+      },
+      "install": {
+        "apt": "okular",
+        "flatpak": "org.kde.okular"
+      },
+      "desktop_ids": [
+        "org.kde.okular.desktop"
+      ],
+      "binary": "okular"
+    },
+    {
+      "id": "zathura",
+      "name": "Zathura",
+      "purpose": "Keyboard-driven PDF and DjVu viewer.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "extensions": [
+          "djvu"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "zathura"
+      },
+      "desktop_ids": [
+        "org.pwmt.zathura.desktop"
+      ],
+      "binary": "zathura"
+    },
+    {
+      "id": "com.github.xournalpp.xournalpp",
+      "name": "Xournal++",
+      "purpose": "Handwritten notes, PDF annotation, and sketching.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "extensions": [
+          "xopp"
+        ],
+        "categories": [
+          "document",
+          "drawing"
+        ]
+      },
+      "install": {
+        "apt": "xournalpp",
+        "flatpak": "com.github.xournalpp.xournalpp"
+      },
+      "desktop_ids": [
+        "com.github.xournalpp.xournalpp.desktop"
+      ],
+      "binary": "xournalpp"
+    },
+    {
+      "id": "pdfarranger",
+      "name": "PDF Arranger",
+      "purpose": "Reorder, rotate, split, and merge PDF pages.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "pdfarranger",
+        "flatpak": "com.github.jeromerobert.pdfarranger"
+      },
+      "desktop_ids": [
+        "pdfarranger.desktop"
+      ],
+      "binary": "pdfarranger"
+    },
+    {
+      "id": "pandoc",
+      "name": "Pandoc",
+      "purpose": "Convert documents between dozens of markup and document formats.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "docx",
+          "epub",
+          "markdown",
+          "md",
+          "odt",
+          "org",
+          "rst",
+          "tex"
+        ],
+        "categories": [
+          "document",
+          "ebook",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "pandoc"
+      },
+      "binary": "pandoc"
+    },
+    {
+      "id": "texlive",
+      "name": "TeX Live",
+      "purpose": "Typesetting system for LaTeX and friends.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "bib",
+          "latex",
+          "ltx",
+          "tex"
+        ],
+        "categories": [
+          "document",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "texlive-latex-recommended"
+      },
+      "binary": "pdflatex"
+    },
+    {
+      "id": "typst",
+      "name": "Typst",
+      "purpose": "Modern markup-based typesetting system.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "typ"
+        ],
+        "categories": [
+          "document",
+          "text"
+        ]
+      },
+      "install": {
+        "apt": "typst"
+      },
+      "binary": "typst"
+    },
+    {
+      "id": "ghostscript",
+      "name": "Ghostscript",
+      "purpose": "Render and convert PDF and PostScript files.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/postscript"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "ghostscript"
+      },
+      "binary": "gs"
+    },
+    {
+      "id": "poppler-utils",
+      "name": "Poppler utilities",
+      "purpose": "Extract text, images, and metadata from PDF files.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "poppler-utils"
+      },
+      "binary": "pdftotext"
+    },
+    {
+      "id": "qpdf",
+      "name": "QPDF",
+      "purpose": "Repair, encrypt, decrypt, and linearize PDF files.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "qpdf"
+      },
+      "binary": "qpdf"
+    },
+    {
+      "id": "ocrmypdf",
+      "name": "OCRmyPDF",
+      "purpose": "Add a searchable text layer to scanned PDFs.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "ocrmypdf"
+      },
+      "binary": "ocrmypdf"
+    },
+    {
+      "id": "tesseract-ocr",
+      "name": "Tesseract OCR",
+      "purpose": "Optical character recognition engine with many languages.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "document",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "tesseract-ocr"
+      },
+      "binary": "tesseract"
+    },
+    {
+      "id": "com.calibre_ebook.calibre",
+      "name": "Calibre",
+      "purpose": "Ebook library manager, converter, and editor.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/epub+zip",
+          "application/x-mobipocket-ebook"
+        ],
+        "extensions": [
+          "azw",
+          "azw3",
+          "cbr",
+          "cbz",
+          "epub",
+          "fb2",
+          "lit",
+          "mobi",
+          "pdb"
+        ],
+        "categories": [
+          "ebook"
+        ]
+      },
+      "install": {
+        "apt": "calibre",
+        "flatpak": "com.calibre_ebook.calibre"
+      },
+      "desktop_ids": [
+        "calibre.desktop"
+      ],
+      "binary": "calibre"
+    },
+    {
+      "id": "com.github.johnfactotum.Foliate",
+      "name": "Foliate",
+      "purpose": "Clean GNOME ebook reader for EPUB and Kindle formats.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/epub+zip"
+        ],
+        "extensions": [
+          "azw3",
+          "epub",
+          "fb2",
+          "mobi"
+        ],
+        "categories": [
+          "ebook"
+        ]
+      },
+      "install": {
+        "apt": "foliate",
+        "flatpak": "com.github.johnfactotum.Foliate"
+      },
+      "desktop_ids": [
+        "com.github.johnfactotum.Foliate.desktop"
+      ],
+      "binary": "foliate"
+    },
+    {
+      "id": "com.sigil_ebook.Sigil",
+      "name": "Sigil",
+      "purpose": "EPUB editor for structure, metadata, and styles.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/epub+zip"
+        ],
+        "extensions": [
+          "epub"
+        ],
+        "categories": [
+          "ebook"
+        ]
+      },
+      "install": {
+        "apt": "sigil",
+        "flatpak": "com.sigil_ebook.Sigil"
+      },
+      "desktop_ids": [
+        "sigil.desktop"
+      ],
+      "binary": "sigil"
+    },
+    {
+      "id": "io.github.koodo-reader.Koodo-Reader",
+      "name": "Koodo Reader",
+      "purpose": "Cross-platform ebook reader with sync and translation.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "azw3",
+          "epub",
+          "mobi",
+          "pdf"
+        ],
+        "categories": [
+          "ebook"
+        ]
+      },
+      "install": {
+        "flatpak": "io.github.koodo-reader.Koodo-Reader"
+      },
+      "binary": "koodo-reader"
+    },
+    {
+      "id": "org.gnome.Loupe",
+      "name": "Image Viewer",
+      "purpose": "Fast GNOME image viewer with zoom and metadata.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 80,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "image/avif",
+          "image/bmp",
+          "image/gif",
+          "image/jpeg",
+          "image/png",
+          "image/svg+xml",
+          "image/tiff",
+          "image/webp"
+        ],
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "loupe",
+        "flatpak": "org.gnome.Loupe"
+      },
+      "desktop_ids": [
+        "org.gnome.Loupe.desktop"
+      ],
+      "binary": "loupe"
+    },
+    {
+      "id": "org.gnome.gThumb",
+      "name": "gThumb",
+      "purpose": "Image viewer and organizer with editing and export.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "gthumb",
+        "flatpak": "org.gnome.gThumb"
+      },
+      "desktop_ids": [
+        "org.gnome.gThumb.desktop"
+      ],
+      "binary": "gthumb"
+    },
+    {
+      "id": "org.kde.gwenview",
+      "name": "Gwenview",
+      "purpose": "KDE image viewer with slideshow and basic editing.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "gwenview",
+        "flatpak": "org.kde.gwenview"
+      },
+      "desktop_ids": [
+        "org.kde.gwenview.desktop"
+      ],
+      "binary": "gwenview"
+    },
+    {
+      "id": "org.gnome.Shotwell",
+      "name": "Shotwell",
+      "purpose": "Photo manager with import, tags, and simple edits.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "shotwell",
+        "flatpak": "org.gnome.Shotwell"
+      },
+      "desktop_ids": [
+        "org.gnome.Shotwell.desktop"
+      ],
+      "binary": "shotwell"
+    },
+    {
+      "id": "org.kde.digikam",
+      "name": "digiKam",
+      "purpose": "Professional photo management with RAW and batch tools.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "digikam",
+        "flatpak": "org.kde.digikam"
+      },
+      "desktop_ids": [
+        "org.kde.digikam.desktop"
+      ],
+      "binary": "digikam"
+    },
+    {
+      "id": "org.gimp.GIMP",
+      "name": "GIMP",
+      "purpose": "Raster image editor for retouching, composition, and conversion.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "image/bmp",
+          "image/gif",
+          "image/jpeg",
+          "image/png",
+          "image/tiff",
+          "image/webp"
+        ],
+        "extensions": [
+          "psd",
+          "xcf"
+        ],
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "gimp",
+        "flatpak": "org.gimp.GIMP"
+      },
+      "desktop_ids": [
+        "gimp.desktop"
+      ],
+      "binary": "gimp"
+    },
+    {
+      "id": "org.kde.krita",
+      "name": "Krita",
+      "purpose": "Digital painting studio for illustration and concept art.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "kra",
+          "ora",
+          "psd"
+        ],
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "krita",
+        "flatpak": "org.kde.krita"
+      },
+      "desktop_ids": [
+        "org.kde.krita.desktop"
+      ],
+      "binary": "krita"
+    },
+    {
+      "id": "org.inkscape.Inkscape",
+      "name": "Inkscape",
+      "purpose": "Vector graphics editor for SVG, PDF, and EPS.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/postscript",
+          "image/svg+xml"
+        ],
+        "extensions": [
+          "ai",
+          "cdr",
+          "eps",
+          "svg",
+          "svgz"
+        ],
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "inkscape",
+        "flatpak": "org.inkscape.Inkscape"
+      },
+      "desktop_ids": [
+        "org.inkscape.Inkscape.desktop"
+      ],
+      "binary": "inkscape"
+    },
+    {
+      "id": "com.github.PintaProject.Pinta",
+      "name": "Pinta",
+      "purpose": "Simple raster painting and photo editing.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "pinta",
+        "flatpak": "com.github.PintaProject.Pinta"
+      },
+      "desktop_ids": [
+        "pinta.desktop"
+      ],
+      "binary": "pinta"
+    },
+    {
+      "id": "org.kde.kolourpaint",
+      "name": "KolourPaint",
+      "purpose": "Easy-to-use paint program for basic image tasks.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "kolourpaint"
+      },
+      "desktop_ids": [
+        "org.kde.kolourpaint.desktop"
+      ],
+      "binary": "kolourpaint"
+    },
+    {
+      "id": "org.darktable.Darktable",
+      "name": "darktable",
+      "purpose": "Non-destructive RAW photo workflow and darkroom.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "arw",
+          "cr2",
+          "cr3",
+          "dng",
+          "nef",
+          "orf",
+          "pef",
+          "raf",
+          "rw2",
+          "srw"
+        ],
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "darktable",
+        "flatpak": "org.darktable.Darktable"
+      },
+      "desktop_ids": [
+        "org.darktable.Darktable.desktop"
+      ],
+      "binary": "darktable"
+    },
+    {
+      "id": "com.rawtherapee.RawTherapee",
+      "name": "RawTherapee",
+      "purpose": "RAW photo processing with detailed control.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "arw",
+          "cr2",
+          "cr3",
+          "dng",
+          "nef",
+          "orf",
+          "pef",
+          "raf",
+          "rw2"
+        ],
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "rawtherapee",
+        "flatpak": "com.rawtherapee.RawTherapee"
+      },
+      "desktop_ids": [
+        "rawtherapee.desktop"
+      ],
+      "binary": "rawtherapee"
+    },
+    {
+      "id": "imagemagick",
+      "name": "ImageMagick",
+      "purpose": "Command-line image conversion and manipulation.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "image/gif",
+          "image/jpeg",
+          "image/png",
+          "image/svg+xml",
+          "image/tiff",
+          "image/webp"
+        ],
+        "categories": [
+          "drawing",
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "imagemagick"
+      },
+      "binary": "magick"
+    },
+    {
+      "id": "graphicsmagick",
+      "name": "GraphicsMagick",
+      "purpose": "Fast command-line image processing toolkit.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "graphicsmagick"
+      },
+      "binary": "gm"
+    },
+    {
+      "id": "libvips-tools",
+      "name": "libvips tools",
+      "purpose": "Low-memory image processing and conversion.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "libvips-tools"
+      },
+      "binary": "vips"
+    },
+    {
+      "id": "webp",
+      "name": "WebP tools",
+      "purpose": "Encode, decode, and inspect WebP images.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "webp"
+        ],
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "webp"
+      },
+      "binary": "cwebp"
+    },
+    {
+      "id": "optipng",
+      "name": "Optipng",
+      "purpose": "Lossless PNG size optimizer.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "png"
+        ],
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "optipng"
+      },
+      "binary": "optipng"
+    },
+    {
+      "id": "jpegoptim",
+      "name": "Jpegoptim",
+      "purpose": "Lossless and lossy JPEG size optimizer.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "jpeg",
+          "jpg"
+        ],
+        "categories": [
+          "image"
+        ]
+      },
+      "install": {
+        "apt": "jpegoptim"
+      },
+      "binary": "jpegoptim"
+    },
+    {
+      "id": "libimage-exiftool-perl",
+      "name": "ExifTool",
+      "purpose": "Read and write metadata in images, audio, and video.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "audio",
+          "image",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "libimage-exiftool-perl"
+      },
+      "binary": "exiftool"
+    },
+    {
+      "id": "org.videolan.VLC",
+      "name": "VLC",
+      "purpose": "Plays almost every audio and video format, and converts too.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "vlc",
+        "flatpak": "org.videolan.VLC"
+      },
+      "desktop_ids": [
+        "vlc.desktop"
+      ],
+      "binary": "vlc"
+    },
+    {
+      "id": "io.mpv.Mpv",
+      "name": "mpv",
+      "purpose": "Fast, scriptable media player with excellent format support.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "mpv",
+        "flatpak": "io.mpv.Mpv"
+      },
+      "binary": "mpv"
+    },
+    {
+      "id": "io.github.celluloid_player.Celluloid",
+      "name": "Celluloid",
+      "purpose": "GTK front end for mpv.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "celluloid",
+        "flatpak": "io.github.celluloid_player.Celluloid"
+      },
+      "desktop_ids": [
+        "io.github.celluloid_player.Celluloid.desktop"
+      ],
+      "binary": "celluloid"
+    },
+    {
+      "id": "org.gnome.Totem",
+      "name": "Videos",
+      "purpose": "GNOME video player with playlist and subtitle support.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "totem",
+        "flatpak": "org.gnome.Totem"
+      },
+      "desktop_ids": [
+        "org.gnome.Totem.desktop"
+      ],
+      "binary": "totem"
+    },
+    {
+      "id": "com.github.rafostar.Clapper",
+      "name": "Clapper",
+      "purpose": "GNOME media player built on GStreamer.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "flatpak": "com.github.rafostar.Clapper"
+      },
+      "desktop_ids": [
+        "com.github.rafostar.Clapper.desktop"
+      ],
+      "binary": "clapper"
+    },
+    {
+      "id": "org.gnome.Rhythmbox",
+      "name": "Rhythmbox",
+      "purpose": "GNOME music player and library manager.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "rhythmbox"
+      },
+      "desktop_ids": [
+        "rhythmbox.desktop"
+      ],
+      "binary": "rhythmbox"
+    },
+    {
+      "id": "io.bassi.Amberol",
+      "name": "Amberol",
+      "purpose": "Minimal GNOME music player focused on the library.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "flatpak": "io.bassi.Amberol"
+      },
+      "desktop_ids": [
+        "io.bassi.Amberol.desktop"
+      ],
+      "binary": "amberol"
+    },
+    {
+      "id": "org.gnome.Lollypop",
+      "name": "Lollypop",
+      "purpose": "Modern music player with album art and scrobbling.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "lollypop",
+        "flatpak": "org.gnome.Lollypop"
+      },
+      "desktop_ids": [
+        "org.gnome.Lollypop.desktop"
+      ],
+      "binary": "lollypop"
+    },
+    {
+      "id": "org.kde.elisa",
+      "name": "Elisa",
+      "purpose": "Simple KDE music player.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "elisa",
+        "flatpak": "org.kde.elisa"
+      },
+      "desktop_ids": [
+        "org.kde.elisa.desktop"
+      ],
+      "binary": "elisa"
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "purpose": "Music player and organizer for large local libraries.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "strawberry"
+      },
+      "desktop_ids": [
+        "strawberry.desktop"
+      ],
+      "binary": "strawberry"
+    },
+    {
+      "id": "audacious",
+      "name": "Audacious",
+      "purpose": "Lightweight audio player with Winamp-style skins.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "audacious"
+      },
+      "desktop_ids": [
+        "audacious.desktop"
+      ],
+      "binary": "audacious"
+    },
+    {
+      "id": "org.audacityteam.Audacity",
+      "name": "Audacity",
+      "purpose": "Audio recorder and editor for podcasts and cleanup.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "aup",
+          "aup3"
+        ],
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "audacity",
+        "flatpak": "org.audacityteam.Audacity"
+      },
+      "desktop_ids": [
+        "audacity.desktop"
+      ],
+      "binary": "audacity"
+    },
+    {
+      "id": "org.ardour.Ardour",
+      "name": "Ardour",
+      "purpose": "Digital audio workstation for recording and mixing.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "ardour"
+        ],
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "ardour",
+        "flatpak": "org.ardour.Ardour"
+      },
+      "desktop_ids": [
+        "ardour.desktop"
+      ],
+      "binary": "ardour"
+    },
+    {
+      "id": "io.lmms.LMMS",
+      "name": "LMMS",
+      "purpose": "Music production with patterns, instruments, and effects.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "mmp",
+          "mmpz"
+        ],
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "lmms",
+        "flatpak": "io.lmms.LMMS"
+      },
+      "desktop_ids": [
+        "lmms.desktop"
+      ],
+      "binary": "lmms"
+    },
+    {
+      "id": "org.musescore.MuseScore",
+      "name": "MuseScore",
+      "purpose": "Create, play, and print sheet music.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "mid",
+          "midi",
+          "mscx",
+          "mscz",
+          "musicxml",
+          "mxl"
+        ],
+        "categories": [
+          "audio",
+          "document"
+        ]
+      },
+      "install": {
+        "apt": "musescore3",
+        "flatpak": "org.musescore.MuseScore"
+      },
+      "desktop_ids": [
+        "org.musescore.MuseScore.desktop"
+      ],
+      "binary": "musescore3"
+    },
+    {
+      "id": "hydrogen",
+      "name": "Hydrogen",
+      "purpose": "Advanced drum machine and pattern sequencer.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "h2pattern",
+          "h2song"
+        ],
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "hydrogen"
+      },
+      "desktop_ids": [
+        "hydrogen.desktop"
+      ],
+      "binary": "hydrogen"
+    },
+    {
+      "id": "sox",
+      "name": "SoX",
+      "purpose": "Command-line audio conversion and effects.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "audio"
+        ]
+      },
+      "install": {
+        "apt": "sox"
+      },
+      "binary": "sox"
+    },
+    {
+      "id": "ffmpeg",
+      "name": "FFmpeg",
+      "purpose": "Convert, record, and stream audio and video.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "ffmpeg"
+      },
+      "binary": "ffmpeg"
+    },
+    {
+      "id": "org.kde.kdenlive",
+      "name": "Kdenlive",
+      "purpose": "Non-linear video editor for Linux.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "kdenlive"
+        ],
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "kdenlive",
+        "flatpak": "org.kde.kdenlive"
+      },
+      "desktop_ids": [
+        "org.kde.kdenlive.desktop"
+      ],
+      "binary": "kdenlive"
+    },
+    {
+      "id": "org.shotcut.Shotcut",
+      "name": "Shotcut",
+      "purpose": "Cross-platform video editor with wide format support.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "mlt"
+        ],
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "shotcut",
+        "flatpak": "org.shotcut.Shotcut"
+      },
+      "desktop_ids": [
+        "shotcut.desktop"
+      ],
+      "binary": "shotcut"
+    },
+    {
+      "id": "pitivi",
+      "name": "Pitivi",
+      "purpose": "GNOME video editor with a gentle learning curve.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "xges"
+        ],
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "pitivi"
+      },
+      "desktop_ids": [
+        "pitivi.desktop"
+      ],
+      "binary": "pitivi"
+    },
+    {
+      "id": "fr.handbrake.ghb",
+      "name": "HandBrake",
+      "purpose": "Video transcoder with device presets.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "handbrake",
+        "flatpak": "fr.handbrake.ghb"
+      },
+      "desktop_ids": [
+        "fr.handbrake.ghb.desktop"
+      ],
+      "binary": "ghb"
+    },
+    {
+      "id": "com.obsproject.Studio",
+      "name": "OBS Studio",
+      "purpose": "Screen recording and live streaming.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "obs-studio",
+        "flatpak": "com.obsproject.Studio"
+      },
+      "desktop_ids": [
+        "com.obsproject.Studio.desktop"
+      ],
+      "binary": "obs"
+    },
+    {
+      "id": "org.avidemux.Avidemux",
+      "name": "Avidemux",
+      "purpose": "Simple cutting and filtering of video files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "avidemux",
+        "flatpak": "org.avidemux.Avidemux"
+      },
+      "desktop_ids": [
+        "avidemux.desktop"
+      ],
+      "binary": "avidemux3_qt5"
+    },
+    {
+      "id": "mkvtoolnix-gui",
+      "name": "MKVToolNix",
+      "purpose": "Inspect and remux Matroska files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "mka",
+          "mks",
+          "mkv"
+        ],
+        "categories": [
+          "audio",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "mkvtoolnix-gui"
+      },
+      "desktop_ids": [
+        "mkvtoolnix-gui.desktop"
+      ],
+      "binary": "mkvtoolnix-gui"
+    },
+    {
+      "id": "org.gnome.FileRoller",
+      "name": "Archive Manager",
+      "purpose": "Browse and extract archives without leaving the desktop.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/gzip",
+          "application/vnd.rar",
+          "application/x-7z-compressed",
+          "application/x-rar",
+          "application/x-tar",
+          "application/zip"
+        ],
+        "categories": [
+          "archive",
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "file-roller",
+        "flatpak": "org.gnome.FileRoller"
+      },
+      "desktop_ids": [
+        "org.gnome.FileRoller.desktop"
+      ],
+      "binary": "file-roller"
+    },
+    {
+      "id": "org.kde.ark",
+      "name": "Ark",
+      "purpose": "KDE archive manager with preview and extraction.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/gzip",
+          "application/x-tar",
+          "application/zip"
+        ],
+        "categories": [
+          "archive",
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "ark",
+        "flatpak": "org.kde.ark"
+      },
+      "desktop_ids": [
+        "org.kde.ark.desktop"
+      ],
+      "binary": "ark"
+    },
+    {
+      "id": "xarchiver",
+      "name": "Xarchiver",
+      "purpose": "Lightweight archive manager.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 45,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "xarchiver"
+      },
+      "desktop_ids": [
+        "xarchiver.desktop"
+      ],
+      "binary": "xarchiver"
+    },
+    {
+      "id": "io.github.peazip.PeaZip",
+      "name": "PeaZip",
+      "purpose": "Archive manager with strong encryption support.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "archive",
+          "package"
+        ]
+      },
+      "install": {
+        "flatpak": "io.github.peazip.PeaZip"
+      },
+      "binary": "peazip"
+    },
+    {
+      "id": "7zip",
+      "name": "7-Zip",
+      "purpose": "High-ratio archive tool for 7z, zip, and many formats.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-7z-compressed"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "7zip"
+      },
+      "binary": "7zz"
+    },
+    {
+      "id": "unzip",
+      "name": "unzip",
+      "purpose": "Extract and list ZIP archives.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/zip"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "unzip"
+      },
+      "binary": "unzip"
+    },
+    {
+      "id": "zip",
+      "name": "zip",
+      "purpose": "Create and update ZIP archives.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/zip"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "zip"
+      },
+      "binary": "zip"
+    },
+    {
+      "id": "p7zip-full",
+      "name": "p7zip",
+      "purpose": "Legacy 7-Zip command-line package.",
+      "kind": "cli",
+      "maturity": "legacy",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "p7zip-full"
+      },
+      "binary": "7z"
+    },
+    {
+      "id": "unrar",
+      "name": "unrar",
+      "purpose": "Extract RAR archives.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.rar",
+          "application/x-rar"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "unrar"
+      },
+      "binary": "unrar"
+    },
+    {
+      "id": "zstd",
+      "name": "zstd",
+      "purpose": "Fast lossless compression and decompression.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "zst",
+          "zstd"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "zstd"
+      },
+      "binary": "zstd"
+    },
+    {
+      "id": "xz-utils",
+      "name": "XZ Utils",
+      "purpose": "Compress and decompress .xz and .lzma files.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "lzma",
+          "xz"
+        ],
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "xz-utils"
+      },
+      "binary": "xz"
+    },
+    {
+      "id": "atool",
+      "name": "atool",
+      "purpose": "One command for listing and extracting many archive formats.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 40,
+      "usefulness": "companion",
+      "handles": {
+        "categories": [
+          "archive"
+        ]
+      },
+      "install": {
+        "apt": "atool"
+      },
+      "binary": "atool"
+    },
+    {
+      "id": "dpkg-deb",
+      "name": "dpkg-deb",
+      "purpose": "Inspect and unpack Debian packages.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.debian.binary-package"
+        ],
+        "extensions": [
+          "deb"
+        ],
+        "categories": [
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "dpkg"
+      },
+      "binary": "dpkg-deb"
+    },
+    {
+      "id": "rpm2cpio",
+      "name": "rpm2cpio",
+      "purpose": "Inspect RPM package contents without installing.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-rpm"
+        ],
+        "extensions": [
+          "rpm"
+        ],
+        "categories": [
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "rpm2cpio"
+      },
+      "binary": "rpm2cpio"
+    },
+    {
+      "id": "flatpak",
+      "name": "Flatpak",
+      "purpose": "Install and inspect Flatpak applications and bundles.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.flatpak"
+        ],
+        "extensions": [
+          "flatpak",
+          "flatpakref",
+          "flatpakrepo"
+        ],
+        "categories": [
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "flatpak"
+      },
+      "binary": "flatpak"
+    },
+    {
+      "id": "gnome-software",
+      "name": "GNOME Software",
+      "purpose": "Install applications and fonts from the desktop.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "application/vnd.debian.binary-package",
+          "application/x-rpm"
+        ],
+        "categories": [
+          "package"
+        ]
+      },
+      "install": {
+        "apt": "gnome-software"
+      },
+      "binary": "gnome-software"
+    },
+    {
+      "id": "gdb",
+      "name": "GDB",
+      "purpose": "Debug ELF executables and inspect crashes.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-executable",
+          "application/x-pie-executable",
+          "application/x-sharedlib"
+        ],
+        "categories": [
+          "executable"
+        ]
+      },
+      "install": {
+        "apt": "gdb"
+      },
+      "binary": "gdb"
+    },
+    {
+      "id": "radare2",
+      "name": "radare2",
+      "purpose": "Reverse-engineering framework for binaries.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "binary",
+          "executable"
+        ]
+      },
+      "install": {
+        "apt": "radare2"
+      },
+      "binary": "r2"
+    },
+    {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "purpose": "Software reverse-engineering suite from the NSA.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "binary",
+          "executable"
+        ]
+      },
+      "install": {
+        "url": "https://ghidra-sre.org/"
+      },
+      "binary": "ghidraRun"
+    },
+    {
+      "id": "binwalk",
+      "name": "Binwalk",
+      "purpose": "Firmware and embedded file extraction.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "archive",
+          "binary",
+          "executable"
+        ]
+      },
+      "install": {
+        "apt": "binwalk"
+      },
+      "binary": "binwalk"
+    },
+    {
+      "id": "net.werwolv.ImHex",
+      "name": "ImHex",
+      "purpose": "Hex editor for reverse engineers with patterns and data inspector.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "binary",
+          "data",
+          "executable"
+        ]
+      },
+      "install": {
+        "apt": "imhex",
+        "flatpak": "net.werwolv.ImHex"
+      },
+      "desktop_ids": [
+        "net.werwolv.ImHex.desktop"
+      ],
+      "binary": "imhex"
+    },
+    {
+      "id": "ghex",
+      "name": "GHex",
+      "purpose": "GNOME hex editor for binary files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "binary",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "ghex"
+      },
+      "desktop_ids": [
+        "org.gnome.GHex.desktop"
+      ],
+      "binary": "ghex"
+    },
+    {
+      "id": "bless",
+      "name": "Bless",
+      "purpose": "Graphical hex editor with multi-byte views.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 40,
+      "usefulness": "general",
+      "handles": {
+        "categories": [
+          "binary",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "bless"
+      },
+      "desktop_ids": [
+        "bless.desktop"
+      ],
+      "binary": "bless"
+    },
+    {
+      "id": "wireshark",
+      "name": "Wireshark",
+      "purpose": "Analyze network packet captures.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "cap",
+          "pcap",
+          "pcapng"
+        ],
+        "categories": [
+          "binary",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "wireshark",
+        "flatpak": "org.wireshark.Wireshark"
+      },
+      "desktop_ids": [
+        "wireshark.desktop"
+      ],
+      "binary": "wireshark"
+    },
+    {
+      "id": "tshark",
+      "name": "tshark",
+      "purpose": "Command-line packet capture analysis.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "cap",
+          "pcap",
+          "pcapng"
+        ],
+        "categories": [
+          "binary",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "tshark"
+      },
+      "binary": "tshark"
+    },
+    {
+      "id": "org.gnome.font-viewer",
+      "name": "Fonts",
+      "purpose": "Preview and install fonts.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "font/otf",
+          "font/ttf",
+          "font/woff",
+          "font/woff2"
+        ],
+        "extensions": [
+          "otf",
+          "ttf",
+          "woff",
+          "woff2"
+        ],
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "gnome-font-viewer"
+      },
+      "desktop_ids": [
+        "org.gnome.font-viewer.desktop"
+      ],
+      "binary": "gnome-font-viewer"
+    },
+    {
+      "id": "fontforge",
+      "name": "FontForge",
+      "purpose": "Create and edit font files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "font/otf",
+          "font/ttf"
+        ],
+        "extensions": [
+          "otf",
+          "sfd",
+          "ttf"
+        ],
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "fontforge"
+      },
+      "desktop_ids": [
+        "fontforge.desktop"
+      ],
+      "binary": "fontforge"
+    },
+    {
+      "id": "birdfont",
+      "name": "Birdfont",
+      "purpose": "Font editor for outlines and glyphs.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 40,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "eot",
+          "otf",
+          "svg",
+          "ttf"
+        ],
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "birdfont"
+      },
+      "desktop_ids": [
+        "birdfont.desktop"
+      ],
+      "binary": "birdfont"
+    },
+    {
+      "id": "python3-fonttools",
+      "name": "fontTools",
+      "purpose": "Inspect and transform OpenType and TrueType fonts.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "font/otf",
+          "font/ttf"
+        ],
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "python3-fonttools"
+      },
+      "binary": "fonttools"
+    },
+    {
+      "id": "libharfbuzz-bin",
+      "name": "HarfBuzz utilities",
+      "purpose": "Shape and inspect text with OpenType fonts.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "libharfbuzz-bin"
+      },
+      "binary": "hb-shape"
+    },
+    {
+      "id": "fontconfig",
+      "name": "Fontconfig",
+      "purpose": "Query and validate the system font configuration.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "font"
+        ]
+      },
+      "install": {
+        "apt": "fontconfig"
+      },
+      "binary": "fc-scan"
+    },
+    {
+      "id": "sqlitebrowser",
+      "name": "DB Browser for SQLite",
+      "purpose": "Browse, edit, and query SQLite databases.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.sqlite3",
+          "application/x-sqlite3"
+        ],
+        "extensions": [
+          "db",
+          "db3",
+          "sqlite",
+          "sqlite3"
+        ],
+        "categories": [
+          "database"
+        ]
+      },
+      "install": {
+        "apt": "sqlitebrowser",
+        "flatpak": "org.sqlitebrowser.sqlitebrowser"
+      },
+      "desktop_ids": [
+        "sqlitebrowser.desktop"
+      ],
+      "binary": "sqlitebrowser"
+    },
+    {
+      "id": "io.dbeaver.DBeaverCommunity",
+      "name": "DBeaver",
+      "purpose": "Universal database client with SQL editing and diagrams.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "database"
+        ]
+      },
+      "install": {
+        "flatpak": "io.dbeaver.DBeaverCommunity"
+      },
+      "binary": "dbeaver"
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "purpose": "Analytical SQL database for local files.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "duckdb"
+        ],
+        "categories": [
+          "data",
+          "database"
+        ]
+      },
+      "install": {
+        "apt": "duckdb"
+      },
+      "binary": "duckdb"
+    },
+    {
+      "id": "jq",
+      "name": "jq",
+      "purpose": "Query and transform JSON from the command line.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 85,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/json"
+        ],
+        "extensions": [
+          "json",
+          "jsonl",
+          "ndjson"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "jq"
+      },
+      "binary": "jq"
+    },
+    {
+      "id": "yq",
+      "name": "yq",
+      "purpose": "Query and transform YAML, JSON, and XML.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/yaml"
+        ],
+        "extensions": [
+          "yaml",
+          "yml"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "yq"
+      },
+      "binary": "yq"
+    },
+    {
+      "id": "miller",
+      "name": "Miller",
+      "purpose": "Process CSV, TSV, and JSON like a Unix tool.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "csv",
+          "json",
+          "tsv"
+        ],
+        "categories": [
+          "data",
+          "spreadsheet"
+        ]
+      },
+      "install": {
+        "apt": "miller"
+      },
+      "binary": "mlr"
+    },
+    {
+      "id": "csvkit",
+      "name": "csvkit",
+      "purpose": "Command-line tools for inspecting and converting CSV.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "csv",
+          "tsv"
+        ],
+        "categories": [
+          "data",
+          "spreadsheet"
+        ]
+      },
+      "install": {
+        "apt": "csvkit"
+      },
+      "binary": "csvlook"
+    },
+    {
+      "id": "python3",
+      "name": "Python",
+      "purpose": "General-purpose scripting and data processing.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "ipynb",
+          "py",
+          "pyw"
+        ],
+        "categories": [
+          "code",
+          "data",
+          "database"
+        ]
+      },
+      "install": {
+        "apt": "python3"
+      },
+      "binary": "python3"
+    },
+    {
+      "id": "jupyter-notebook",
+      "name": "Jupyter Notebook",
+      "purpose": "Interactive notebooks mixing code, prose, and output.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "ipynb"
+        ],
+        "categories": [
+          "code",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "jupyter-notebook"
+      },
+      "binary": "jupyter-notebook"
+    },
+    {
+      "id": "r-base",
+      "name": "R",
+      "purpose": "Statistical computing and graphics.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "r",
+          "rdata",
+          "rds"
+        ],
+        "categories": [
+          "data",
+          "database"
+        ]
+      },
+      "install": {
+        "apt": "r-base"
+      },
+      "binary": "R"
+    },
+    {
+      "id": "julia",
+      "name": "Julia",
+      "purpose": "High-level language for numerical and scientific computing.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "jl"
+        ],
+        "categories": [
+          "code",
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "julia"
+      },
+      "binary": "julia"
+    },
+    {
+      "id": "octave",
+      "name": "GNU Octave",
+      "purpose": "MATLAB-compatible numerical computing.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "m",
+          "mat"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "octave"
+      },
+      "binary": "octave"
+    },
+    {
+      "id": "scilab",
+      "name": "Scilab",
+      "purpose": "Numerical computation and simulation.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 40,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "sce",
+          "sci"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "scilab"
+      },
+      "binary": "scilab"
+    },
+    {
+      "id": "qgis",
+      "name": "QGIS",
+      "purpose": "Desktop geographic information system.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "geojson",
+          "gpx",
+          "kml",
+          "qgs",
+          "qgz",
+          "shp"
+        ],
+        "categories": [
+          "data",
+          "drawing"
+        ]
+      },
+      "install": {
+        "apt": "qgis",
+        "flatpak": "org.qgis.qgis"
+      },
+      "desktop_ids": [
+        "org.qgis.qgis.desktop"
+      ],
+      "binary": "qgis"
+    },
+    {
+      "id": "gdal-bin",
+      "name": "GDAL",
+      "purpose": "Translate and inspect geospatial raster and vector data.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "gdal-bin"
+      },
+      "binary": "gdalinfo"
+    },
+    {
+      "id": "paraview",
+      "name": "ParaView",
+      "purpose": "Scientific visualization for large datasets.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "foam",
+          "pvtu",
+          "vtk",
+          "vtp",
+          "vtu"
+        ],
+        "categories": [
+          "data",
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "paraview"
+      },
+      "binary": "paraview"
+    },
+    {
+      "id": "hdfview",
+      "name": "HDFView",
+      "purpose": "Browse HDF5 and NetCDF scientific data.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "h5",
+          "hdf",
+          "hdf5",
+          "nc",
+          "nc4"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "hdfview"
+      },
+      "binary": "hdfview"
+    },
+    {
+      "id": "org.blender.Blender",
+      "name": "Blender",
+      "purpose": "3D modelling, animation, rendering, and video editing.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "abc",
+          "blend",
+          "dae",
+          "fbx",
+          "glb",
+          "gltf",
+          "obj",
+          "ply",
+          "stl",
+          "usd",
+          "usdz"
+        ],
+        "categories": [
+          "image",
+          "model",
+          "video"
+        ]
+      },
+      "install": {
+        "apt": "blender",
+        "flatpak": "org.blender.Blender"
+      },
+      "desktop_ids": [
+        "blender.desktop"
+      ],
+      "binary": "blender"
+    },
+    {
+      "id": "org.freecad.FreeCAD",
+      "name": "FreeCAD",
+      "purpose": "Parametric 3D CAD modeller for mechanical design.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "brep",
+          "dwg",
+          "dxf",
+          "fcstd",
+          "ifc",
+          "iges",
+          "igs",
+          "step",
+          "stp"
+        ],
+        "categories": [
+          "cad",
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "freecad",
+        "flatpak": "org.freecad.FreeCAD"
+      },
+      "desktop_ids": [
+        "org.freecad.FreeCAD.desktop"
+      ],
+      "binary": "freecad"
+    },
+    {
+      "id": "org.openscad.OpenSCAD",
+      "name": "OpenSCAD",
+      "purpose": "Script-based solid CAD modelling.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "csg",
+          "scad"
+        ],
+        "categories": [
+          "cad",
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "openscad",
+        "flatpak": "org.openscad.OpenSCAD"
+      },
+      "desktop_ids": [
+        "org.openscad.OpenSCAD.desktop"
+      ],
+      "binary": "openscad"
+    },
+    {
+      "id": "librecad",
+      "name": "LibreCAD",
+      "purpose": "2D CAD drafting for technical drawings.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "dwg",
+          "dxf"
+        ],
+        "categories": [
+          "cad"
+        ]
+      },
+      "install": {
+        "apt": "librecad"
+      },
+      "desktop_ids": [
+        "librecad.desktop"
+      ],
+      "binary": "librecad"
+    },
+    {
+      "id": "qcad",
+      "name": "QCAD",
+      "purpose": "2D CAD for architectural and mechanical drawings.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "dwg",
+          "dxf"
+        ],
+        "categories": [
+          "cad"
+        ]
+      },
+      "install": {
+        "apt": "qcad"
+      },
+      "desktop_ids": [
+        "qcad.desktop"
+      ],
+      "binary": "qcad"
+    },
+    {
+      "id": "meshlab",
+      "name": "MeshLab",
+      "purpose": "Process and inspect triangle meshes and point clouds.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "3ds",
+          "obj",
+          "off",
+          "ply",
+          "stl"
+        ],
+        "categories": [
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "meshlab"
+      },
+      "binary": "meshlab"
+    },
+    {
+      "id": "com.prusa3d.PrusaSlicer",
+      "name": "PrusaSlicer",
+      "purpose": "Prepare 3D models for FDM printing.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "3mf",
+          "amf",
+          "gcode",
+          "obj",
+          "stl"
+        ],
+        "categories": [
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "prusaslicer",
+        "flatpak": "com.prusa3d.PrusaSlicer"
+      },
+      "desktop_ids": [
+        "com.prusa3d.PrusaSlicer.desktop"
+      ],
+      "binary": "prusa-slicer"
+    },
+    {
+      "id": "com.ultimaker.cura",
+      "name": "UltiMaker Cura",
+      "purpose": "3D printing slicer for many printers.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "3mf",
+          "gcode",
+          "obj",
+          "stl"
+        ],
+        "categories": [
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "cura",
+        "flatpak": "com.ultimaker.cura"
+      },
+      "desktop_ids": [
+        "com.ultimaker.cura.desktop"
+      ],
+      "binary": "cura"
+    },
+    {
+      "id": "com.softfever.OrcaSlicer",
+      "name": "OrcaSlicer",
+      "purpose": "Slicer derived from Bambu Studio and PrusaSlicer.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "3mf",
+          "gcode",
+          "obj",
+          "stl"
+        ],
+        "categories": [
+          "model"
+        ]
+      },
+      "install": {
+        "flatpak": "com.softfever.OrcaSlicer"
+      },
+      "desktop_ids": [
+        "com.softfever.OrcaSlicer.desktop"
+      ],
+      "binary": "orcaslicer"
+    },
+    {
+      "id": "org.kicad.KiCad",
+      "name": "KiCad",
+      "purpose": "Electronics design automation for schematics and PCBs.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "brd",
+          "kicad_mod",
+          "kicad_pcb",
+          "kicad_pro",
+          "kicad_sch",
+          "kicad_sym",
+          "sch"
+        ],
+        "categories": [
+          "cad",
+          "drawing"
+        ]
+      },
+      "install": {
+        "apt": "kicad",
+        "flatpak": "org.kicad.KiCad"
+      },
+      "desktop_ids": [
+        "org.kicad.KiCad.desktop"
+      ],
+      "binary": "kicad"
+    },
+    {
+      "id": "org.f3d.F3D",
+      "name": "F3D",
+      "purpose": "Fast 3D viewer for many mesh and CAD formats.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "fbx",
+          "glb",
+          "gltf",
+          "iges",
+          "obj",
+          "ply",
+          "step",
+          "stl",
+          "vdb"
+        ],
+        "categories": [
+          "cad",
+          "model"
+        ]
+      },
+      "install": {
+        "apt": "f3d",
+        "flatpak": "org.f3d.F3D"
+      },
+      "desktop_ids": [
+        "org.f3d.F3D.desktop"
+      ],
+      "binary": "f3d"
+    },
+    {
+      "id": "org.gnome.DiskUtility",
+      "name": "Disks",
+      "purpose": "Inspect disks, partitions, and disk images.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/x-iso9660-image",
+          "application/x-raw-disk-image"
+        ],
+        "extensions": [
+          "img",
+          "iso",
+          "raw"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "apt": "gnome-disk-utility"
+      },
+      "desktop_ids": [
+        "org.gnome.DiskUtility.desktop"
+      ],
+      "binary": "gnome-disks"
+    },
+    {
+      "id": "org.balena.Etcher",
+      "name": "balenaEtcher",
+      "purpose": "Write OS images to SD cards and USB drives.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-iso9660-image"
+        ],
+        "extensions": [
+          "bz2",
+          "etch",
+          "gz",
+          "img",
+          "iso",
+          "xz",
+          "zip"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "flatpak": "org.balena.Etcher"
+      },
+      "desktop_ids": [
+        "balena-etcher-electron.desktop"
+      ],
+      "binary": "balena-etcher"
+    },
+    {
+      "id": "usbimager",
+      "name": "USBImager",
+      "purpose": "Minimal USB and SD card image writer.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 40,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "bin",
+          "img",
+          "iso",
+          "raw"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "url": "https://bztsrc.gitlab.io/usbimager/"
+      },
+      "binary": "usbimager"
+    },
+    {
+      "id": "ventoy",
+      "name": "Ventoy",
+      "purpose": "Create multi-boot USB drives from ISO files.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "efi",
+          "img",
+          "iso",
+          "vhd",
+          "wim"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "url": "https://www.ventoy.net/"
+      },
+      "binary": "ventoy"
+    },
+    {
+      "id": "gnome-multi-writer",
+      "name": "MultiWriter",
+      "purpose": "Write one image to several USB drives at once.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 40,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "img",
+          "iso"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "apt": "gnome-multi-writer"
+      },
+      "desktop_ids": [
+        "gnome-multi-writer.desktop"
+      ],
+      "binary": "gnome-multi-writer"
+    },
+    {
+      "id": "coreutils",
+      "name": "dd",
+      "purpose": "Copy raw disk images byte for byte.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "bin",
+          "img",
+          "iso",
+          "raw"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "apt": "coreutils"
+      },
+      "binary": "dd"
+    },
+    {
+      "id": "org.gnome.Boxes",
+      "name": "Boxes",
+      "purpose": "Run virtual machines and test other operating systems.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "img",
+          "iso",
+          "qcow2",
+          "vdi",
+          "vmdk"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "apt": "gnome-boxes",
+        "flatpak": "org.gnome.Boxes"
+      },
+      "desktop_ids": [
+        "org.gnome.Boxes.desktop"
+      ],
+      "binary": "gnome-boxes"
+    },
+    {
+      "id": "virt-manager",
+      "name": "Virtual Machine Manager",
+      "purpose": "Manage QEMU/KVM virtual machines and images.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "iso",
+          "qcow2",
+          "vdi",
+          "vmdk"
+        ],
+        "categories": [
+          "disk-image"
+        ]
+      },
+      "install": {
+        "apt": "virt-manager"
+      },
+      "desktop_ids": [
+        "virt-manager.desktop"
+      ],
+      "binary": "virt-manager"
+    },
+    {
+      "id": "qemu-system-x86",
+      "name": "QEMU",
+      "purpose": "Emulate and virtualize machines from disk images.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "img",
+          "iso",
+          "qcow2",
+          "vdi",
+          "vmdk"
+        ],
+        "categories": [
+          "disk-image",
+          "executable"
+        ]
+      },
+      "install": {
+        "apt": "qemu-system-x86"
+      },
+      "binary": "qemu-system-x86_64"
+    },
+    {
+      "id": "org.mozilla.Thunderbird",
+      "name": "Thunderbird",
+      "purpose": "Email, calendar, contacts, and newsgroups.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "message/rfc822",
+          "text/calendar",
+          "text/vcard"
+        ],
+        "extensions": [
+          "eml",
+          "ics",
+          "mbox",
+          "vcf"
+        ],
+        "categories": [
+          "calendar",
+          "contact",
+          "email"
+        ]
+      },
+      "install": {
+        "apt": "thunderbird",
+        "flatpak": "org.mozilla.Thunderbird"
+      },
+      "desktop_ids": [
+        "thunderbird.desktop"
+      ],
+      "binary": "thunderbird"
+    },
+    {
+      "id": "org.gnome.Evolution",
+      "name": "Evolution",
+      "purpose": "Mail, calendar, contacts, and tasks for GNOME.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "message/rfc822",
+          "text/calendar",
+          "text/vcard"
+        ],
+        "extensions": [
+          "eml",
+          "ics",
+          "vcf"
+        ],
+        "categories": [
+          "calendar",
+          "contact",
+          "email"
+        ]
+      },
+      "install": {
+        "apt": "evolution"
+      },
+      "desktop_ids": [
+        "org.gnome.Evolution.desktop"
+      ],
+      "binary": "evolution"
+    },
+    {
+      "id": "org.gnome.Geary",
+      "name": "Geary",
+      "purpose": "Simple GNOME email client.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "message/rfc822"
+        ],
+        "extensions": [
+          "eml"
+        ],
+        "categories": [
+          "email"
+        ]
+      },
+      "install": {
+        "apt": "geary",
+        "flatpak": "org.gnome.Geary"
+      },
+      "desktop_ids": [
+        "org.gnome.Geary.desktop"
+      ],
+      "binary": "geary"
+    },
+    {
+      "id": "org.gnome.Calendar",
+      "name": "Calendar",
+      "purpose": "GNOME calendar for local and online calendars.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/calendar"
+        ],
+        "extensions": [
+          "ics"
+        ],
+        "categories": [
+          "calendar"
+        ]
+      },
+      "install": {
+        "apt": "gnome-calendar",
+        "flatpak": "org.gnome.Calendar"
+      },
+      "desktop_ids": [
+        "org.gnome.Calendar.desktop"
+      ],
+      "binary": "gnome-calendar"
+    },
+    {
+      "id": "org.gnome.Contacts",
+      "name": "Contacts",
+      "purpose": "GNOME address book.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 60,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/vcard",
+          "text/x-vcard"
+        ],
+        "extensions": [
+          "vcf"
+        ],
+        "categories": [
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "gnome-contacts",
+        "flatpak": "org.gnome.Contacts"
+      },
+      "desktop_ids": [
+        "org.gnome.Contacts.desktop"
+      ],
+      "binary": "gnome-contacts"
+    },
+    {
+      "id": "org.mozilla.firefox",
+      "name": "Firefox",
+      "purpose": "Web browser that also renders HTML, SVG, and PDF.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 95,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/xhtml+xml",
+          "image/svg+xml",
+          "text/html"
+        ],
+        "extensions": [
+          "htm",
+          "html",
+          "mhtml",
+          "xhtml"
+        ],
+        "categories": [
+          "document",
+          "web"
+        ]
+      },
+      "install": {
+        "apt": "firefox",
+        "flatpak": "org.mozilla.firefox"
+      },
+      "desktop_ids": [
+        "firefox.desktop"
+      ],
+      "binary": "firefox"
+    },
+    {
+      "id": "org.chromium.Chromium",
+      "name": "Chromium",
+      "purpose": "Open-source browser with PDF and media support.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 80,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/pdf",
+          "application/xhtml+xml",
+          "text/html"
+        ],
+        "extensions": [
+          "htm",
+          "html"
+        ],
+        "categories": [
+          "document",
+          "web"
+        ]
+      },
+      "install": {
+        "apt": "chromium",
+        "flatpak": "org.chromium.Chromium"
+      },
+      "desktop_ids": [
+        "chromium.desktop"
+      ],
+      "binary": "chromium"
+    },
+    {
+      "id": "org.gnome.Epiphany",
+      "name": "Web",
+      "purpose": "GNOME web browser.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/xhtml+xml",
+          "text/html"
+        ],
+        "categories": [
+          "document",
+          "web"
+        ]
+      },
+      "install": {
+        "apt": "epiphany-browser",
+        "flatpak": "org.gnome.Epiphany"
+      },
+      "desktop_ids": [
+        "org.gnome.Epiphany.desktop"
+      ],
+      "binary": "epiphany"
+    },
+    {
+      "id": "com.transmissionbt.Transmission",
+      "name": "Transmission",
+      "purpose": "Lightweight BitTorrent client.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "torrent"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "transmission-gtk",
+        "flatpak": "com.transmissionbt.Transmission"
+      },
+      "desktop_ids": [
+        "transmission-gtk.desktop"
+      ],
+      "binary": "transmission-gtk"
+    },
+    {
+      "id": "org.qbittorrent.qBittorrent",
+      "name": "qBittorrent",
+      "purpose": "Feature-rich BitTorrent client with search and RSS.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "torrent"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "qbittorrent",
+        "flatpak": "org.qbittorrent.qBittorrent"
+      },
+      "desktop_ids": [
+        "org.qbittorrent.qBittorrent.desktop"
+      ],
+      "binary": "qbittorrent"
+    },
+    {
+      "id": "deluge",
+      "name": "Deluge",
+      "purpose": "Modular BitTorrent client with a daemon.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "torrent"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "deluge"
+      },
+      "desktop_ids": [
+        "deluge.desktop"
+      ],
+      "binary": "deluge"
+    },
+    {
+      "id": "de.haeckerfelix.Fragments",
+      "name": "Fragments",
+      "purpose": "GNOME BitTorrent client.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "torrent"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "flatpak": "de.haeckerfelix.Fragments"
+      },
+      "desktop_ids": [
+        "de.haeckerfelix.Fragments.desktop"
+      ],
+      "binary": "fragments"
+    },
+    {
+      "id": "gnome-subtitles",
+      "name": "GNOME Subtitles",
+      "purpose": "Edit and sync subtitle files.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-subrip"
+        ],
+        "extensions": [
+          "ass",
+          "idx",
+          "srt",
+          "ssa",
+          "sub",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "gnome-subtitles"
+      },
+      "desktop_ids": [
+        "gnome-subtitles.desktop"
+      ],
+      "binary": "gnome-subtitles"
+    },
+    {
+      "id": "aegisub",
+      "name": "Aegisub",
+      "purpose": "Advanced subtitle timing and typesetting.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "aegisub"
+      },
+      "desktop_ids": [
+        "aegisub.desktop"
+      ],
+      "binary": "aegisub"
+    },
+    {
+      "id": "com.jgraph.drawio.desktop",
+      "name": "draw.io",
+      "purpose": "Diagram and flowchart editor with many export formats.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 70,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "dio",
+          "drawio",
+          "vsdx"
+        ],
+        "categories": [
+          "document",
+          "drawing"
+        ]
+      },
+      "install": {
+        "flatpak": "com.jgraph.drawio.desktop"
+      },
+      "desktop_ids": [
+        "drawio.desktop"
+      ],
+      "binary": "drawio"
+    },
+    {
+      "id": "dia",
+      "name": "Dia",
+      "purpose": "Structured diagram editor for flowcharts and UML.",
+      "kind": "gui",
+      "maturity": "legacy",
+      "popularity": 40,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "dia"
+        ],
+        "categories": [
+          "drawing"
+        ]
+      },
+      "install": {
+        "apt": "dia"
+      },
+      "desktop_ids": [
+        "dia.desktop"
+      ],
+      "binary": "dia"
+    },
+    {
+      "id": "org.keepassxc.KeePassXC",
+      "name": "KeePassXC",
+      "purpose": "Offline password database.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 80,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/x-keepass2"
+        ],
+        "extensions": [
+          "kdb",
+          "kdbx"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "apt": "keepassxc",
+        "flatpak": "org.keepassxc.KeePassXC"
+      },
+      "desktop_ids": [
+        "org.keepassxc.KeePassXC.desktop"
+      ],
+      "binary": "keepassxc"
+    }
+  ]
+}

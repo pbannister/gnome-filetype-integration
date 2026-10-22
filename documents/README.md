@@ -14,6 +14,9 @@ The LLM does not load these files as project rules.
 - `05-lessons-from-MI25.md` — lessons from the MI25 fan-service project.
 - `06-project-pages.md` — project-pages publishing conventions (summary; canonical version in the homelab).
 - `07-prompt-maturity.md` — the 0–3 maturity rubric for the prompt protocol, and how to score it.
+- `10-how-a-file-is-identified.md` — the two witnesses, the decision table, and the limits of identification.
+- `11-application-catalog.md` — the catalog schema, the maturity/popularity/usefulness scales, and the ranking.
+- `12-data-sources.md` — where the MIME, desktop, and catalog facts come from, and what is deliberately not used.
 
 ## Canonical Files
 

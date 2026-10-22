@@ -1,0 +1,16 @@
+50:image/png:*.png
+50:image/jpeg:*.jpg
+50:text/plain:*.txt
+60:text/x-python:*.py
+50:text/markdown:*.md
+50:application/json:*.json
+50:application/pdf:*.pdf
+50:application/gzip:*.gz
+50:application/x-compressed-tar:*.tar.gz
+50:application/zip:*.zip
+50:application/vnd.openxmlformats-officedocument.wordprocessingml.document:*.docx
+50:application/octet-stream:*.bin
+50:application/x-custom-format:*.custom
+50:haptics/ivs:*.ivs
+50:message/rfc822:*.eml
+50:x-content/software:*.software

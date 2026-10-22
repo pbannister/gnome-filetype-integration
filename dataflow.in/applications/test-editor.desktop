@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Editor
+Comment=Edits plain text in the fixture desktop
+Exec=/bin/true %f
+Icon=accessories-text-editor
+MimeType=text/plain;
+Categories=Utility;TextEditor;
+Terminal=false

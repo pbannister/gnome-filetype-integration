@@ -5,8 +5,7 @@ Live state from the owning host, captured by <code>scripts/site-state-fetch.sh</
 (<code>make state</code>) and substituted into this page at build time. The
 values are <code>__KEY__</code> placeholders; a key with no value renders as
 <code>unavailable</code>, so the pages still build on a host where the project
-is not installed. A real project extends the fetch script with the values its
-dashboard shows. See <code>documents/06-project-pages.md</code>.
+is not installed. See <code>documents/06-project-pages.md</code>.
 </p>
 
 <table>
@@ -15,5 +14,21 @@ dashboard shows. See <code>documents/06-project-pages.md</code>.
   <tr><td>Host</td><td>__HOST__</td></tr>
   <tr><td>Branch</td><td>__BRANCH__</td></tr>
   <tr><td>Commit</td><td>__COMMIT__</td></tr>
-  <tr><td>Example with no value</td><td>__EXAMPLE_UNSET__</td></tr>
+  <tr><td>MIME types indexed</td><td>__MIME_TYPES__</td></tr>
+  <tr><td>Extensions indexed</td><td>__EXTENSIONS__</td></tr>
+  <tr><td>Catalog applications</td><td>__CATALOG_APPLICATIONS__</td></tr>
+  <tr><td>Installed applications found</td><td>__INSTALLED_APPLICATIONS__</td></tr>
+  <tr><td>Types with no installed handler</td><td>__UNHANDLED_TYPES__</td></tr>
+  <tr><td>File Type Chooser installed</td><td>__HANDLER_INSTALLED__</td></tr>
 </table>
+
+<h2>Reading the numbers</h2>
+
+<p>
+The MIME and extension counts come from the desktop database, not from this
+project. The catalog count is the curated suggestion list. The unhandled count
+is the number of known types for which no installed desktop application is
+registered; the chooser covers those types, and a smaller number after
+installing a handler is not expected — installing the chooser does not install
+the applications.
+</p>

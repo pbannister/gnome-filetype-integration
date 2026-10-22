@@ -120,6 +120,7 @@ The canonical root-level files are:
 - `package.json` — the test entry point.
 - `.gitignore` — the ignore rules.
 - `AGENTS.md` — the coding-agent entry point; orientation only, it points at the authoritative files and defines no rule.
+- `PHASES.md` — the phase and milestone record; the page-condense step reads its `Current:` line.
 
 Tool-specific root-level files and directories are permitted when a file under `tools/` declares them:
 

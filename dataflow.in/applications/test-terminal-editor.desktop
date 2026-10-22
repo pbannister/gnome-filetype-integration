@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Terminal Editor
+Comment=Edits text in a terminal
+Exec=/bin/true %f
+Icon=utilities-terminal
+MimeType=text/plain;
+Categories=Utility;TextEditor;
+Terminal=true

@@ -74,7 +74,7 @@ page_title() {
     name_base=$1
 
     case "$name_base" in
-        index) echo "Project skeleton" ;;
+        index) echo "GNOME File Type Integration" ;;
         *)     echo "$name_base" | tr '_-' '  ' | awk '{for (i = 1; i <= NF; i++) $i = toupper(substr($i, 1, 1)) substr($i, 2); print}' ;;
     esac
 }

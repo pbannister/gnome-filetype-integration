@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="image/png">
+    <comment>PNG image</comment>
+    <icon name="image-png"/>
+  </mime-type>
+  <mime-type type="text/plain">
+    <comment>plain text document</comment>
+    <icon name="text-x-generic"/>
+  </mime-type>
+  <mime-type type="text/x-python">
+    <comment>Python script</comment>
+    <icon name="text-x-python"/>
+  </mime-type>
+  <mime-type type="text/markdown">
+    <comment>Markdown document</comment>
+  </mime-type>
+  <mime-type type="application/pdf">
+    <comment>PDF document</comment>
+    <icon name="application-pdf"/>
+  </mime-type>
+  <mime-type type="application/zip">
+    <comment>ZIP archive</comment>
+  </mime-type>
+  <mime-type type="application/x-compressed-tar">
+    <comment>Tar archive (gzip-compressed)</comment>
+  </mime-type>
+  <mime-type type="application/x-custom-format">
+    <comment>Fixture custom format</comment>
+    <glob pattern="*.custom" weight="50"/>
+  </mime-type>
+</mime-info>

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Test Broken Viewer
+Comment=A launcher whose program is not installed
+Exec=definitely-not-installed-filetype-app %f
+TryExec=definitely-not-installed-filetype-app
+Icon=image-x-generic
+MimeType=image/png;application/pdf;
+Categories=Graphics;Viewer;
+Terminal=false

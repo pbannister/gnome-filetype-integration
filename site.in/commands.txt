@@ -1,0 +1,43 @@
+<h1>Commands</h1>
+
+<p>
+Every capability of the desktop chooser is available on the command line.
+<code>--json</code> works globally or on any subcommand, and the document always
+starts with <code>"schema": 1</code>.
+</p>
+
+<table>
+  <tr><th>Command</th><th>Purpose</th></tr>
+  <tr><td><code>filetype identify FILE…</code></td><td>identify files and list the applications that can open them</td></tr>
+  <tr><td><code>filetype identify --apps FILE</code></td><td>also list the applications worth installing</td></tr>
+  <tr><td><code>filetype apps FILE</code></td><td>installed and suggested applications for a file</td></tr>
+  <tr><td><code>filetype apps --mime TYPE</code></td><td>ask about a MIME type instead of a file</td></tr>
+  <tr><td><code>filetype open FILE</code></td><td>open with the default, or the best installed application</td></tr>
+  <tr><td><code>filetype open --app NAME FILE</code></td><td>open with a named application</td></tr>
+  <tr><td><code>filetype open --print …</code></td><td>print the exact command without starting anything</td></tr>
+  <tr><td><code>filetype scan [DIR…]</code></td><td>find files no installed application can open</td></tr>
+  <tr><td><code>filetype choose FILE</code></td><td>open the graphical chooser</td></tr>
+  <tr><td><code>filetype handle FILE</code></td><td>the desktop entry point; what double-click runs</td></tr>
+  <tr><td><code>filetype handler status</code></td><td>report the entry, manifest, type count, and defaults owned</td></tr>
+  <tr><td><code>filetype handler install</code></td><td>register the chooser and set defaults for unhandled types</td></tr>
+  <tr><td><code>filetype handler uninstall</code></td><td>restore the previous defaults and remove the files</td></tr>
+  <tr><td><code>filetype types --ext EXT</code></td><td>describe an extension in the MIME database</td></tr>
+  <tr><td><code>filetype types --mime TYPE</code></td><td>describe a MIME type, its aliases, parents, and extensions</td></tr>
+  <tr><td><code>filetype catalog stats</code></td><td>catalog size, categories, MIME patterns, and extensions</td></tr>
+  <tr><td><code>filetype catalog search QUERY</code></td><td>search the curated application catalog</td></tr>
+  <tr><td><code>filetype catalog show ID</code></td><td>every fact recorded about one application</td></tr>
+  <tr><td><code>filetype catalog validate</code></td><td>check the shipped catalog against its schema</td></tr>
+  <tr><td><code>filetype doctor</code></td><td>check this machine's file, MIME, desktop, GTK, catalog, and handler state</td></tr>
+  <tr><td><code>filetype version</code></td><td>print the build-time version</td></tr>
+</table>
+
+<h2>Exit codes</h2>
+
+<table>
+  <tr><th>Code</th><th>Meaning</th></tr>
+  <tr><td>0</td><td>success</td></tr>
+  <tr><td>1</td><td>a requested file or operation failed; a missing file is a finding</td></tr>
+  <tr><td>2</td><td>usage error</td></tr>
+  <tr><td>3</td><td>the handler or application is not installed</td></tr>
+  <tr><td>4</td><td><code>scan --fail-on-unhandled</code> found at least one file that needs help</td></tr>
+</table>

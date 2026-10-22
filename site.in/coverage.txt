@@ -1,0 +1,45 @@
+<h1>Coverage</h1>
+
+<p>
+“Every known file type” is measured, not asserted. The build indexes the
+desktop's MIME database and requires that every type has at least one installed
+or suggested application. If that stops being true, the build fails.
+</p>
+
+<table>
+  <tr><th>Measure</th><th>Value</th></tr>
+  <tr><td>MIME types indexed</td><td>__MIME_TYPES__</td></tr>
+  <tr><td>Extensions indexed</td><td>__EXTENSIONS__</td></tr>
+  <tr><td>Catalog applications</td><td>__CATALOG_APPLICATIONS__</td></tr>
+  <tr><td>Installed applications found</td><td>__INSTALLED_APPLICATIONS__</td></tr>
+  <tr><td>Types with no installed handler</td><td>__UNHANDLED_TYPES__</td></tr>
+</table>
+
+<p>
+The unhandled count is the honest gap between the file types a desktop knows and
+the applications it has. The chooser covers each of those types with a
+suggestion, but a suggestion is not an installation. The dashboard reports the
+number rather than hiding it.
+</p>
+
+<h2>What the catalog covers</h2>
+
+<p>
+The catalog is deliberately curated, not exhaustive. It covers documents,
+spreadsheets, presentations, images, audio, video, archives, packages, ebooks,
+fonts, structured data, databases, CAD, 3D models and printing, disk images,
+email, calendars, contacts, subtitles, binaries, and web documents. A type
+outside those groups still gets a category fallback: a data or binary file is
+offered a text editor, a hex editor, and an inspection tool rather than a
+generic "no application found".
+</p>
+
+<h2>Known limits</h2>
+
+<ul>
+  <li>A forged file can fool any magic database; the conflict report is the defence.</li>
+  <li>An archive member is not identified separately; the archive is.</li>
+  <li>The catalog's popularity and maturity are editorial estimates, not telemetry.</li>
+  <li>The Nautilus extension needs <code>python3-nautilus</code>; Open With and the command line do not.</li>
+  <li>Install hints are starting points; a distribution may name a package differently.</li>
+</ul>

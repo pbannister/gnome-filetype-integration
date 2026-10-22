@@ -1,23 +1,60 @@
-<h1>Project status</h1>
+<h1>GNOME File Type Integration</h1>
 
 <p>
-Aim of this project is to provide a common project skeleton.
-Should capture best practice in working with an LLM (asked of an LLM).
-Also capture practice from personal experience.
-With each project derived from this skeleton, aim to incorporate lessons learned.
+Intelligent handling of every known file type on Linux.
 </p>
 <p>
-The skeleton is aimed at projects as part of a larger <b>homelab</b> project.
-There is a website associated with the homelab.
-Projects pages are published to the common homelab website.
+A downloaded file whose type has no installed application is a dead end on a
+stock desktop. This project identifies the file from its bytes and its name,
+explains the evidence, and offers a ranked list of applications that can open
+it — installed applications first, then the ones worth installing, with the
+package command for each.
 </p>
 <p>
-There are still some rough spots.
-Have not <i>entirely</i> sorted records, episodes, or tasks - but seems a good start.
-</p>
-<p>
-The set of prompts inform and constrain the LLM well enough to produce result that I find acceptable.
+The same work appears in four places: a double-click on an unhandled file opens
+the File Type Chooser; a right-click in Nautilus offers the chooser and the
+inspector when the Nautilus Python bindings are installed; the chooser is listed
+in Open With for every known type; and the <code>filetype</code> command line
+carries every capability, with stable JSON.
 </p>
 
 <h2>Status</h2>
 
+<p>
+<strong>Implemented and tested</strong> (2026-10-22).
+The identifier, MIME index, desktop discovery, application catalog, GTK4
+chooser, handler install and uninstall, Nautilus extension, and command line
+are built. The test suite runs with <code>make test</code>; the GTK window is
+exercised under Xvfb. The public release is pending.
+</p>
+
+<h2>How it works</h2>
+
+<ul>
+  <li><b>Two witnesses.</b> libmagic reads the bytes; the shared-mime-info globs read the name. The report shows both and names a conflict instead of hiding it.</li>
+  <li><b>A curated catalog.</b> 169 applications with a purpose, maturity, popularity, usefulness, and install hints, for the programs that are not installed.</li>
+  <li><b>A real handler.</b> The chooser is registered for every known type and becomes the default only where no working handler exists, or where the current default is broken.</li>
+  <li><b>A reversible change.</b> A manifest records every file and every changed default; uninstall restores them and keeps a choice the user made afterwards.</li>
+</ul>
+
+<h2>Install</h2>
+
+<pre><code>make build
+make test
+make install</code></pre>
+
+<p>
+<code>PREFIX</code> installs elsewhere. Set
+<code>FILETYPE_INTEGRATION_NO_HANDLER=1</code> to install the tools without
+registering the handler; <code>filetype handler install</code> can be run at any
+time.
+</p>
+
+<h2>Links</h2>
+
+<ul>
+  <li><a href="commands.html">Commands</a></li>
+  <li><a href="coverage.html">Coverage</a></li>
+  <li><a href="dashboard.html">Dashboard</a></li>
+  <li><a href="https://github.com/pbannister/gnome-filetype-integration">Source</a></li>
+</ul>

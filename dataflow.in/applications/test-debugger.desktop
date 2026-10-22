@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Debugger
+Comment=Debugs executables, not scripts
+Exec=/bin/true %f
+Icon=applications-development
+MimeType=application/x-executable;
+Categories=Development;Debugger;
+Terminal=true

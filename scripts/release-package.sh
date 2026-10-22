@@ -32,6 +32,10 @@ DIRECTORY_SCRIPT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPOSITORY_ROOT=$(CDPATH= cd -- "$DIRECTORY_SCRIPT/.." && pwd)
 
 DIRECTORY_BUILD=${1:-"${DIRECTORY_BUILD:-$REPOSITORY_ROOT/dataflow.out/build}"}
+# program-build.sh stages under build/program; accept that layout directly.
+if [ ! -d "$DIRECTORY_BUILD/bin" ] && [ -d "$DIRECTORY_BUILD/program/bin" ]; then
+    DIRECTORY_BUILD="$DIRECTORY_BUILD/program"
+fi
 DIRECTORY_RELEASE=${DIRECTORY_RELEASE:-"$REPOSITORY_ROOT/dataflow.out/release"}
 DIRECTORY_STAGE="$DIRECTORY_RELEASE/stage"
 PROJECT_NAME=${PROJECT_NAME:-$(basename "$REPOSITORY_ROOT")}
@@ -93,6 +97,9 @@ rm -rf "$DIRECTORY_RELEASE"
 mkdir -p "$DIRECTORY_STAGE"
 
 cp -R "$DIRECTORY_BUILD/bin" "$DIRECTORY_STAGE/bin"
+if [ -d "$DIRECTORY_BUILD/lib" ]; then
+    cp -R "$DIRECTORY_BUILD/lib" "$DIRECTORY_STAGE/lib"
+fi
 if [ -d "$DIRECTORY_BUILD/share" ]; then
     cp -R "$DIRECTORY_BUILD/share" "$DIRECTORY_STAGE/share"
 fi
@@ -127,15 +134,18 @@ curl -fsSL https://raw.githubusercontent.com/$REPOSITORY_SLUG/master/scripts/ins
 \`\`\`
 
 The script takes the tarball from this release, checks it against
-\`SHA256SUMS\`, and installs into \`\$HOME/.local\`. Set \`PREFIX\` to install
-elsewhere, or \`VERSION\` to a tag to pin one. System integration stays a
-deliberate step the script prints rather than performs.
+\`SHA256SUMS\`, installs into \`\$HOME/.local\`, and registers the File Type
+Chooser. Set \`PREFIX\` to install elsewhere, \`VERSION\` to a tag to pin one, or
+\`FILETYPE_INTEGRATION_NO_HANDLER=1\` to install the tools without registering
+the handler. The registration writes only under the user's XDG directories and
+never needs root.
 
 ## What is in the tarball
 
 | Path | What it is |
 | ---- | ---------- |
 | \`bin/\` | the programs |
+| \`lib/\` | the Python package the launcher imports |
 | \`share/\` | data the programs install beside them |
 | \`VERSION\` | the version these programs report |
 

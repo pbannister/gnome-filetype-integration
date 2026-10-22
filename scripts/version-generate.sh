@@ -22,6 +22,7 @@ REPOSITORY_ROOT=$(CDPATH= cd -- "$DIRECTORY_SCRIPT/.." && pwd)
 DIRECTORY_BUILD="$REPOSITORY_ROOT/dataflow.out/build"
 DIRECTORY_GENERATED="$DIRECTORY_BUILD/generated"
 FILE_HEADER="$DIRECTORY_GENERATED/version_info.h"
+FILE_PYTHON="$DIRECTORY_GENERATED/version_info.py"
 FILE_COUNTER="$DIRECTORY_BUILD/version-build-counter"
 
 mkdir -p "$DIRECTORY_GENERATED"
@@ -59,5 +60,14 @@ printf '%s\n' "$COUNTER_BUILD" > "$FILE_COUNTER"
     printf '#define VERSION_BUILD_COUNTER_VALUE %s\n' "$COUNTER_BUILD"
 } > "$FILE_HEADER"
 
-echo "version-generate: wrote $FILE_HEADER ($VERSION_STRING)"
+# The same build facts for the Python implementation.  It is written to the
+# build directory and staged into the program by scripts/program-build.sh; the
+# source tree has no version_info.py and reports "development" until built.
+{
+    echo '# Generated from git state by scripts/version-generate.sh - do not edit by hand.'
+    printf 'VERSION_STRING = "%s"\n' "$VERSION_STRING"
+    printf 'BUILD_COUNTER = %s\n' "$COUNTER_BUILD"
+} > "$FILE_PYTHON"
+
+echo "version-generate: wrote $FILE_HEADER and $FILE_PYTHON ($VERSION_STRING)"
 exit 0

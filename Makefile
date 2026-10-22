@@ -29,9 +29,15 @@
 all: build
 
 build:
-	sh scripts/site-build.sh
+	sh scripts/program-build.sh
 
-site:
+program-build:
+	sh scripts/program-build.sh
+
+catalog-export:
+	PYTHONPATH=sources python3 -m filetype_integration.catalog_export --output dataflow.out/catalog-stats.json
+
+site: build
 	sh scripts/site-build.sh
 	sh scripts/site-condense.sh
 
@@ -55,8 +61,10 @@ release:
 
 clean:
 	rm -rf dataflow.out/* site.out/* logs/*
+	@mkdir -p dataflow.out site.out logs
+	@touch dataflow.out/.gitkeep site.out/.gitkeep logs/.gitkeep
 
-test:
+test: build
 	npm test
 
 deploy:
@@ -64,7 +72,7 @@ deploy:
 	@echo '==== Build the pages here (make site / make state), then run the homelab''s "make deploy"'
 	@echo '==== to publish (see homelab documents/09-project-pages-conventions.md).'
 
-install:
-	@echo '==== No install yet defined'
+install: build
+	sh scripts/program-install.sh
 
-.PHONY: all build site state status maturity context check release clean test deploy install
+.PHONY: all build program-build catalog-export site state status maturity context check release clean test deploy install

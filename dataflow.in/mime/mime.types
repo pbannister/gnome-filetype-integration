@@ -1,0 +1,4 @@
+application/pdf pdf
+application/zip zip
+application/x-custom-format custom
+text/plain txt

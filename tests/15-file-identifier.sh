@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# Test the identifier: magic content, extension hints, agreement, conflict,
+# generic containers, and missing files.
+#
+# Tier: portable (needs the `file` utility; skipped cleanly without it).
+set -eu
+
+DIRECTORY_SCRIPT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+REPOSITORY_ROOT=$(CDPATH= cd -- "$DIRECTORY_SCRIPT/.." && pwd)
+. "$DIRECTORY_SCRIPT/lib/filetype_env.sh"
+. "$DIRECTORY_SCRIPT/lib/test_helpers.sh"
+skip_unless_tool file
+skip_unless_tool python3
+
+filetype_sandbox
+trap filetype_cleanup EXIT HUP INT TERM
+
+fail() {
+    echo "15-file-identifier: $1" >&2
+    exit 1
+}
+
+identify_json() {
+    "$FILETYPE" identify --json "$1"
+}
+
+check_field() { # <file> <python expression over d.files[0]> <expected>
+    output=$(identify_json "$1") || fail "identify failed for $1"
+    actual=$(printf '%s' "$output" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+f = d['files'][0]
+print($2)
+") || fail "could not evaluate the JSON for $1"
+    [ "$actual" = "$3" ] || fail "$1: expected $2 = '$3', got '$actual'"
+}
+
+# 1. Content and name agree.
+check_field "$FIXTURES/sample.png" "f['mime']" "image/png"
+check_field "$FIXTURES/sample.png" "f['source']" "agreement"
+check_field "$FIXTURES/sample.pdf" "f['mime']" "application/pdf"
+
+# 2. A text format whose magic is generic takes its type from the name.
+check_field "$FIXTURES/sample.md" "f['mime']" "text/markdown"
+check_field "$FIXTURES/sample.py" "f['mime']" "text/x-python"
+
+# 3. A renamed file reports the conflict and keeps the content type.
+check_field "$FIXTURES/sample-renamed.txt" "f['mime']" "image/png"
+check_field "$FIXTURES/sample-renamed.txt" "f['conflict']['name_mime']" "text/plain"
+check_field "$FIXTURES/sample-renamed.txt" "f['source']" "content"
+
+# 4. An empty file falls back to the extension.
+check_field "$FIXTURES/sample-empty.png" "f['mime']" "image/png"
+check_field "$FIXTURES/sample-empty.png" "f['extension']['mime']" "image/png"
+
+# 5. A zip-based document prefers the specific name over the container magic.
+check_field "$FIXTURES/sample-container.docx" "f['mime']" "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+check_field "$FIXTURES/sample-container.docx" "f['magic']['mime']" "application/zip"
+check_field "$FIXTURES/sample.docx" "f['mime']" "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+# 6. A compound extension beats the shorter one.
+check_field "$FIXTURES/sample.tar.gz" "f['mime']" "application/x-compressed-tar"
+check_field "$FIXTURES/sample.tar.gz" "f['extension']['suffix']" "tar.gz"
+
+# 7. An unknown extension is reported, and the content still wins.
+check_field "$FIXTURES/sample.custom" "f['mime']" "application/x-custom-format"
+check_field "$FIXTURES/sample.custom" "f['extension']['known']" "True"
+
+# 8. A missing file is a finding, not a crash.
+output=$(identify_json "$DIRECTORY_TEST/does-not-exist.xyz" 2>/dev/null) || true
+[ -n "$output" ] || fail "identify crashed on a missing file"
+printf '%s' "$output" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)['files'][0]
+assert d['exists'] is False, d
+assert d['mime'] == 'application/x-missing-file', d
+" || fail "the missing-file report is wrong"
+
+# 9. The command-line exit status distinguishes a missing file.
+if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
+    fail 'identify exited zero for a missing file'
+fi
+
+# 10. The document carries its evidence and reasons.
+output=$(identify_json "$FIXTURES/sample-renamed.txt") || fail 'identify failed'
+printf '%s' "$output" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+f = d['files'][0]
+assert d['schema'] == 1
+assert 0 <= f['confidence'] <= 1
+assert f['magic']['mime'] == 'image/png'
+assert f['extension']['mime'] == 'text/plain'
+assert f['reasons']
+assert f['category'] == 'image'
+" || fail 'the identification document is incomplete'
+
+echo '15-file-identifier: ok'
+exit 0

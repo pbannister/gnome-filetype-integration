@@ -1,0 +1,3 @@
+[Default Applications]
+text/plain=test-editor.desktop;
+image/png=test-broken.desktop;

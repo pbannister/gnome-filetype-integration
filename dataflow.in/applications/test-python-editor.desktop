@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Python Editor
+Comment=Edits Python scripts
+Exec=/bin/true %f
+Icon=text-x-script
+MimeType=text/x-python;
+Categories=Development;TextEditor;
+Terminal=false

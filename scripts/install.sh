@@ -6,9 +6,10 @@
 #   TARBALL=dataflow.out/release/<project>-linux-<arch>.tar.gz sh scripts/install.sh
 #
 # The tarball is checked against the release's SHA256SUMS before anything is
-# installed, and the install refuses when verification is impossible. Nothing is
-# registered with the system: making the tools defaults stays a deliberate step
-# this script prints rather than performs.
+# installed, and the install refuses when verification is impossible. The
+# script then registers the File Type Chooser, which writes only under the
+# user's XDG directories and never needs root. Set
+# FILETYPE_INTEGRATION_NO_HANDLER=1 to install the tools and register nothing.
 #
 # Environment:
 #   PREFIX         where to install (default: $HOME/.local)
@@ -141,12 +142,27 @@ for file_source in "$DIRECTORY_STAGE"/bin/*; do
 done
 [ "$count_programs" -gt 0 ] || fail 'the tarball has no programs under bin/'
 
+if [ -d "$DIRECTORY_STAGE/lib" ]; then
+    mkdir -p "$PREFIX/lib"
+    cp -R "$DIRECTORY_STAGE/lib/." "$PREFIX/lib/"
+fi
 if [ -d "$DIRECTORY_STAGE/share" ]; then
     mkdir -p "$PREFIX/share"
     cp -R "$DIRECTORY_STAGE/share/." "$PREFIX/share/"
 fi
 
 echo "install: installed $count_programs program(s) into $PREFIX/bin"
+
+if [ -x "$PREFIX/bin/filetype" ] && [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" != 1 ]; then
+    FILETYPE_EXECUTABLE="$PREFIX/bin/filetype" "$PREFIX/bin/filetype" handler install \
+        || fail 'the tools were installed, but the desktop handler could not be registered'
+    echo 'install: registered the File Type Chooser'
+elif [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" = 1 ]; then
+    echo 'install: FILETYPE_INTEGRATION_NO_HANDLER=1; the desktop handler was not registered'
+    echo "install: run '$PREFIX/bin/filetype handler install' when you want it"
+else
+    echo 'install: this tarball has no filetype program to register'
+fi
+
 echo "install: add $PREFIX/bin to PATH if it is not already there"
-echo 'install: system integration is a deliberate step; see the release notes'
 exit 0

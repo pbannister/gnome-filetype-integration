@@ -1,107 +1,253 @@
-# Project Overview
+# GNOME File Type Integration
 
-- This repository is structured for collaborative development with a Large Language Model (LLM).
-- This file `README.md` is located at the root of the project structure.
+Intelligent handling of every known file type on Linux.
 
-A coding agent begins at `AGENTS.md`, the tool-neutral entry point. The full
-mandatory load order is in `prompts/02-workflow.md` section 1:
+A downloaded file whose type has no installed application is dead weight: the
+desktop shows an icon, double-click does nothing useful, and the only advice is
+"install something". This project identifies the file from its bytes and its
+name, explains the evidence, and offers a ranked list of applications that can
+consume it — installed applications first, then the ones worth installing,
+with the package command for each.
 
-- `prompts/01-contract.md` defines the interaction, authority, and safety rules.
-- `prompts/02-workflow.md` defines the execution sequence for every task.
-- `prompts/03-conventions.md` defines formatting and repository conventions.
+The same work is available in four places:
 
-- The LLM must follow the workflow defined in `prompts/02-workflow.md` for every task.
+- **Double-click** a file with no working handler opens the File Type Chooser.
+- **Right-click** any file in Nautilus offers *Choose Application…* and
+  *Inspect File Type* when the Nautilus Python bindings are installed.
+- **Open With** lists the chooser for every known type, even when a working
+  handler already exists.
+- **`filetype`** on the command line carries every capability, with stable JSON.
 
-Human contributors should begin by reading:
+**Status: implemented and tested** (2026-10-22). The identifier, the MIME
+index, the desktop discovery, the catalog, the chooser, the handler install and
+uninstall, and the command line are built. The test suite runs with
+`make test`; the GTK window is exercised under Xvfb. The page set and a public
+release are pending; see `PHASES.md` and `TODO.md`.
 
-- `prompts/README.md`
-- `documents/README.md`
+## The problem, in one example
 
-Note there are rules meant only to constrain Aider behavior:
+A `.custom` file arrives. `file` says `text/plain`; the name says a type the
+MIME database knows but the desktop has no handler for. A stock GNOME desktop
+offers nothing. With this project installed, double-click opens a window that
+says:
 
-- `tools/aider-rules.md` (Aider users only)
+- the file is a *Fixture custom format* (`application/x-custom-format`);
+- the name was the decisive evidence, because the bytes are only text;
+- no installed application can open it;
+- these applications could, why each is suggested, and the exact install
+  command for each;
+- the equivalent `filetype identify`, `filetype apps`, and `filetype open`
+  commands, with a copy button.
 
-All project features are defined in `prompts/features/` and implemented in `sources/`.
+The file is never uploaded, executed, or modified.
+
+## Installing
+
+From a checkout:
+
+```sh
+make build          # stage the program and its build-time version
+make test           # the sandboxed test suite
+make install        # install into $HOME/.local, then register the handler
+```
+
+`PREFIX` installs elsewhere. `FILETYPE_INTEGRATION_NO_HANDLER=1` installs the
+tools and registers nothing; `filetype handler install` remains available at
+any time and can be reversed with `filetype handler uninstall`.
+
+A release tarball can be installed the same way:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/pbannister/gnome-filetype-integration/master/scripts/install.sh | sh
+```
+
+The installer checks the download against the release's `SHA256SUMS`, installs
+under `$HOME/.local` (or `PREFIX`), and then runs the handler registration.
+The registration writes only under `$XDG_DATA_HOME`, `$XDG_CONFIG_HOME`, and
+the temporary directory; it never needs root.
+
+## Commands
+
+| Command | Purpose |
+| ------- | ------- |
+| `filetype identify FILE…` | identify files and list the applications that can open them |
+| `filetype identify --apps FILE` | also list the applications worth installing |
+| `filetype identify --json FILE` | the same facts as one JSON document |
+| `filetype apps FILE` | list installed and suggested applications for a file |
+| `filetype apps --mime TYPE` | ask about a MIME type instead of a file |
+| `filetype open FILE` | open with the default, or the best installed application |
+| `filetype open --app NAME FILE` | open with a named application |
+| `filetype open --print …` | print the exact command without starting anything |
+| `filetype scan [DIR…]` | find files no installed application can open (default: `~/Downloads`) |
+| `filetype scan --unhandled-only --fail-on-unhandled DIR` | exit 4 when help is needed, for scripts |
+| `filetype choose FILE` | open the graphical chooser |
+| `filetype handle FILE` | the desktop entry point; what double-click runs |
+| `filetype handler status` | report the entry, the manifest, the type count, and the defaults owned |
+| `filetype handler install` | register the chooser and set defaults for unhandled types |
+| `filetype handler uninstall` | restore the previous defaults and remove the files |
+| `filetype types --ext EXT` | describe an extension in the MIME database |
+| `filetype types --mime TYPE` | describe a MIME type, its aliases, parents, and extensions |
+| `filetype catalog stats` | catalog size, categories, MIME patterns, and extensions |
+| `filetype catalog search QUERY` | search the curated application catalog |
+| `filetype catalog show ID` | every fact recorded about one application |
+| `filetype catalog validate` | check the shipped catalog against its schema |
+| `filetype doctor` | check this machine's `file`, MIME database, desktop, GTK, catalog, and handler |
+| `filetype version` | print the build-time version |
+
+`--json` is available globally or on any subcommand. The document always starts
+with `"schema": 1` and never changes shape within a schema version.
+
+Exit codes:
+
+| Code | Meaning |
+| ---- | ------- |
+| 0 | success |
+| 1 | a requested file or operation failed (a missing file is a finding) |
+| 2 | usage error |
+| 3 | the handler or application is not installed |
+| 4 | `scan --fail-on-unhandled` found at least one file that needs help |
+
+## How a file is identified
+
+Two independent witnesses are used, and both are shown in the report:
+
+1. **The bytes** — `file --mime-type --mime-encoding`, which reads the libmagic
+   database at `/usr/share/misc/magic.mgc` (or the distribution's equivalent).
+   If the `file` utility is absent, the identifier says so and continues.
+2. **The name** — the shared-mime-info globs, parsed from `globs2`, `aliases`,
+   `subclasses`, the package XML files for descriptions and icons, and the
+   `mime.types` files for extensions the desktop database does not carry.
+
+The decision follows the evidence:
+
+- If both agree, the more specific type wins. A `.docx` whose bytes are a ZIP
+  container is still a Word document; a `.tar.gz` is a compressed tar, not a
+  bare gzip stream.
+- If the bytes are a generic container (`text/plain`, `application/zip`,
+  `application/octet-stream`, `application/x-empty`), the name supplies the
+  type. This is how an empty `.png` or a Markdown file is identified.
+- If the bytes are specific and disagree with the name, the **bytes win** and
+  the report names both types. A PNG renamed to `.txt` is reported as a PNG
+  with a conflict, not silently as text.
+- If nothing is known, the type is `application/octet-stream` with low
+  confidence, and the chooser still offers binary-aware tools.
+
+Confidence is a label (`high`, `medium`, `low`) plus a number for scripts. It is
+not a probability; it describes which witness was decisive and whether the two
+agreed.
+
+## How applications are ranked
+
+1. **Installed applications** discovered from desktop entries
+   (`MimeType=`), including the desktop's default from `mimeapps.list` or GIO.
+   The default ranks first; an exact type match beats an inherited one.
+2. **Curated catalog applications** that are already installed but not
+   registered for this type appear in the installed list, marked as such.
+3. **Catalog suggestions that are not installed** follow, ordered by how
+   specifically they handle the type, then usefulness, maturity, popularity,
+   and whether the program is graphical.
+
+The catalog records, for each application:
+
+- a purpose sentence;
+- a maturity estimate (`mature`, `stable`, `beta`, `experimental`, `legacy`);
+- a popularity estimate from 0 to 100;
+- usefulness for the kinds it handles (`primary`, `general`, `specialized`,
+  `companion`, `fallback`);
+- the MIME types, extensions, and categories it handles;
+- install hints (`apt`, `flatpak`, `snap`, or a vendor URL).
+
+The estimates are editorial, not telemetry: this project collects nothing.
+The scale and the sources are stated in `documents/11-application-catalog.md`.
+
+## Coverage
+
+The MIME index on this machine is typically about 1,900 types and 2,200
+extensions. The shipped catalog has 169 applications across 26 categories.
+`dataflow.out/catalog-stats.json` records the coverage measured at build time,
+including how many known types have no installed handler yet. Every known type
+is required to have at least one installed or suggested application; the build
+fails if that stops being true.
+
+The catalog is deliberately curated, not exhaustive. It covers the common
+document, image, audio, video, archive, ebook, font, data, CAD, 3D-printing,
+disk-image, email, calendar, contact, subtitle, binary, and security formats.
+Adding an application is a JSON edit and `make test`.
+
+## What the handler writes
+
+| Path under `$XDG_DATA_HOME` | What it is |
+| --------------------------- | ---------- |
+| `applications/filetype-handler.desktop` | the chooser entry, with every known file type and `Exec=filetype handle %f` |
+| `icons/hicolor/scalable/apps/filetype-chooser.svg` | the chooser icon |
+| `nautilus-python/extensions/filetype_nautilus.py` | the right-click extension, only when the bindings exist |
+| `gnome-filetype-integration/handler-manifest.json` | the record of what was written, what was backed up, and what each type opened with before |
+
+The default association is changed only when:
+
+- no installed application handles the type; or
+- the current default names an entry that is not installed, or whose program
+  is missing.
+
+A working user default is never replaced. The chooser is still registered for
+every type, so *Open With* lists it even when the default is untouched.
+
+`filetype handler uninstall` restores a default only when it is still the
+chooser; a choice the user made after installing is kept and reported. The
+manifest is what makes that safe: without it, uninstall refuses rather than
+guessing.
+
+The Nautilus extension is optional because Nautilus needs the
+`python3-nautilus` package. Without it, *Open With* and the command line still
+work; `filetype doctor` says what is missing.
+
+## Security and privacy
+
+- No network access, no telemetry, no uploads. The tool reads local files and
+  local databases.
+- The file is never executed. Opening it is a separate, explicit action.
+- Launching uses an argument vector, never a shell; a file name with shell
+  metacharacters is one argument.
+- The handler never runs as root. Registration is confined to the user's XDG
+  directories.
+- Untrusted files are data, not instructions: the chooser shows type facts and
+  application choices, and never interprets file contents.
+
+## Development
+
+```sh
+make build     # stage dataflow.out/build/program, generate version_info.py
+make test      # all tests, including the sandboxed handler install
+make site      # the static page set
+make check     # the publish leak gate over site.out/
+make status    # next TODO, last test result, working tree
+```
+
+Tests are sandboxed: `HOME`, `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, and
+`XDG_DATA_DIRS` point at a temporary tree holding the fixture MIME database and
+fixture desktop entries. No test reads or writes the real desktop. The GTK test
+is tool-gated on `xvfb-run` and GTK4; the Nautilus test is tool-gated on the
+Nautilus Python bindings.
 
 ## Top-Level Map
 
 - `README.md` is the project overview.
 - `AGENTS.md` is the coding-agent entry point; it points at `prompts/` and defines no rule.
 - `TODO.md` tracks pending and completed project tasks.
-- `prompts/` contains LLM interaction rules, common requirements, feature requirements, task definitions, and episode work orders.
-- `documents/` contains human-consumption documents: the interaction pattern, worked examples, and tool notes.
+- `PHASES.md` records the current phase and its milestones.
+- `prompts/` contains LLM interaction rules, common requirements, feature requirements, and task definitions.
+- `documents/` contains human-consumption documents: identification, ranking, and the catalog methodology.
 - `records/` contains version-controlled outcome, incident, and handoff records.
 - `tools/` contains tool-specific rules.
-- `tools/aider-rules.md` is used only with Aider.
-- `sources/` contains implementations.
-- `scripts/` contains project scripts.
-- `tests/` contains tests and validation code.
-- `evals/` contains behavioral evaluation cases for a real agent, scored by hand; see `evals/README.md`.
-- `dataflow.in/` contains input data.
-- `dataflow.out/` contains generated data output (not version-controlled).
-- `logs/` contains generated logs (not version-controlled).
-- `site.in/` contains static-site input.
-- `site.out/` contains generated static-site output (not version-controlled).
-- `Makefile` drives the build (`make build`), the tests (`make test`), and cleanup (`make clean`).
+- `sources/filetype_integration/` contains the Python package: identification, MIME index, desktop discovery, catalog, ranking, launcher, integration, chooser, CLI, and Nautilus extension.
+- `scripts/` contains the build, install, release, site, and status scripts.
+- `tests/` contains the sandboxed tests and their fixture helpers.
+- `dataflow.in/` contains the fixture MIME database, fixture desktop entries, and sample files.
+- `dataflow.out/` contains the staged program, the generated version, and the catalog coverage report.
+- `site.in/` and `site.out/` are the static page input and output.
 
 ## Project Settings
 
-- Automatic task commits: enabled (see `prompts/02-workflow.md` §7.1). A derived project that owns its commits sets this to disabled.
-
-## Worked Example
-
-The repository includes one worked example that exercises the whole workflow:
-
-- Feature: `prompts/features/01-site-build.md`
-- Task: `prompts/tasks/01-site-build-implement.md`
-- Script: `scripts/site-build.sh` generates `site.out/` from `site.in/`.
-- Tests: `tests/00-skeleton.sh` and `tests/01-site-build.sh`
-- Input: `site.in/index.txt` (status page) and `site.in/dashboard.txt`
-- Template: `site.in/template.html` provides the HTML page structure.
-
-- Run `make build` to generate the site and `make test` to run the tests.
-- The bundled feature is a worked example, not a requirement.
-- A new project keeps, trims, or repurposes it; real sites have used a static-site generator instead.
-
-## Project Pages (publishing conventions)
-
-- A project derived from this skeleton publishes the standard page set
-  (status, dashboard, condensed todo/prompts/documents) per
-  `prompts/features/02-project-pages.md` and
-  `documents/06-project-pages.md`.
-- `make site` builds the full set (`scripts/site-build.sh` +
-  `scripts/site-condense.sh`).
-- Publishing goes through the homelab project (homelab-publish): the project
-  registers once via `pages_source` and does not push to the web server
-  itself — `make deploy` is retired.
-
-## Starting a New Project from this Skeleton
-
-- Copy the repository, then decide what to keep, trim, or repurpose.
-- Review `prompts/features/` and trim features the project does not need.
-- Replace the placeholder `site.in/index.txt` and `site.in/dashboard.txt` with the project's own pages, and replace the `index` case in `scripts/site-build.sh` `page_title()`; a published placeholder describes a project that does not exist.
-- Declare owner privacy boundaries (off-limits content) in the README or a dedicated document; the LLM treats them as authoritative scope exclusions.
-- Adopt the test tiers in `prompts/02-workflow.md`; declare live-state tests and their prerequisites.
-- Use records for outcomes, incidents, and handoffs; see `records/README.md`.
-- Choose the concurrency model: git worktrees for parallel multi-thread development, checkpoint and handoff records for serial work against live systems.
-- Delete this "Starting a New Project from this Skeleton" section from the derived project; it does not apply there.
-- See `documents/04-lessons-from-homelab.md` for the lessons that shaped these rules.
-
-## Keeping Current with this Skeleton
-
-- A derived project keeps its own copy of the shared rule files (`prompts/`, the directory READMEs, the reference scripts, and the template); those copies drift as the skeleton evolves.
-- `scripts/skeleton-diff.sh <project-dir>` reports how a project's shared files differ from this skeleton. Rule-file drift is a failure; drift in the reference scripts and template is expected when a project adapts them.
-- Customize a shared rule document by appending a project section (for example `## How this project does it`) and leaving the shared text intact. Do not fork it, so the next re-sync stays a small diff.
-
-## Canonical Files
-
-The following filenames are canonical and must not be renamed or duplicated without an explicit task:
-
-- `README.md`
-- `AGENTS.md`
-- `TODO.md`
-- `Makefile`
-- `package.json`
-- `.gitignore`
-
-Tool-specific root files (for example `.aider.conf.yml`, `.aiderignore`) are permitted when a file under `tools/` declares them; see `prompts/01-contract.md` section 7.
+- Automatic task commits: enabled (see `prompts/02-workflow.md` §7.1).
+- Off-limits content: none declared. The tool reads only the paths named above
+  and never indexes the user's home directory except for an explicit `scan`.
