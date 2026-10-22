@@ -285,3 +285,7 @@ Nautilus Python bindings.
 - Installation: the owner runs `make install` manually. The agent builds and
   tests the source, then reports that an install is needed; it does not request
   privileged escalation to update the user's `~/.local`.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

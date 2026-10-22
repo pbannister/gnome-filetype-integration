@@ -1,5 +1,6 @@
 {
     "scripts": {
         "test": "sh scripts/tests-run.sh"
-    }
+    },
+    "license": "MIT"
 }
