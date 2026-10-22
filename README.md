@@ -19,12 +19,14 @@ The same work is available in four places:
 - **`filetype`** on the command line carries every capability, with stable JSON.
 
 Inside the chooser, each application row has its action button on the left and an
-**About** link beside the application name. The link keeps an ordered list of
-candidate pages (AppStream project page, catalog project/reference pages,
-vendor page, Flathub, Snapcraft, and direct distribution package pages). On click it probes the first six
-with a short HEAD request, falls back to a one-byte GET when HEAD is rejected,
-and opens the first page that answers; a dead site moves to the next
-candidate. Each chooser process has its own application identity, so a second
+**About** link beside the application name. The link opens a list of candidate
+pages (AppStream project page, catalog project/reference pages, vendor page,
+Flathub, Snapcraft, and direct distribution package pages) grouped by category
+and ordered by relevance. Each link starts disabled; the list probes the sites
+concurrently with short HEAD requests, falling back to a one-byte GET when HEAD
+is rejected, and enables a link only when its site answers. A site is visited at
+most once per day; `filetype about-history` lists the date, result, and URL of
+each visit. Each chooser process has its own application identity, so a second
 launch cannot remote-activate a window in another session; **Close**, **Escape**,
 and **Ctrl+Q** all end a window. The install dialog's **Run** button performs the
 selected install and streams its output and exit status into the dialog. The
@@ -103,6 +105,8 @@ the temporary directory; it never needs root.
 | `filetype catalog search QUERY` | search the curated application catalog |
 | `filetype catalog show ID` | every fact recorded about one application |
 | `filetype catalog validate` | check the shipped catalog against its schema |
+| `filetype about-history` | list the About sites visited, their date, result, and URL |
+| `filetype about-history --clear` | forget the recorded About visits |
 | `filetype doctor` | check this machine's `file`, MIME database, desktop, GTK, catalog, and handler |
 | `filetype version` | print the build-time version |
 
@@ -217,8 +221,8 @@ work; `filetype doctor` says what is missing.
 
 - No telemetry and no uploads. The tool reads local files and local databases.
   The only network request is the About check the user explicitly starts: one
-  short HEAD (or one-byte GET) for up to six candidate pages, with no file
-  content sent.
+  short HEAD (or one-byte GET) per candidate site, at most once per site per
+  day, with no file content sent.
 - The file is never executed. Opening it is a separate, explicit action.
 - Launching uses an argument vector, never a shell; a file name with shell
   metacharacters is one argument.

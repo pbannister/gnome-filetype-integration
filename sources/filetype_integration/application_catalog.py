@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import quote
 
+from .about_links import AboutLink, category_for_url, link_label
 from .desktop_application import (ApplicationIndex, InstalledApplication,
                                   application_homepage)
 from .file_identifier import Identification
@@ -361,6 +362,11 @@ class RankedApplication:
         return about_candidates(self.catalog, self.desktop)
 
     @property
+    def about_links(self) -> list[AboutLink]:
+        return [AboutLink(url=url, category=category_for_url(url),
+                          label=link_label(url)) for url in self.about_urls]
+
+    @property
     def about_url(self) -> str:
         """The first candidate, kept for JSON consumers."""
         urls = self.about_urls
@@ -382,6 +388,7 @@ class RankedApplication:
             "terminal": self.terminal,
             "about_url": self.about_url,
             "about_urls": self.about_urls,
+            "about_links": [link.to_dict() for link in self.about_links],
             "match_kind": self.match_kind,
             "match_mime": self.match_mime,
             "score": round(self.score, 1),

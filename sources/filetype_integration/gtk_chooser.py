@@ -14,7 +14,8 @@ import sys
 import threading
 from pathlib import Path
 
-from .about_links import find_first_available, open_uri
+from .about_links import (AboutLink, category_for_url, check_about_urls,
+                          group_links, link_label, open_uri)
 from .application_catalog import (RankedApplication, Recommendation, install_argv,
                                   install_commands, recommend)
 from .desktop_application import ApplicationIndex
@@ -271,43 +272,98 @@ def _badge(text: str):
     return label
 
 
-def _about_clicked(parent, application: RankedApplication, link) -> bool:
-    """Probe the About candidates, then open the first live one."""
+def _about_dialog(parent, application: RankedApplication):
+    """Show the About candidates grouped by kind, probing them concurrently."""
     _gdk, Gtk = _gtk()
-    urls = application.about_urls
-    if not urls:
-        _message(parent, "No About page",
-                 f"No page is recorded for {application.name}.")
-        return True
-    link.set_sensitive(False)
-    link.set_label("Checking…")
+    window = Gtk.Window(transient_for=parent, modal=True,
+                        title=f"About {application.name}")
+    window.set_default_size(760, 620)
+    try:
+        window.set_destroy_with_parent(True)
+    except Exception:
+        pass
 
-    def done(url: str, results) -> bool:
-        link.set_label("About")
-        link.set_sensitive(True)
-        if url:
-            if not open_uri(url):
-                _message(parent, "Could not open the page",
-                         f"The page answered, but no browser could open it:\n{url}")
-        else:
-            tried = "\n".join(result.url for result in results) or "\n".join(urls)
-            _message(parent, "About page unavailable",
-                     "None of the candidate pages answered. Tried:\n" + tried)
-        return False
+    outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    for side in ("top", "bottom", "start", "end"):
+        getattr(outer, f"set_margin_{side}")(18)
+    heading = Gtk.Label(label=f"About {application.name}")
+    heading.add_css_class("filetype-title")
+    heading.set_xalign(0)
+    outer.append(heading)
+    purpose = Gtk.Label(label=application.purpose)
+    purpose.set_wrap(True)
+    purpose.set_xalign(0)
+    purpose.add_css_class("filetype-dim")
+    outer.append(purpose)
 
-    def worker() -> None:
-        try:
-            url, results = find_first_available(urls, limit=6)
-        except Exception as error:
-            url, results = "", []
+    links = application.about_links
+    if not links:
+        outer.append(Gtk.Label(label="No candidate pages are recorded for this application."))
+    else:
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_vexpand(True)
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        rows: dict[str, tuple[object, object]] = {}
+        for category, grouped in group_links(links):
+            category_label = Gtk.Label(label=category)
+            category_label.set_xalign(0)
+            category_label.add_css_class("filetype-section")
+            content.append(category_label)
+            for link in grouped:
+                row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+                link_button = Gtk.LinkButton.new_with_label(link.url, link.label or link_label(link.url))
+                link_button.set_halign(Gtk.Align.START)
+                link_button.set_hexpand(True)
+                link_button.set_sensitive(False)
+                link_button.set_tooltip_text(link.url)
+                status = Gtk.Label(label="Checking…")
+                status.set_xalign(1)
+                status.add_css_class("filetype-dim")
+                status.set_size_request(130, -1)
+                row.append(link_button)
+                row.append(status)
+                content.append(row)
+                rows[link.url] = (link_button, status)
+        scroller.set_child(content)
+        outer.append(scroller)
+
+        def update(result) -> bool:
+            row = rows.get(result.url)
+            if row is None:
+                return False
+            link_button, status = row
+            link_button.set_sensitive(bool(result.ok))
+            if result.ok:
+                status.set_text("Available (checked today)" if result.from_cache else "Available")
+            else:
+                status.set_text("No response (checked today)" if result.from_cache else "No response")
+            return False
+
+        def worker() -> None:
             from gi.repository import GLib
-            GLib.idle_add(done, "", [])
-            print(f"filetype: About check failed: {error}", file=sys.stderr)
-            return
-        from gi.repository import GLib
-        GLib.idle_add(done, url, results)
+            try:
+                check_about_urls(
+                    [link.url for link in links],
+                    on_result=lambda result: GLib.idle_add(update, result),
+                )
+            except Exception as error:
+                print(f"filetype: About check failed: {error}", file=sys.stderr)
 
-    threading.Thread(target=worker, daemon=True).start()
+        threading.Thread(target=worker, daemon=True).start()
+
+    close = Gtk.Button(label="Close")
+    close.set_halign(Gtk.Align.END)
+    close.connect("clicked", lambda _button: window.close())
+    outer.append(close)
+    window.set_child(outer)
+    window.present()
+    return window
+
+
+def _about_clicked(parent, application: RankedApplication, link) -> bool:
+    _about_dialog(parent, application)
+    # Stop Gtk.LinkButton's default immediate-open behaviour; the dialog probes
+    # the candidates and enables only the links that answer.
     return True
 
 

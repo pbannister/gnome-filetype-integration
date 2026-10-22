@@ -67,6 +67,12 @@ assert apt_argv[-1] == "gimp", apt_argv
 assert flatpak_argv[:2] == ["flatpak", "install"], flatpak_argv
 assert "--user" in flatpak_argv and flatpak_argv[-1] == "org.gimp.GIMP", flatpak_argv
 assert all(isinstance(item, str) for item in apt_argv + flatpak_argv)
+helix = catalog.get("com.github.helix")
+helix_commands = install_commands(helix)
+helix_apt = next(command for command in helix_commands if command["method"] == "apt")
+assert helix_apt["package"] == "hx", helix_apt
+assert helix_apt["command"] == "sudo apt install hx", helix_apt
+assert install_argv(helix_apt)[-1] == "hx", install_argv(helix_apt)
 
 # 4. Installed applications rank first; catalog suggestions follow.
 identification = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.png"), index)

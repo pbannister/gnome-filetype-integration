@@ -111,6 +111,25 @@ PY
 "$FILETYPE" catalog show org.gimp.GIMP | grep -q 'Raster image editor' \
     || fail 'catalog show did not print the purpose'
 
+# 9.1 The About history is inspectable and clearable.
+"$FILETYPE" about-history --json > "$DIRECTORY_TEST/about-history.json" \
+    || fail 'about-history --json failed'
+python3 - "$DIRECTORY_TEST/about-history.json" <<'PYCHECK' || fail 'the About history document is wrong'
+import json, sys
+d = json.load(open(sys.argv[1], encoding="utf-8"))
+assert d["schema"] == 1
+assert isinstance(d["history"], list)
+assert d["path"].endswith("about-sites.json")
+PYCHECK
+"$FILETYPE" about-history --clear --json > "$DIRECTORY_TEST/about-clear.json" \
+    || fail 'about-history --clear failed'
+python3 - "$DIRECTORY_TEST/about-clear.json" <<'PYCHECK' || fail 'the cleared About history document is wrong'
+import json, sys
+d = json.load(open(sys.argv[1], encoding="utf-8"))
+assert d["cleared"] is True
+assert d["history"] == []
+PYCHECK
+
 # 10. Doctor reports machine checks without failing on warnings.
 "$FILETYPE" doctor --json > "$DIRECTORY_TEST/doctor.json" || fail 'doctor failed'
 python3 - "$DIRECTORY_TEST/doctor.json" <<'PY' || fail 'the doctor document is wrong'

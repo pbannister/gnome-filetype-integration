@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 from . import paths
+from .about_links import history_entries, load_history, save_history, state_path
 from .application_catalog import (ApplicationCatalog, CatalogError, Recommendation,
                                   install_commands, preferred_install, recommend)
 from .desktop_application import ApplicationIndex
@@ -534,6 +535,31 @@ def command_catalog(arguments) -> int:
     return EXIT_USAGE
 
 
+def command_about_history(arguments) -> int:
+    if arguments.clear:
+        save_history({"version": 1, "sites": {}})
+        if not _json_requested(arguments):
+            print(f"Cleared the About history: {state_path()}")
+        else:
+            _print_json({"cleared": True, "path": str(state_path()), "history": []})
+        return EXIT_OK
+    entries = history_entries()
+    if arguments.limit:
+        entries = entries[:arguments.limit]
+    if _json_requested(arguments):
+        _print_json({"path": str(state_path()), "history": entries,
+                     "count": len(entries)})
+        return EXIT_OK
+    if not entries:
+        print(f"No About visits recorded yet ({state_path()}).")
+        return EXIT_OK
+    print(_table(["Checked", "Status", "URL"],
+                 [[entry["last_checked"], "ok" if entry["ok"] else "failed", entry["url"]]
+                  for entry in entries], [12, 8, 90]))
+    print(f"\nHistory: {state_path()}")
+    return EXIT_OK
+
+
 def command_types(arguments) -> int:
     index = TypeIndex.load()
     if arguments.mime:
@@ -728,6 +754,14 @@ def build_parser() -> argparse.ArgumentParser:
     catalog_parser.add_argument("target", nargs="?", metavar="QUERY|ID")
     catalog_parser.add_argument("--json", action="store_true")
     catalog_parser.set_defaults(function=command_catalog)
+
+    history_parser = subparsers.add_parser(
+        "about-history", help="list the About sites visited, their date, and their result")
+    history_parser.add_argument("--limit", type=int, default=0)
+    history_parser.add_argument("--clear", action="store_true",
+                                help="forget the recorded visits")
+    history_parser.add_argument("--json", action="store_true")
+    history_parser.set_defaults(function=command_about_history)
 
     types_parser = subparsers.add_parser("types", help="inspect the MIME database and extension index")
     types_parser.add_argument("--mime", help="describe one MIME type")

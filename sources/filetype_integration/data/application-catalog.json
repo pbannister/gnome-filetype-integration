@@ -320,7 +320,7 @@
         ]
       },
       "install": {
-        "apt": "helix"
+        "apt": "hx"
       },
       "binary": "hx",
       "homepage": "https://helix-editor.com/",

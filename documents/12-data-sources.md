@@ -45,9 +45,10 @@ The scale and schema are in `documents/11-application-catalog.md`.
 
 - No web service, search API, or telemetry endpoint. Identification itself makes
   no network request; a downloaded file type should not require an upload to
-  identify. The one exception is the About link the user clicks: it probes up
-  to six candidate pages with a short HEAD or one-byte GET, and sends no file
-  data.
+  identify. The one exception is the About link the user clicks: it probes each
+  candidate site with a short HEAD or one-byte GET at most once per day, and
+  sends no file data. The visit date, result, and status are recorded for
+  `filetype about-history`.
 - No filename-only lookup. The name is one witness, never the only one when
   the bytes are specific.
 - No package-manager integration beyond printing a command. Installing an

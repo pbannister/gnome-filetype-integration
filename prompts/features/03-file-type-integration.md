@@ -27,15 +27,17 @@ never a dead end.
 - `FILETYPE-R015` — The Nautilus right-click extension is optional and must be installed only when the Nautilus Python bindings are available; its absence must not disable the double-click handler or the command line.
 - `FILETYPE-R016` — The command line must expose identification, application listing, opening, directory scanning, handler status, handler installation, handler removal, type inspection, catalog inspection, and diagnostics, with a stable JSON document for each.
 - `FILETYPE-R017` — The command line must not require a graphical session, and the graphical chooser must not be required to use any capability.
-- `FILETYPE-R018` — The tool must collect no telemetry and make no network request except the user-initiated About availability check, which may issue one short HEAD or GET request for at most six candidate pages and nothing else.
+- `FILETYPE-R018` — The tool must collect no telemetry and make no network request except the user-initiated About availability check, which may issue one short HEAD or GET request per candidate page, at most once per site per day, and nothing else.
 - `FILETYPE-R019` — File opening must pass the file as one argument vector element, never through a shell, and must report a launcher that is registered but whose program is missing.
 - `FILETYPE-R020` — Tests must run against a sandboxed `HOME` and sandboxed XDG directories, must not change the real desktop, and must classify the graphical, Nautilus, and live checks as tool-gated.
 - `FILETYPE-R021` — The tool must report the libmagic database, MIME database, desktop entries, GTK, catalog, and handler state through a diagnostics command.
 - `FILETYPE-R022` — A directory scan must report, per file, whether an installed application can open it, and must offer an exit status that lets a script fail when at least one file needs help.
-- `FILETYPE-R023` — Each application row in the chooser must place its action button on the left and offer an About link beside the application name; the link must keep an ordered list of at least two candidate pages where possible, and when clicked must probe them in order with a short HTTP request, opening the first that answers and trying the next when one fails.
+- `FILETYPE-R023` — Each application row in the chooser must place its action button on the left and offer an About link beside the application name; the link must open a dialog listing at least two candidate pages where possible, grouped by category and sorted by relevance, with each link initially disabled until a concurrent HTTP HEAD request succeeds.
 - `FILETYPE-R024` — The install dialog must offer a Run action for each install hint and show the command's output and exit status as it runs.
 - `FILETYPE-R025` — The chooser's own desktop entry must not appear in the list of installed applications.
 - `FILETYPE-R026` — Each chooser process must use a distinct application identity so another session or a test cannot remote-activate it; every window must close through its Close control, the Escape key, and the application Quit action.
+- `FILETYPE-R027` — The tool must record each About site visited with the date, result, and HTTP status, must not visit the same site more than once per local day, and must expose the history through the command line.
+- `FILETYPE-R028` — A package search page must not be used as an About candidate unless its content is fetched and checked for a useful result; direct package pages are preferred.
 
 ## Behavior
 

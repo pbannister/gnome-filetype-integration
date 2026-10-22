@@ -124,6 +124,10 @@ def mime_types_files() -> list[Path]:
     return files
 
 
+def about_history_path() -> Path:
+    return cache_dir() / "about-sites.json"
+
+
 def handler_manifest_path() -> Path:
     return data_home() / PROGRAM_NAME / MANIFEST_NAME
 

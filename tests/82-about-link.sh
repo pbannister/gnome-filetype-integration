@@ -30,6 +30,8 @@ output=$(PYTHONPATH="$LIBRARY" xvfb-run -a env GDK_BACKEND=x11 \
     python3 - "$FIXTURES/sample.png" <<'PY' 2>&1
 import os
 import sys
+import time
+from types import SimpleNamespace
 
 import gi
 gi.require_version("Gtk", "4.0")
@@ -98,14 +100,43 @@ def check(window, application, recommendation):
     output_view = output_views[0]
     run_buttons[0].emit("clicked")
 
-    about_opened = []
-    chooser.find_first_available = lambda urls, timeout=4.0, limit=None: (urls[0], [])
-    chooser.open_uri = lambda url: about_opened.append(url) or True
+    def fake_check(urls, timeout=4.0, max_workers=8, force=False, on_result=None):
+        time.sleep(0.4)
+        results = {}
+        for url in urls:
+            result = SimpleNamespace(url=url, ok=True, checked_today=True,
+                                     from_cache=False)
+            results[url] = result
+            if on_result is not None:
+                on_result(result)
+        return results
+
+    chooser.check_about_urls = fake_check
     links[0].emit("activate-link")
 
+    def toplevels():
+        model = Gtk.Window.get_toplevels()
+        return [model.get_item(index) for index in range(model.get_n_items())]
+
+    about_windows = [window for window in toplevels()
+                     if (window.get_title() or "").startswith("About ")]
+    assert about_windows, "clicking About did not open the About dialog"
+    about_dialog = about_windows[0]
+    about_buttons = [widget for widget in walk(about_dialog)
+                     if isinstance(widget, Gtk.LinkButton)]
+    assert about_buttons, "the About dialog has no candidate links"
+    assert all(not button.get_sensitive() for button in about_buttons), \
+        "a candidate link was enabled before its HEAD check returned"
+
     def finish():
-        assert about_opened, "clicking About did not open the first candidate"
-        print("ABOUT-CLICK ok")
+        assert all(button.get_sensitive() for button in about_buttons), \
+            "a successful candidate link stayed disabled"
+        labels = [widget.get_text() for widget in walk(about_dialog)
+                  if isinstance(widget, Gtk.Label) and widget.get_text()]
+        for category in ("Project", "Package"):
+            assert category in labels, (category, labels)
+        print("ABOUT-DIALOG ok")
+        about_dialog.close()
         text = output_view.get_buffer().get_text(
             output_view.get_buffer().get_start_iter(),
             output_view.get_buffer().get_end_iter(), False)
@@ -157,9 +188,9 @@ printf '%s\n' "$output" | grep -q '^OUTPUT-VIEW ok' || {
     echo '82-about-link: the install dialog has no output view' >&2
     exit 1
 }
-printf '%s\n' "$output" | grep -q '^ABOUT-CLICK ok' || {
+printf '%s\n' "$output" | grep -q '^ABOUT-DIALOG ok' || {
     printf '%s\n' "$output" >&2
-    echo '82-about-link: clicking About did not open a candidate' >&2
+    echo '82-about-link: the About dialog did not show enabled candidates' >&2
     exit 1
 }
 printf '%s\n' "$output" | grep -q '^ABOUT About https://' || {
