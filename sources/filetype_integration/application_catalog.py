@@ -59,6 +59,7 @@ class CatalogApplication:
     handles: dict[str, list[str]]
     install: dict[str, str]
     homepage: str = ""
+    about: list[str] = field(default_factory=list)
     desktop_ids: list[str] = field(default_factory=list)
     binary: str = ""
     notes: str = ""
@@ -87,6 +88,7 @@ class CatalogApplication:
             "handles": self.handles,
             "install": self.install,
             "homepage": self.homepage,
+            "about": self.about,
             "desktop_ids": self.desktop_ids,
             "binary": self.binary,
             "notes": self.notes,
@@ -274,6 +276,11 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
     homepage = raw.get("homepage", "")
     if not isinstance(homepage, str):
         raise CatalogError(f"{label}: homepage must be a URL string")
+    about = raw.get("about", [])
+    if not isinstance(about, list) or not all(isinstance(item, str) for item in about):
+        raise CatalogError(f"{label}: about must be a list of URL strings")
+    if any(not item.startswith(("http://", "https://")) for item in about):
+        raise CatalogError(f"{label}: about entries must be HTTP(S) URLs")
     if "flatpak" in install and not validate_flatpak_id(install["flatpak"]):
         raise CatalogError(f"{label}: invalid Flatpak application id: {install['flatpak']}")
     desktop_ids = raw.get("desktop_ids", [])
@@ -294,6 +301,7 @@ def _parse_application(raw: object, index: int) -> CatalogApplication:
         handles=parsed_handles,
         install=install,
         homepage=homepage,
+        about=about,
         desktop_ids=desktop_ids,
         binary=binary,
         notes=notes,
@@ -541,6 +549,8 @@ def about_candidates(catalog_application: CatalogApplication | None,
         add(application_homepage(desktop))
     if catalog_application is not None:
         add(catalog_application.homepage)
+        for url in catalog_application.about:
+            add(url)
         install = catalog_application.install
         add(install.get("url", ""))
         if install.get("flatpak"):

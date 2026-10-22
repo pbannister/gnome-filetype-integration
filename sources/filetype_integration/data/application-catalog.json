@@ -231,7 +231,16 @@
         "apt": "vim",
         "flatpak": "org.vim.Vim"
       },
-      "binary": "vim"
+      "binary": "vim",
+      "homepage": "https://www.vim.org/",
+      "about": [
+        "https://en.wikipedia.org/wiki/Vim_(text_editor)",
+        "https://github.com/vim/vim"
+      ],
+      "desktop_ids": [
+        "vim.desktop",
+        "gvim.desktop"
+      ]
     },
     {
       "id": "io.neovim.nvim",
@@ -1232,7 +1241,11 @@
         "gimp.desktop"
       ],
       "binary": "gimp",
-      "homepage": "https://www.gimp.org/"
+      "homepage": "https://www.gimp.org/",
+      "about": [
+        "https://en.wikipedia.org/wiki/GIMP",
+        "https://gitlab.gnome.org/GNOME/gimp"
+      ]
     },
     {
       "id": "org.kde.krita",

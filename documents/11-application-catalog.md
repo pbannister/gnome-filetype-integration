@@ -45,6 +45,10 @@ application, it prints the command the user's package manager already knows.
     "flatpak": "org.gimp.GIMP"
   },
   "homepage": "https://www.gimp.org/",
+  "about": [
+    "https://en.wikipedia.org/wiki/GIMP",
+    "https://github.com/GNOME/gimp"
+  ],
   "desktop_ids": ["gimp.desktop"],
   "binary": "gimp",
   "notes": ""
@@ -63,12 +67,14 @@ application, it prints the command the user's package manager already knows.
   end in `/*` for a family. Extensions omit the leading dot.
 - `install` — at least one of `apt`, `flatpak`, `snap`, or `url`. A `url` is a
   vendor download page, not a direct binary.
-- `homepage` — optional; the project page shown first by the About link. The
-  About candidates are built in this order: AppStream homepage, `homepage`,
-  `install.url`, Flathub, Snapcraft, the Ubuntu and Debian package pages, the
-  Debian tracker, and Flathub/Snapcraft search pages. On click the chooser
-  probes the first six with a short HEAD request (one-byte GET fallback) and
-  opens the first that answers.
+- `homepage` — optional; the project page shown first by the About link.
+- `about` — optional extra reference pages (for example Wikipedia and the
+  source repository), used after `homepage` and before package pages.
+- The About candidates are built in this order: AppStream homepage, `homepage`,
+  `about`, `install.url`, Flathub, Snapcraft, the Ubuntu and Debian package
+  pages, the Debian tracker, and Flathub/Snapcraft search pages. On click the
+  chooser probes the first six with a short HEAD request (one-byte GET
+  fallback) and opens the first that answers.
 - `desktop_ids` — optional; used to notice that a catalog application is
   already installed but not registered for this type.
 - `binary` — optional; used to notice a command-line application on `PATH`.

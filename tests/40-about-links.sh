@@ -138,6 +138,24 @@ try:
     assert any("flathub.org" in url for url in snap_urls), snap_urls
     assert len(snap_urls) >= 3, snap_urls
 
+    # 9. A GVim desktop entry uses the Vim catalog entry and reaches the
+    #    project page, Wikipedia, and the source repository before any package
+    #    search page.
+    gvim = InstalledApplication(
+        desktop_id="gvim.desktop", name="GVim", comment="",
+        executable="gvim", exec_line="gvim %F",
+        mime_types=["text/plain"], source_path="/tmp/gvim.desktop",
+    )
+    vim_entry = _catalog_entry_for(gvim, catalog)
+    assert vim_entry is not None and vim_entry.id == "org.vim.Vim", vim_entry
+    vim_urls = about_candidates(vim_entry, gvim)
+    assert vim_urls[:3] == [
+        "https://www.vim.org/",
+        "https://en.wikipedia.org/wiki/Vim_(text_editor)",
+        "https://github.com/vim/vim",
+    ], vim_urls
+    assert all("packages." not in url for url in vim_urls[:3]), vim_urls
+
     print("40-about-links: ok")
 finally:
     server.shutdown()
