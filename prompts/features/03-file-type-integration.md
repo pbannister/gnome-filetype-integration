@@ -35,6 +35,7 @@ never a dead end.
 - `FILETYPE-R023` — Each application row in the chooser must place its action button on the left and offer an About link beside the application name; the link must keep an ordered list of at least two candidate pages where possible, and when clicked must probe them in order with a short HTTP request, opening the first that answers and trying the next when one fails.
 - `FILETYPE-R024` — The install dialog must offer a Run action for each install hint and show the command's output and exit status as it runs.
 - `FILETYPE-R025` — The chooser's own desktop entry must not appear in the list of installed applications.
+- `FILETYPE-R026` — Each chooser process must use a distinct application identity so another session or a test cannot remote-activate it; every window must close through its Close control, the Escape key, and the application Quit action.
 
 ## Behavior
 

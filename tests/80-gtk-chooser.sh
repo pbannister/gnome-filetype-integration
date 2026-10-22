@@ -44,5 +44,23 @@ output=$(xvfb-run -a env GDK_BACKEND=x11 "$FILETYPE" handle --self-test "$FIXTUR
     || fail 'handle failed'
 printf '%s' "$output" | grep -q 'chooser window built' || fail 'handle did not build the window'
 
+# Two chooser processes must not see each other as the same GApplication
+# instance.  If they do, the second remote-activates the first and one window
+# is created twice or the second process exits without building a window.
+FILE_ONE="$DIRECTORY_TEST/parallel-one.log"
+FILE_TWO="$DIRECTORY_TEST/parallel-two.log"
+xvfb-run -a -n 91 env GDK_BACKEND=x11 "$FILETYPE" choose --self-test "$FIXTURES/sample.png" >"$FILE_ONE" 2>&1 &
+PID_ONE=$!
+xvfb-run -a -n 92 env GDK_BACKEND=x11 "$FILETYPE" choose --self-test "$FIXTURES/sample.custom" >"$FILE_TWO" 2>&1 &
+PID_TWO=$!
+status_one=0
+wait "$PID_ONE" || status_one=$?
+status_two=0
+wait "$PID_TWO" || status_two=$?
+[ "$status_one" -eq 0 ] || fail 'the first parallel chooser failed'
+[ "$status_two" -eq 0 ] || fail 'the second parallel chooser failed'
+grep -q 'chooser window built' "$FILE_ONE" || fail 'the first parallel chooser built no window'
+grep -q 'chooser window built' "$FILE_TWO" || fail 'the second parallel chooser built no window'
+
 echo '80-gtk-chooser: ok'
 exit 0

@@ -641,6 +641,19 @@ def build_window(application, identification: Identification,
     action.append(close)
     content.append(action)
 
+    # Escape closes the window, so a user is never trapped in it.
+    Gdk = _gdk
+    key_controller = Gtk.EventControllerKey()
+
+    def on_key(_controller, keyval, _keycode, _state):
+        if keyval == Gdk.KEY_Escape:
+            window.close()
+            return True
+        return False
+
+    key_controller.connect("key-pressed", on_key)
+    window.add_controller(key_controller)
+
     if self_test:
         from gi.repository import GLib
         print("filetype: chooser window built", file=sys.stderr)
@@ -668,8 +681,10 @@ def run(path: str, self_test: bool = False) -> int:
     _gdk, Gtk = _gtk()
     Adw = _adw()
     application_class = Adw.Application if Adw is not None else Gtk.Application
-    application_id = ("io.github.filetype.Chooser"
-                      if not self_test else f"io.github.filetype.Chooser.Test{os.getpid()}")
+    # A distinct id per process keeps GApplication from treating a chooser in
+    # another session (or a test under Xvfb) as the same instance and sending
+    # it remote activations, which would create invisible duplicate windows.
+    application_id = f"io.github.filetype.Chooser.p{os.getpid()}"
     application = application_class(application_id=application_id)
     if Adw is not None:
         try:
@@ -690,11 +705,33 @@ def run(path: str, self_test: bool = False) -> int:
         print(f"filetype: could not inspect {path}: {error}", file=sys.stderr)
         return 1
 
+    windows: dict[str, object] = {}
+
     def on_activate(app):
+        existing = windows.get(target)
+        if existing is not None:
+            existing.present()
+            return
         _configure_css()
         window = build_window(app, identification, recommendation, installed,
                               self_test=self_test)
+        windows[target] = window
+
+        def forget(_window):
+            windows.pop(target, None)
+            return False
+
+        window.connect("close-request", forget)
         window.present()
+
+    try:
+        from gi.repository import Gio
+        quit_action = Gio.SimpleAction.new("quit", None)
+        quit_action.connect("activate", lambda *_args: application.quit())
+        application.add_action(quit_action)
+        application.set_accels_for_action("app.quit", ["<Primary>q"])
+    except Exception:
+        pass
 
     application.connect("activate", on_activate)
     status = application.run([])
