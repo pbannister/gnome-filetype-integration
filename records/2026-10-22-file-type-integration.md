@@ -43,7 +43,7 @@ chooser still owns.
 
 ## Verification
 
-- `make test` on 2026-10-22: all 26 test scripts passed, including the
+- `make test` on 2026-10-22: all 23 test scripts passed, including the
   identification, MIME index, desktop discovery, catalog, per-type coverage,
   command line, handler install/uninstall, GTK window (under Xvfb), and
   Nautilus extension checks.
@@ -52,9 +52,10 @@ chooser still owns.
 - The staged program identified 1,943 MIME types and 2,245 extensions on
   Ubuntu 26.04, discovered 196 installed desktop applications, and found a
   candidate application for every known type.
-- A sandboxed handler install registered 1,832 file types with GIO, set 1,277
-  defaults for unhandled or broken types, and left the working `text/plain`
-  default unchanged. `gio mime` confirmed both outcomes.
+- A sandboxed handler install wrote 1,860 file types into the handler entry,
+  set 1,263 defaults for unhandled or broken types, and left the working
+  `text/plain` default unchanged. `gio mime` confirmed the chooser in Open With
+  for a handled type and as the default for an unhandled one.
 - A release tarball installed with `scripts/install.sh` into a temporary
   prefix, registered the handler, and the installed program reported its
   build-time version.
