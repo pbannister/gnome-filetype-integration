@@ -315,7 +315,6 @@ def _about_dialog(parent, application: RankedApplication):
                 link_button.set_halign(Gtk.Align.START)
                 link_button.set_hexpand(True)
                 link_button.set_sensitive(False)
-                link_button.set_tooltip_text(link.url)
                 status = Gtk.Label(label="Checking…")
                 status.set_xalign(1)
                 status.add_css_class("filetype-dim")
@@ -418,9 +417,6 @@ def _application_row(parent, application: RankedApplication, path: str,
     if about_url:
         about = Gtk.LinkButton.new_with_label(about_url, "About")
         about.add_css_class("filetype-about")
-        about.set_tooltip_text(
-            "Check the project page and open the first one that answers:\n"
-            + "\n".join(about_urls))
         about.set_valign(Gtk.Align.CENTER)
         about.connect("activate-link",
                       lambda link: _about_clicked(parent, application, link))

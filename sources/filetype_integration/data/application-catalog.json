@@ -69,7 +69,8 @@
       "desktop_ids": [
         "org.kde.dolphin.desktop"
       ],
-      "binary": "dolphin"
+      "binary": "dolphin",
+      "homepage": "https://apps.kde.org/dolphin"
     },
     {
       "id": "org.gnome.TextEditor",
@@ -125,7 +126,8 @@
         "gedit_gedit.desktop",
         "org.gnome.gedit.desktop"
       ],
-      "binary": "gedit"
+      "binary": "gedit",
+      "homepage": "https://gedit-text-editor.org/"
     },
     {
       "id": "org.kde.kate",
@@ -152,7 +154,8 @@
       "desktop_ids": [
         "org.kde.kate.desktop"
       ],
-      "binary": "kate"
+      "binary": "kate",
+      "homepage": "https://kate-editor.org/"
     },
     {
       "id": "com.visualstudio.code",
@@ -273,7 +276,8 @@
         "apt": "neovim",
         "flatpak": "io.neovim.nvim"
       },
-      "binary": "nvim"
+      "binary": "nvim",
+      "homepage": "https://neovim.io/"
     },
     {
       "id": "org.gnu.emacs",
@@ -300,7 +304,8 @@
       "desktop_ids": [
         "emacs.desktop"
       ],
-      "binary": "emacs"
+      "binary": "emacs",
+      "homepage": "https://www.gnu.org/software/emacs"
     },
     {
       "id": "com.github.helix",
@@ -354,7 +359,8 @@
       "desktop_ids": [
         "geany.desktop"
       ],
-      "binary": "geany"
+      "binary": "geany",
+      "homepage": "https://geany.org/"
     },
     {
       "id": "org.gnome.Meld",
@@ -807,7 +813,8 @@
       "desktop_ids": [
         "pdfarranger.desktop"
       ],
-      "binary": "pdfarranger"
+      "binary": "pdfarranger",
+      "homepage": "https://github.com/pdfarranger/pdfarranger"
     },
     {
       "id": "pandoc",
@@ -1086,7 +1093,8 @@
       "desktop_ids": [
         "sigil.desktop"
       ],
-      "binary": "sigil"
+      "binary": "sigil",
+      "homepage": "https://sigil-ebook.com"
     },
     {
       "id": "io.github.koodo-reader.Koodo-Reader",
@@ -1170,7 +1178,8 @@
       "desktop_ids": [
         "org.gnome.gThumb.desktop"
       ],
-      "binary": "gthumb"
+      "binary": "gthumb",
+      "homepage": "https://gitlab.gnome.org/GNOME/gthumb/"
     },
     {
       "id": "org.kde.gwenview",
@@ -1192,7 +1201,8 @@
       "desktop_ids": [
         "org.kde.gwenview.desktop"
       ],
-      "binary": "gwenview"
+      "binary": "gwenview",
+      "homepage": "https://apps.kde.org/gwenview"
     },
     {
       "id": "org.gnome.Shotwell",
@@ -1214,7 +1224,8 @@
       "desktop_ids": [
         "org.gnome.Shotwell.desktop"
       ],
-      "binary": "shotwell"
+      "binary": "shotwell",
+      "homepage": "https://shotwell-project.org"
     },
     {
       "id": "org.kde.digikam",
@@ -1236,7 +1247,8 @@
       "desktop_ids": [
         "org.kde.digikam.desktop"
       ],
-      "binary": "digikam"
+      "binary": "digikam",
+      "homepage": "https://www.digikam.org/"
     },
     {
       "id": "org.gimp.GIMP",
@@ -1364,7 +1376,8 @@
       "desktop_ids": [
         "pinta.desktop"
       ],
-      "binary": "pinta"
+      "binary": "pinta",
+      "homepage": "https://www.pinta-project.com"
     },
     {
       "id": "org.kde.kolourpaint",
@@ -1646,7 +1659,8 @@
         "apt": "mpv",
         "flatpak": "io.mpv.Mpv"
       },
-      "binary": "mpv"
+      "binary": "mpv",
+      "homepage": "https://mpv.io/"
     },
     {
       "id": "io.github.celluloid_player.Celluloid",
@@ -1669,7 +1683,8 @@
       "desktop_ids": [
         "io.github.celluloid_player.Celluloid.desktop"
       ],
-      "binary": "celluloid"
+      "binary": "celluloid",
+      "homepage": "https://celluloid-player.github.io"
     },
     {
       "id": "org.gnome.Totem",
@@ -1691,7 +1706,8 @@
       "desktop_ids": [
         "org.gnome.Totem.desktop"
       ],
-      "binary": "totem"
+      "binary": "totem",
+      "homepage": "https://apps.gnome.org/Totem/"
     },
     {
       "id": "com.github.rafostar.Clapper",
@@ -1785,7 +1801,8 @@
       "desktop_ids": [
         "org.gnome.Lollypop.desktop"
       ],
-      "binary": "lollypop"
+      "binary": "lollypop",
+      "homepage": "https://wiki.gnome.org/Apps/Lollypop"
     },
     {
       "id": "org.kde.elisa",
@@ -1807,7 +1824,8 @@
       "desktop_ids": [
         "org.kde.elisa.desktop"
       ],
-      "binary": "elisa"
+      "binary": "elisa",
+      "homepage": "https://apps.kde.org/elisa"
     },
     {
       "id": "strawberry",
@@ -1928,7 +1946,8 @@
       "desktop_ids": [
         "lmms.desktop"
       ],
-      "binary": "lmms"
+      "binary": "lmms",
+      "homepage": "https://lmms.io/"
     },
     {
       "id": "org.musescore.MuseScore",
@@ -2166,7 +2185,8 @@
       "desktop_ids": [
         "avidemux.desktop"
       ],
-      "binary": "avidemux3_qt5"
+      "binary": "avidemux3_qt5",
+      "homepage": "https://www.avidemux.org/"
     },
     {
       "id": "mkvtoolnix-gui",
@@ -2253,7 +2273,8 @@
       "desktop_ids": [
         "org.kde.ark.desktop"
       ],
-      "binary": "ark"
+      "binary": "ark",
+      "homepage": "https://apps.kde.org/ark"
     },
     {
       "id": "xarchiver",
@@ -2667,7 +2688,8 @@
       "desktop_ids": [
         "net.werwolv.ImHex.desktop"
       ],
-      "binary": "imhex"
+      "binary": "imhex",
+      "homepage": "https://imhex.werwolv.net"
     },
     {
       "id": "ghex",
@@ -2739,7 +2761,8 @@
       "desktop_ids": [
         "wireshark.desktop"
       ],
-      "binary": "wireshark"
+      "binary": "wireshark",
+      "homepage": "https://www.wireshark.org"
     },
     {
       "id": "tshark",
@@ -2943,7 +2966,8 @@
       "desktop_ids": [
         "sqlitebrowser.desktop"
       ],
-      "binary": "sqlitebrowser"
+      "binary": "sqlitebrowser",
+      "homepage": "https://sqlitebrowser.org/"
     },
     {
       "id": "io.dbeaver.DBeaverCommunity",
@@ -3253,7 +3277,8 @@
       "desktop_ids": [
         "org.qgis.qgis.desktop"
       ],
-      "binary": "qgis"
+      "binary": "qgis",
+      "homepage": "https://qgis.org"
     },
     {
       "id": "gdal-bin",
@@ -3527,7 +3552,8 @@
       "desktop_ids": [
         "com.prusa3d.PrusaSlicer.desktop"
       ],
-      "binary": "prusa-slicer"
+      "binary": "prusa-slicer",
+      "homepage": "https://www.prusa3d.com/prusaslicer/"
     },
     {
       "id": "com.ultimaker.cura",
@@ -3555,7 +3581,8 @@
       "desktop_ids": [
         "com.ultimaker.cura.desktop"
       ],
-      "binary": "cura"
+      "binary": "cura",
+      "homepage": "https://ultimaker.com/en/software/ultimaker-cura"
     },
     {
       "id": "com.softfever.OrcaSlicer",
@@ -4134,7 +4161,8 @@
       "desktop_ids": [
         "chromium.desktop"
       ],
-      "binary": "chromium"
+      "binary": "chromium",
+      "homepage": "https://www.chromium.org/Home"
     },
     {
       "id": "org.gnome.Epiphany",
@@ -4187,7 +4215,8 @@
       "desktop_ids": [
         "transmission-gtk.desktop"
       ],
-      "binary": "transmission-gtk"
+      "binary": "transmission-gtk",
+      "homepage": "https://transmissionbt.com/"
     },
     {
       "id": "org.qbittorrent.qBittorrent",
@@ -4212,7 +4241,8 @@
       "desktop_ids": [
         "org.qbittorrent.qBittorrent.desktop"
       ],
-      "binary": "qbittorrent"
+      "binary": "qbittorrent",
+      "homepage": "https://www.qbittorrent.org/"
     },
     {
       "id": "deluge",

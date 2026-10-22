@@ -62,6 +62,7 @@ def check(window, application, recommendation):
     assert links, "no About link was built"
     for link in links:
         assert link.get_label() == "About", link.get_label()
+        assert link.get_tooltip_text() is None, "the About link has a tooltip"
         uri = link.get_uri()
         assert uri.startswith("https://"), uri
         assert "." in uri.split("://", 1)[1], uri
@@ -125,6 +126,8 @@ def check(window, application, recommendation):
     about_buttons = [widget for widget in walk(about_dialog)
                      if isinstance(widget, Gtk.LinkButton)]
     assert about_buttons, "the About dialog has no candidate links"
+    assert all(button.get_tooltip_text() is None for button in about_buttons), \
+        "a candidate link has a tooltip"
     assert all(not button.get_sensitive() for button in about_buttons), \
         "a candidate link was enabled before its HEAD check returned"
 

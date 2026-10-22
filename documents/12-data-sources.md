@@ -27,6 +27,7 @@ depend on the host's database.
 | MIME defaults | `$XDG_CONFIG_HOME/mimeapps.list`, `$XDG_CONFIG_DIRS/mimeapps.list`, the data-directory equivalents | the current default and the registered handlers |
 | GIO | `Gio.AppInfo` | a second resolution of the default when the files do not name one |
 | Flatpak exports | `$XDG_DATA_DIRS/flatpak/exports/share/applications` | installed Flatpak applications |
+| Flathub application pages | `https://flathub.org/apps/<id>` | project website for a catalog entry with a Flatpak id |
 
 On the development machine 196 installed entries were found and 581 MIME types
 had at least one registered handler. This is host state, not project data.

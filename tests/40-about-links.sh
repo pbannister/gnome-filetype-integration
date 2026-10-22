@@ -26,6 +26,7 @@ os.environ["NO_PROXY"] = "127.0.0.1,localhost"
 from filetype_integration import about_links
 from filetype_integration.application_catalog import (ApplicationCatalog, _catalog_entry_for,
                                                        about_candidates, recommend)
+from filetype_integration.catalog_enrich import extract_flathub_homepage
 from filetype_integration.desktop_application import ApplicationIndex, InstalledApplication
 from filetype_integration.file_identifier import identify
 from filetype_integration.mime_index import TypeIndex
@@ -170,6 +171,26 @@ try:
     for application in catalog.applications:
         for url in about_candidates(application, None):
             assert "/search?" not in url and "search?q=" not in url, (application.id, url)
+
+    # 11. Flathub pages carry the project website; the extractor handles both
+    #     the visible "Project Website" link and the embedded JSON field.
+    visible = ('<a href="https://www.gnu.org/software/emacs" target="_blank">'
+               '<span>Project Website</span></a>')
+    assert extract_flathub_homepage(visible) == "https://www.gnu.org/software/emacs"
+    embedded = '\"homepage\":\"https://www.gnu.org/software/emacs\"'
+    assert extract_flathub_homepage(embedded) == "https://www.gnu.org/software/emacs"
+    assert extract_flathub_homepage("") == ""
+    assert extract_flathub_homepage("<p>No website</p>") == ""
+
+    # 12. GNU Emacs was enriched from its Flathub page, so the project page
+    #     comes before the store page.
+    emacs = catalog.get("org.gnu.emacs")
+    assert emacs.homepage == "https://www.gnu.org/software/emacs", emacs.homepage
+    emacs_urls = about_candidates(emacs, None)
+    assert emacs_urls[0] == "https://www.gnu.org/software/emacs", emacs_urls
+    assert "https://flathub.org/apps/org.gnu.emacs" in emacs_urls, emacs_urls
+    assert emacs_urls.index("https://www.gnu.org/software/emacs") < emacs_urls.index(
+        "https://flathub.org/apps/org.gnu.emacs"), emacs_urls
 
     print("40-about-links: ok")
 finally:

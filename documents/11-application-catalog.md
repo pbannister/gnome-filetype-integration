@@ -19,7 +19,10 @@ is a starting point, and a distribution may name or version the package
 differently.
 
 The sources are the projects' own documentation and homepages, distribution
-package indexes, and Flathub application IDs. Package names were checked on
+package indexes, and Flathub application IDs. A Flathub page that names a
+"Project Website" is used to fill a missing `homepage`;
+`scripts/catalog-enrich-flathub.sh` performs that enrichment explicitly and is
+not part of the portable build. Package names were checked on
 Ubuntu 26.04 (2026-10-22); Flatpak IDs are the Flathub application IDs. The
 catalog carries no licence or download URL requirement: it never downloads an
 application, it prints the command the user's package manager already knows.
