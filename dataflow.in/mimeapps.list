@@ -1,3 +1,4 @@
 [Default Applications]
+x-scheme-handler/https=test-browser.desktop;
 text/plain=test-editor.desktop;
 image/png=test-broken.desktop;

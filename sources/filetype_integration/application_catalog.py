@@ -360,6 +360,8 @@ class RankedApplication:
         if self.desktop is not None:
             executable = self.desktop.executable or self.desktop.name
             if executable:
+                # A path such as /snap/bin/gimp names the package "gimp".
+                executable = executable.rsplit("/", 1)[-1]
                 return f"https://packages.ubuntu.com/search?keywords={quote(executable)}"
         return ""
 
@@ -408,6 +410,38 @@ class Recommendation:
             "unhandled": self.unhandled,
             "notes": list(self.notes),
         }
+
+
+def install_argv(command: dict[str, str]) -> list[str]:
+    """The argv for one install hint, using a non-interactive privileged run.
+
+    The command is built from catalog data, never from a shell string.  A
+    graphical install uses ``pkexec`` so the privilege prompt is visible and
+    the output can be captured; ``sudo -n`` refuses rather than hanging when
+    no credentials are cached.  Flatpak installs under the user account, so it
+    needs neither.
+    """
+    method = command.get("method", "")
+    package = command.get("package", "")
+    if not package:
+        return []
+    if method == "flatpak":
+        return ["flatpak", "install", "--user", "-y", "flathub", package]
+    if method in {"apt", "snap"}:
+        if shutil.which("pkexec"):
+            tool = "apt-get" if method == "apt" else "snap"
+            if method == "apt":
+                return ["pkexec", tool, "install", "-y", package]
+            return ["pkexec", tool, "install", package]
+        if shutil.which("sudo"):
+            tool = "apt-get" if method == "apt" else "snap"
+            if method == "apt":
+                return ["sudo", "-n", tool, "install", "-y", package]
+            return ["sudo", "-n", tool, "install", package]
+        return []
+    if method == "download":
+        return ["xdg-open", package]
+    return []
 
 
 def install_commands(application: CatalogApplication) -> list[dict[str, str]]:

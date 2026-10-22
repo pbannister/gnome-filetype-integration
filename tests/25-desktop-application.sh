@@ -28,7 +28,7 @@ from filetype_integration.mime_index import TypeIndex
 
 index = TypeIndex.load()
 entries = discover_desktop_entries()
-assert 5 <= len(entries) <= 8, len(entries)
+assert 5 <= len(entries) <= 10, len(entries)
 assert "test-editor.desktop" in entries
 assert entries["test-editor.desktop"].name == "Test Editor"
 assert entries["test-editor.desktop"].mime_types == ["text/plain"]

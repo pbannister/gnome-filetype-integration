@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Test Browser
+Comment=Opens web links in the fixture desktop
+Exec=/bin/true %u
+Icon=web-browser
+MimeType=x-scheme-handler/https;x-scheme-handler/http;
+Categories=Network;WebBrowser;
+Terminal=false

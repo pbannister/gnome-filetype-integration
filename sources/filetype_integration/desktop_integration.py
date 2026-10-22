@@ -14,6 +14,7 @@ import json
 import os
 import shutil
 import subprocess
+import tempfile
 import time
 from functools import lru_cache
 from dataclasses import dataclass, field
@@ -86,6 +87,26 @@ FILE_MEDIA_TOP_LEVEL = frozenset(
     {"application", "audio", "chemical", "font", "image", "model", "text", "video"}
 )
 FILE_MESSAGE_TYPES = frozenset({"message/rfc822", "message/global", "message/news"})
+
+
+def _sandbox_refusal() -> str:
+    """Refuse a test install that escaped the temporary HOME.
+
+    The test suite sets FILETYPE_INTEGRATION_REQUIRE_SANDBOX=1.  If a test
+    accidentally inherits the real HOME, the install stops before writing
+    anything, instead of changing the developer's desktop.
+    """
+    if os.environ.get("FILETYPE_INTEGRATION_REQUIRE_SANDBOX") != "1":
+        return ""
+    try:
+        home = Path(os.environ.get("HOME", "")).resolve()
+        temporary = Path(tempfile.gettempdir()).resolve()
+    except OSError:
+        return "the sandbox guard could not resolve HOME"
+    if home == temporary or temporary in home.parents:
+        return ""
+    return (f"FILETYPE_INTEGRATION_REQUIRE_SANDBOX=1 refuses to write outside the "
+            f"temporary directory: HOME={home}")
 
 
 def handler_mime_types(index: TypeIndex) -> list[str]:
@@ -325,6 +346,9 @@ def install_handler(index: TypeIndex | None = None,
                     set_defaults: bool = True,
                     with_nautilus: bool = True,
                     dry_run: bool = False) -> InstallResult:
+    refusal = _sandbox_refusal()
+    if refusal:
+        return InstallResult(False, notes=[refusal])
     index = index or TypeIndex.load()
     app_index = app_index or ApplicationIndex(index=index)
     executable = handler_exec_path()
@@ -461,6 +485,9 @@ def install_handler(index: TypeIndex | None = None,
 
 
 def uninstall_handler(dry_run: bool = False) -> UninstallResult:
+    refusal = _sandbox_refusal()
+    if refusal:
+        return UninstallResult(False, notes=[refusal])
     manifest = read_manifest()
     if manifest is None:
         return UninstallResult(False, notes=[

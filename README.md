@@ -21,7 +21,9 @@ The same work is available in four places:
 Inside the chooser, each application row has its action button on the left and an
 **About** link beside the application name. The link opens the project page,
 the Flathub page, or the distribution package page that describes the
-application.
+application. The install dialog's **Run** button performs the selected install
+and streams its output and exit status into the dialog. The chooser itself is
+never listed as an installed application.
 
 **Status: implemented and tested** (2026-10-22). The identifier, the MIME
 index, the desktop discovery, the catalog, the chooser, the handler install and

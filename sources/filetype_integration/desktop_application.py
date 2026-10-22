@@ -263,6 +263,9 @@ def discover_desktop_entries(data_dirs: list[Path] | None = None,
             continue
         for path in sorted(root.rglob("*.desktop")):
             desktop_id = _desktop_id_for(path, root)
+            # The chooser is an integration, not one of the choices it offers.
+            if desktop_id == paths.HANDLER_DESKTOP_ID:
+                continue
             if desktop_id in entries:
                 continue
             values = parse_desktop_entry(path)
@@ -447,6 +450,8 @@ class ApplicationIndex:
         seen: set[str] = set()
         result: list[InstalledApplication] = []
         for desktop_id, family_mime in self._match_candidates(mime):
+            if desktop_id == paths.HANDLER_DESKTOP_ID:
+                continue
             if desktop_id in seen:
                 continue
             seen.add(desktop_id)
@@ -488,8 +493,9 @@ class ApplicationIndex:
     def visible_applications(self) -> list[InstalledApplication]:
         return sorted(
             (application for application in self.entries.values()
-             if entry_is_visible({"NoDisplay": "true" if application.no_display else "false",
-                                  "Hidden": "true" if application.hidden else "false"})),
+             if application.desktop_id != paths.HANDLER_DESKTOP_ID
+             and entry_is_visible({"NoDisplay": "true" if application.no_display else "false",
+                                   "Hidden": "true" if application.hidden else "false"})),
             key=lambda application: application.name.lower(),
         )
 

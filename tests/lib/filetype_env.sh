@@ -31,9 +31,11 @@ filetype_sandbox() {
     FILETYPE_MIME_TYPES_FILE="$DIRECTORY_TEST/xdg/mime/mime.types"
     FILETYPE_INTEGRATION_NO_GIO=1
     FILETYPE_EXECUTABLE="$REPOSITORY_ROOT/dataflow.out/build/program/bin/filetype"
+    FILETYPE_INTEGRATION_REQUIRE_SANDBOX=1
     export HOME XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME XDG_CONFIG_DIRS \
            XDG_DATA_DIRS XDG_CURRENT_DESKTOP FILETYPE_MIME_TYPES_FILE \
-           FILETYPE_INTEGRATION_NO_GIO FILETYPE_EXECUTABLE
+           FILETYPE_INTEGRATION_NO_GIO FILETYPE_EXECUTABLE \
+           FILETYPE_INTEGRATION_REQUIRE_SANDBOX
 
     # Fail loudly if a caller ever leaks the real HOME into a test: a handler
     # install here would change the developer's desktop.

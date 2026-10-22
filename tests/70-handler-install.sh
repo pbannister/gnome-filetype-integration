@@ -99,6 +99,17 @@ if command -v gio >/dev/null 2>&1; then
         || fail 'GIO does not report the chooser as the pdf default'
 fi
 
+# 2.2 The chooser is an integration, not one of the installed choices.
+"$FILETYPE" apps --mime application/pdf --json > "$DIRECTORY_TEST/apps-after-install.json" \
+    || fail 'apps --mime failed after installing the handler'
+python3 - "$DIRECTORY_TEST/apps-after-install.json" <<'PYCHECK' || fail 'the chooser was listed as an installed application'
+import json, sys
+d = json.load(open(sys.argv[1], encoding="utf-8"))
+applications = d["applications"]["installed"] + d["applications"]["available"]
+assert not any(item.get("desktop_id") == "filetype-handler.desktop" for item in applications), applications
+assert not any(item.get("name") == "File Type Chooser" for item in applications), applications
+PYCHECK
+
 # 3. Status reports the installed handler and its ownership.
 "$FILETYPE" handler status --json > "$DIRECTORY_TEST/status.json" \
     || fail 'status failed after install'

@@ -21,8 +21,8 @@ import os
 from pathlib import Path
 
 from filetype_integration.application_catalog import (ApplicationCatalog, CatalogError,
-                                                       install_commands, preferred_install,
-                                                       recommend)
+                                                       install_argv, install_commands,
+                                                       preferred_install, recommend)
 from filetype_integration.desktop_application import ApplicationIndex
 from filetype_integration.file_identifier import identify
 from filetype_integration.mime_index import TypeIndex
@@ -60,6 +60,13 @@ assert any(command["method"] == "apt" and "gimp" in command["command"] for comma
 assert any(command["method"] == "flatpak" and "org.gimp.GIMP" in command["command"]
            for command in commands)
 assert preferred_install(gimp) is not None
+apt_argv = install_argv(next(command for command in commands if command["method"] == "apt"))
+flatpak_argv = install_argv(next(command for command in commands if command["method"] == "flatpak"))
+assert apt_argv[:3] in (["pkexec", "apt-get", "install"], ["sudo", "-n", "apt-get"]), apt_argv
+assert apt_argv[-1] == "gimp", apt_argv
+assert flatpak_argv[:2] == ["flatpak", "install"], flatpak_argv
+assert "--user" in flatpak_argv and flatpak_argv[-1] == "org.gimp.GIMP", flatpak_argv
+assert all(isinstance(item, str) for item in apt_argv + flatpak_argv)
 
 # 4. Installed applications rank first; catalog suggestions follow.
 identification = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.png"), index)

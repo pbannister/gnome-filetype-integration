@@ -9,11 +9,13 @@ equivalent, and the window shows that command.
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
+import threading
 from pathlib import Path
 
-from .application_catalog import (RankedApplication, Recommendation, install_commands,
-                                  preferred_install, recommend)
+from .application_catalog import (RankedApplication, Recommendation, install_argv,
+                                  install_commands, recommend)
 from .desktop_application import ApplicationIndex
 from .file_identifier import Identification, format_size, identify
 from .file_launcher import command_text, launch_application, open_as_text, open_default, reveal_in_file_manager
@@ -120,11 +122,69 @@ def _message(parent, heading: str, body: str) -> None:
     window.present()
 
 
+def _append_output(buffer, text: str) -> None:
+    if not text:
+        return
+    buffer.insert(buffer.get_end_iter(), text)
+
+
+def _run_install(parent, window, argv: list[str], buffer, status, buttons: list) -> None:
+    """Run one install command in the background and stream its output."""
+    _gdk, Gtk = _gtk()
+    from gi.repository import GLib
+
+    runnable = [button for button in buttons if button.get_sensitive()]
+    for button in buttons:
+        button.set_sensitive(False)
+    buffer.set_text("")
+    _append_output(buffer, f"$ {' '.join(argv)}\n\n")
+    status.set_text("Running…")
+
+    def append(text):
+        _append_output(buffer, text)
+        return False
+
+    def finished(code, error=""):
+        for button in runnable:
+            button.set_sensitive(True)
+        if error:
+            status.set_text(f"Could not start the installer: {error}")
+            _append_output(buffer, f"\n{error}\n")
+        else:
+            status.set_text(
+                f"Finished with exit code {code}. Reopen the chooser to see the "
+                "new handler; install output is above."
+            )
+        return False
+
+    def worker():
+        try:
+            process = subprocess.Popen(
+                argv,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                start_new_session=True,
+            )
+        except OSError as error:
+            GLib.idle_add(finished, -1, str(error))
+            return
+        if process.stdout is not None:
+            for line in process.stdout:
+                GLib.idle_add(append, line)
+        code = process.wait()
+        GLib.idle_add(finished, code)
+
+    threading.Thread(target=worker, daemon=True).start()
+
+
 def _install_dialog(parent, application: RankedApplication) -> None:
     _gdk, Gtk = _gtk()
     window = Gtk.Window(transient_for=parent, modal=True,
                         title=f"Install {application.name}")
-    window.set_default_size(620, 320)
+    window.set_default_size(720, 540)
     box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
     for side in ("top", "bottom", "start", "end"):
         getattr(box, f"set_margin_{side}")(18)
@@ -137,10 +197,34 @@ def _install_dialog(parent, application: RankedApplication) -> None:
     purpose.set_xalign(0)
     purpose.add_css_class("filetype-dim")
     box.append(purpose)
+
     commands = install_commands(application.catalog) if application.catalog else []
     if not commands:
         box.append(Gtk.Label(label="No install command is recorded for this application."))
+
+    output = Gtk.TextView()
+    output.set_editable(False)
+    output.set_cursor_visible(False)
+    output.set_monospace(True)
+    output.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
+    output.add_css_class("filetype-mono")
+    buffer = output.get_buffer()
+    buffer.set_text("Install output will appear here.\n")
+    output_scroll = Gtk.ScrolledWindow()
+    output_scroll.set_child(output)
+    output_scroll.set_min_content_height(180)
+    output_scroll.set_vexpand(True)
+    box.append(output_scroll)
+
+    status = Gtk.Label(label="")
+    status.set_xalign(0)
+    status.set_wrap(True)
+    status.add_css_class("filetype-dim")
+    box.append(status)
+
+    run_buttons: list = []
     for entry in commands:
+        argv = install_argv(entry)
         row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         label = Gtk.Label(label=entry["command"])
         label.add_css_class("filetype-mono")
@@ -152,7 +236,19 @@ def _install_dialog(parent, application: RankedApplication) -> None:
         copy.connect("clicked", lambda _button, text=entry["command"]:
                      _copy(parent.get_display(), text))
         row.append(copy)
+        run_label = "Open Page" if entry.get("method") == "download" else "Run"
+        run = Gtk.Button(label=run_label)
+        run.add_css_class("suggested-action")
+        if argv:
+            run.connect("clicked", lambda _button, command=argv:
+                        _run_install(parent, window, command, buffer, status, run_buttons))
+        else:
+            run.set_sensitive(False)
+            run.set_tooltip_text("No supported installer is available on this machine.")
+        run_buttons.append(run)
+        row.append(run)
         box.append(row)
+
     if application.installed:
         note = Gtk.Label(label="This program is already installed; the command is shown for reference.")
         note.set_wrap(True)
@@ -164,6 +260,7 @@ def _install_dialog(parent, application: RankedApplication) -> None:
     box.append(close)
     window.set_child(box)
     window.present()
+    return window
 
 
 def _badge(text: str):
