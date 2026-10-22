@@ -40,8 +40,11 @@ gi.require_version("Gdk", "4.0")
 from gi.repository import Gdk, Gio, GLib, Gtk
 
 import filetype_integration.gtk_chooser as chooser
-from filetype_integration.gtk_chooser import (_about_dialog, _install_dialog,
-                                                build_window, load)
+from filetype_integration.gtk_chooser import (PROJECT_PAGES_URL,
+                                                PROJECT_REPOSITORY_URL,
+                                                _install_dialog, build_window,
+                                                load)
+from filetype_integration.version import version_string
 
 
 def walk(widget):
@@ -93,6 +96,27 @@ def check(window, application, recommendation):
     print(f"ABOUT-LINKS {len(links)}")
     print(f"ROWS {len(rows)}")
 
+    notebooks = [widget for widget in walk(window) if isinstance(widget, Gtk.Notebook)]
+    assert len(notebooks) == 1, notebooks
+    notebook = notebooks[0]
+    labels = [notebook.get_tab_label_text(notebook.get_nth_page(index))
+              for index in range(notebook.get_n_pages())]
+    assert labels == ["Installed", "Relevant", "About"], labels
+
+    # The About tab starts with the project, version, and project links.
+    notebook.set_current_page(2)
+    about_page = notebook.get_nth_page(2)
+    about_labels = [widget.get_text() for widget in walk(about_page)
+                    if isinstance(widget, Gtk.Label) and widget.get_text()]
+    assert "Discover Applications…" in about_labels, about_labels
+    assert any(version_string() in text for text in about_labels), about_labels
+    project_links = [widget for widget in walk(about_page)
+                     if isinstance(widget, Gtk.LinkButton)]
+    project_uris = {link.get_uri() for link in project_links}
+    assert PROJECT_REPOSITORY_URL in project_uris, project_uris
+    assert PROJECT_PAGES_URL in project_uris, project_uris
+    print("PROJECT-ABOUT ok")
+
     output_view = output_views[0]
     run_buttons[0].emit("clicked")
 
@@ -108,13 +132,12 @@ def check(window, application, recommendation):
         return results
 
     chooser.check_about_urls = fake_check
-    # Build the dialog directly.  Emitting Gtk.LinkButton::activate-link would
-    # also run the stock handler and open a real browser page, which is exactly
-    # what this test must never do.
-    about_dialog = _about_dialog(window, recommendation.installed[0])
-    about_buttons = [widget for widget in walk(about_dialog)
+    links[0].emit("clicked")
+    assert notebook.get_current_page() == 2, notebook.get_current_page()
+    about_page = notebook.get_nth_page(2)
+    about_buttons = [widget for widget in walk(about_page)
                      if isinstance(widget, Gtk.LinkButton)]
-    assert about_buttons, "the About dialog has no candidate links"
+    assert about_buttons, "the About tab has no candidate links"
     assert all(button.get_tooltip_text() is None for button in about_buttons), \
         "a candidate link has a tooltip"
     assert all(not button.get_sensitive() for button in about_buttons), \
@@ -123,21 +146,19 @@ def check(window, application, recommendation):
     def finish():
         assert all(button.get_sensitive() for button in about_buttons), \
             "a successful candidate link stayed disabled"
-        labels = [widget.get_text() for widget in walk(about_dialog)
-                  if isinstance(widget, Gtk.Label) and widget.get_text()]
+        tab_labels = [widget.get_text() for widget in walk(about_page)
+                      if isinstance(widget, Gtk.Label) and widget.get_text()]
         for category in ("Project", "Package"):
-            assert category in labels, (category, labels)
-        display = about_dialog.get_display()
+            assert category in tab_labels, (category, tab_labels)
+        display = window.get_display()
         monitor = display.get_primary_monitor() if display is not None else None
         if monitor is None and display is not None:
             monitor = display.get_monitors().get_item(0)
-        print(f"ABOUT-SIZE {about_dialog.get_width()}x{about_dialog.get_height()}")
-        assert about_dialog.get_height() > 300, about_dialog.get_height()
+        print(f"ABOUT-SIZE {window.get_width()}x{window.get_height()}")
         if monitor is not None:
-            assert about_dialog.get_height() <= monitor.get_geometry().height, (
-                about_dialog.get_height(), monitor.get_geometry().height)
-        print("ABOUT-DIALOG ok")
-        about_dialog.close()
+            assert window.get_height() <= monitor.get_geometry().height, (
+                window.get_height(), monitor.get_geometry().height)
+        print("ABOUT-TAB ok")
         text = output_view.get_buffer().get_text(
             output_view.get_buffer().get_start_iter(),
             output_view.get_buffer().get_end_iter(), False)
@@ -184,9 +205,14 @@ printf '%s\n' "$output" | grep -q '^OUTPUT-VIEW ok' || {
     echo '82-about-link: the install dialog has no output view' >&2
     exit 1
 }
-printf '%s\n' "$output" | grep -q '^ABOUT-DIALOG ok' || {
+printf '%s\n' "$output" | grep -q '^PROJECT-ABOUT ok' || {
     printf '%s\n' "$output" >&2
-    echo '82-about-link: the About dialog did not show enabled candidates' >&2
+    echo '82-about-link: the project About tab is incomplete' >&2
+    exit 1
+}
+printf '%s\n' "$output" | grep -q '^ABOUT-TAB ok' || {
+    printf '%s\n' "$output" >&2
+    echo '82-about-link: the About tab did not show enabled candidates' >&2
     exit 1
 }
 

@@ -18,9 +18,13 @@ The same work is available in four places:
   handler already exists.
 - **`filetype`** on the command line carries every capability, with stable JSON.
 
-Inside the chooser, each application row has its action button on the left and an
-**About** link beside the application name. The link opens a list of candidate
-pages (AppStream project page, catalog project/reference pages, vendor page,
+The chooser window is tabbed: **Installed**, **Relevant** (applications worth
+installing), and **About**. The About tab starts with the project version and
+links to the GitHub repository and the labs.bannister.us project page. Clicking
+an application's **About** action replaces that page with the application's
+grouped candidate list. Each application row has its action button on the left
+and an **About** action beside the application name. The action opens the About
+tab with a list of candidate pages (AppStream project page, catalog project/reference pages, vendor page,
 Flathub, Snapcraft, and direct distribution package pages) grouped by category
 and ordered by relevance. Each link starts disabled; the list probes the sites
 concurrently with short HEAD requests, falling back to a one-byte GET when HEAD

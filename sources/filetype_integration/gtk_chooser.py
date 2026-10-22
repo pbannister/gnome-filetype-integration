@@ -14,14 +14,17 @@ import sys
 import threading
 from pathlib import Path
 
-from .about_links import (AboutLink, category_for_url, check_about_urls,
-                          group_links, link_label, open_uri)
+from .about_links import check_about_urls, group_links, link_label, open_uri
 from .application_catalog import (RankedApplication, Recommendation, install_argv,
                                   install_commands, recommend)
 from .desktop_application import ApplicationIndex
 from .file_identifier import Identification, format_size, identify
 from .file_launcher import command_text, launch_application, open_as_text, open_default, reveal_in_file_manager
 from .mime_index import TypeIndex
+from .version import version_build_counter, version_string
+
+PROJECT_REPOSITORY_URL = "https://github.com/pbannister/gnome-filetype-integration"
+PROJECT_PAGES_URL = "https://labs.bannister.us/projects/gnome-filetype-integration/"
 
 
 def _gtk():
@@ -272,116 +275,135 @@ def _badge(text: str):
     return label
 
 
-def _about_dialog(parent, application: RankedApplication):
-    """Show the About candidates grouped by kind, probing them concurrently."""
-    _gdk, Gtk = _gtk()
-    window = Gtk.Window(transient_for=parent, modal=True,
-                        title=f"About {application.name}")
-    # Let the natural content set the height, but never let it grow past the
-    # monitor.  The scroller below contributes its natural height up to a cap.
-    window.set_default_size(760, -1)
-    display = _gdk.Display.get_default()
-    max_height = 760
-    try:
-        monitor = display.get_primary_monitor() if display is not None else None
-        if monitor is None and display is not None:
-            monitor = display.get_monitors().get_item(0)
-        if monitor is not None:
-            max_height = max(320, int(monitor.get_geometry().height * 0.82))
-    except Exception:
-        pass
-    try:
-        window.set_destroy_with_parent(True)
-    except Exception:
-        pass
+def _replace_child(container, child) -> None:
+    current = container.get_first_child()
+    while current is not None:
+        following = current.get_next_sibling()
+        container.remove(current)
+        current = following
+    container.append(child)
 
-    outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-    for side in ("top", "bottom", "start", "end"):
-        getattr(outer, f"set_margin_{side}")(18)
+
+def _project_about_content():
+    """The About tab before an application is chosen."""
+    _gdk, Gtk = _gtk()
+    box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+    heading = Gtk.Label(label="Discover Applications…")
+    heading.add_css_class("filetype-title")
+    heading.set_xalign(0)
+    box.append(heading)
+    version = Gtk.Label(
+        label=f"Version {version_string()} (build {version_build_counter()})")
+    version.set_xalign(0)
+    version.add_css_class("filetype-dim")
+    box.append(version)
+    description = Gtk.Label(label=(
+        "A GNOME file type discoverer. It identifies a file, explains the "
+        "evidence, and offers installed and installable applications."
+    ))
+    description.set_wrap(True)
+    description.set_xalign(0)
+    box.append(description)
+
+    section = Gtk.Label(label="Project")
+    section.set_xalign(0)
+    section.add_css_class("filetype-section")
+    box.append(section)
+    for label, url in (
+        ("GitHub repository", PROJECT_REPOSITORY_URL),
+        ("Project page on labs.bannister.us", PROJECT_PAGES_URL),
+    ):
+        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        link = Gtk.LinkButton.new_with_label(url, label)
+        link.set_halign(Gtk.Align.START)
+        row.append(link)
+        box.append(row)
+
+    hint = Gtk.Label(label=(
+        "Choose an application's About button to see its project, repository, "
+        "documentation, package, and community pages here."
+    ))
+    hint.set_wrap(True)
+    hint.set_xalign(0)
+    hint.add_css_class("filetype-dim")
+    box.append(hint)
+    return box
+
+
+def _application_about_content(application: RankedApplication, on_project=None):
+    """The About tab for one application; replaces the project information."""
+    _gdk, Gtk = _gtk()
+    box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    top = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
     heading = Gtk.Label(label=f"About {application.name}")
     heading.add_css_class("filetype-title")
     heading.set_xalign(0)
-    outer.append(heading)
+    heading.set_hexpand(True)
+    top.append(heading)
+    if on_project is not None:
+        back = Gtk.Button(label="Project information")
+        back.connect("clicked", lambda _button: on_project())
+        top.append(back)
+    box.append(top)
     purpose = Gtk.Label(label=application.purpose)
     purpose.set_wrap(True)
     purpose.set_xalign(0)
     purpose.add_css_class("filetype-dim")
-    outer.append(purpose)
+    box.append(purpose)
 
     links = application.about_links
     if not links:
-        outer.append(Gtk.Label(label="No candidate pages are recorded for this application."))
-    else:
-        scroller = Gtk.ScrolledWindow()
-        scroller.set_vexpand(True)
-        scroller.set_propagate_natural_height(True)
-        try:
-            scroller.set_max_content_height(max_height)
-        except Exception:
-            pass
-        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        rows: dict[str, tuple[object, object]] = {}
-        for category, grouped in group_links(links):
-            category_label = Gtk.Label(label=category)
-            category_label.set_xalign(0)
-            category_label.add_css_class("filetype-section")
-            content.append(category_label)
-            for link in grouped:
-                row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-                link_button = Gtk.LinkButton.new_with_label(link.url, link.label or link_label(link.url))
-                link_button.set_halign(Gtk.Align.START)
-                link_button.set_hexpand(True)
-                link_button.set_sensitive(False)
-                status = Gtk.Label(label="Checking…")
-                status.set_xalign(1)
-                status.add_css_class("filetype-dim")
-                status.set_size_request(130, -1)
-                row.append(link_button)
-                row.append(status)
-                content.append(row)
-                rows[link.url] = (link_button, status)
-        scroller.set_child(content)
-        outer.append(scroller)
+        box.append(Gtk.Label(label="No candidate pages are recorded for this application."))
+        return box
 
-        def update(result) -> bool:
-            row = rows.get(result.url)
-            if row is None:
-                return False
-            link_button, status = row
-            link_button.set_sensitive(bool(result.ok))
-            if result.ok:
-                status.set_text("Available (checked today)" if result.from_cache else "Available")
-            else:
-                status.set_text("No response (checked today)" if result.from_cache else "No response")
+    rows: dict[str, tuple[object, object]] = {}
+    for category, grouped in group_links(links):
+        category_label = Gtk.Label(label=category)
+        category_label.set_xalign(0)
+        category_label.add_css_class("filetype-section")
+        box.append(category_label)
+        for link in grouped:
+            row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+            link_button = Gtk.LinkButton.new_with_label(
+                link.url, link.label or link_label(link.url))
+            link_button.set_halign(Gtk.Align.START)
+            link_button.set_hexpand(True)
+            link_button.set_sensitive(False)
+            status = Gtk.Label(label="Checking…")
+            status.set_xalign(1)
+            status.add_css_class("filetype-dim")
+            status.set_size_request(170, -1)
+            row.append(link_button)
+            row.append(status)
+            box.append(row)
+            rows[link.url] = (link_button, status)
+
+    def update(result) -> bool:
+        row = rows.get(result.url)
+        if row is None:
             return False
+        link_button, status = row
+        link_button.set_sensitive(bool(result.ok))
+        if result.ok:
+            status.set_text("Available (checked today)" if result.from_cache else "Available")
+        else:
+            status.set_text("No response (checked today)" if result.from_cache else "No response")
+        return False
 
-        def worker() -> None:
-            from gi.repository import GLib
-            try:
-                check_about_urls(
-                    [link.url for link in links],
-                    on_result=lambda result: GLib.idle_add(update, result),
-                )
-            except Exception as error:
-                print(f"filetype: About check failed: {error}", file=sys.stderr)
+    def worker() -> None:
+        from gi.repository import GLib
+        try:
+            check_about_urls(
+                [link.url for link in links],
+                on_result=lambda result: GLib.idle_add(update, result),
+            )
+        except Exception as error:
+            print(f"filetype: About check failed: {error}", file=sys.stderr)
 
-        threading.Thread(target=worker, daemon=True).start()
-
-    close = Gtk.Button(label="Close")
-    close.set_halign(Gtk.Align.END)
-    close.connect("clicked", lambda _button: window.close())
-    outer.append(close)
-    window.set_child(outer)
-    window.present()
-    return window
-
-
-def _about_clicked(parent, application: RankedApplication) -> None:
-    _about_dialog(parent, application)
-
-
+    threading.Thread(target=worker, daemon=True).start()
+    return box
 def _application_row(parent, application: RankedApplication, path: str,
-                     display, on_refresh) -> "object":
+                     display, on_refresh, on_about) -> "object":
     _gdk, Gtk = _gtk()
     row = Gtk.ListBoxRow()
     row.set_activatable(True)
@@ -433,7 +455,7 @@ def _application_row(parent, application: RankedApplication, path: str,
         about = Gtk.Button(label="About")
         about.add_css_class("filetype-about")
         about.set_valign(Gtk.Align.CENTER)
-        about.connect("clicked", lambda _button: _about_clicked(parent, application))
+        about.connect("clicked", lambda _button: on_about(application))
         name_row.append(about)
     if application.installed:
         name_row.append(_badge("Installed"))
@@ -518,13 +540,10 @@ def build_window(application, identification: Identification,
     header = Gtk.HeaderBar()
     window.set_titlebar(header)
 
-    scroller = Gtk.ScrolledWindow()
-    scroller.set_vexpand(True)
-    content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
+    outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
     for side in ("top", "bottom", "start", "end"):
-        getattr(content, f"set_margin_{side}")(18)
-    scroller.set_child(content)
-    window.set_child(scroller)
+        getattr(outer, f"set_margin_{side}")(18)
+    window.set_child(outer)
 
     card = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
     card.add_css_class("filetype-card")
@@ -553,7 +572,7 @@ def build_window(application, identification: Identification,
     if identification.is_symlink:
         text.append(Gtk.Label(label="This is a symbolic link."))
     card.append(text)
-    content.append(card)
+    outer.append(card)
 
     if recommendation.unhandled:
         warning = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
@@ -569,7 +588,7 @@ def build_window(application, identification: Identification,
         body.set_wrap(True)
         body.set_xalign(0)
         warning.append(body)
-        content.append(warning)
+        outer.append(warning)
     if identification.conflict is not None:
         conflict = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         conflict.add_css_class("filetype-warning")
@@ -581,56 +600,91 @@ def build_window(application, identification: Identification,
         body.set_wrap(True)
         body.set_xalign(0)
         conflict.append(body)
-        content.append(conflict)
+        outer.append(conflict)
 
-    section = Gtk.Label(label="Installed applications")
-    section.set_xalign(0)
-    section.add_css_class("filetype-section")
-    content.append(section)
+    notebook = Gtk.Notebook()
+    notebook.set_vexpand(True)
+    notebook.set_tab_pos(Gtk.PositionType.TOP)
+    outer.append(notebook)
+
+    def page_scroller(page):
+        page.set_margin_top(12)
+        page.set_margin_bottom(12)
+        page.set_margin_start(12)
+        page.set_margin_end(12)
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_vexpand(True)
+        scroller.set_child(page)
+        return scroller
+
+    installed_page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    relevant_page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    about_holder = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    for side in ("top", "bottom", "start", "end"):
+        getattr(about_holder, f"set_margin_{side}")(12)
+    about_scroller = Gtk.ScrolledWindow()
+    about_scroller.set_vexpand(True)
+    about_scroller.set_child(about_holder)
+
+    about_index = -1
+
+    def show_project_about():
+        _replace_child(about_holder, _project_about_content())
+
+    def show_application_about(app):
+        _replace_child(about_holder, _application_about_content(app, show_project_about))
+        notebook.set_current_page(about_index)
+
+    show_project_about()
+    notebook.append_page(page_scroller(installed_page), Gtk.Label(label="Installed"))
+    notebook.append_page(page_scroller(relevant_page), Gtk.Label(label="Relevant"))
+    about_index = notebook.append_page(about_scroller, Gtk.Label(label="About"))
+
     if recommendation.installed:
-        list_box = Gtk.ListBox()
-        list_box.set_selection_mode(Gtk.SelectionMode.NONE)
-        list_box.add_css_class("boxed-list")
+        installed_list = Gtk.ListBox()
+        installed_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        installed_list.add_css_class("boxed-list")
         for app in recommendation.installed:
-            list_box.append(_application_row(window, app, str(identification.path),
-                                             display, on_refresh))
-        content.append(list_box)
+            installed_list.append(_application_row(
+                window, app, str(identification.path), display, on_refresh,
+                show_application_about))
+        installed_page.append(installed_list)
     else:
         empty = Gtk.Label(label=(
             "No installed application is registered for this type. "
-            "The suggestions below can be installed, or use Open as Text."
+            "The Relevant tab lists applications that could be installed, "
+            "or use Open as Text."
         ))
         empty.set_wrap(True)
         empty.set_xalign(0)
         empty.add_css_class("filetype-dim")
-        content.append(empty)
+        installed_page.append(empty)
 
-    section = Gtk.Label(label="Applications worth installing")
-    section.set_xalign(0)
-    section.add_css_class("filetype-section")
-    content.append(section)
     if recommendation.available:
-        list_box = Gtk.ListBox()
-        list_box.set_selection_mode(Gtk.SelectionMode.NONE)
-        list_box.add_css_class("boxed-list")
+        relevant_list = Gtk.ListBox()
+        relevant_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        relevant_list.add_css_class("boxed-list")
         for app in recommendation.available[:12]:
-            list_box.append(_application_row(window, app, str(identification.path),
-                                             display, on_refresh))
-        content.append(list_box)
+            relevant_list.append(_application_row(
+                window, app, str(identification.path), display, on_refresh,
+                show_application_about))
+        relevant_page.append(relevant_list)
         if 12 < len(recommendation.available):
-            more = Gtk.Label(label=f"{len(recommendation.available) - 12} more suggestion(s) are in the command-line report.")
+            more = Gtk.Label(label=(
+                f"{len(recommendation.available) - 12} more suggestion(s) are "
+                "in the command-line report."))
             more.set_xalign(0)
             more.add_css_class("filetype-dim")
-            content.append(more)
+            relevant_page.append(more)
     else:
         no_suggestion = Gtk.Label(label=(
-            "The catalog has no suggestion for this type. Inspect it, open it as text, "
-            "or search the catalog."
+            "The catalog has no suggestion for this type. Inspect it, open it "
+            "as text, or search the catalog."
         ))
         no_suggestion.set_wrap(True)
         no_suggestion.set_xalign(0)
         no_suggestion.add_css_class("filetype-dim")
-        content.append(no_suggestion)
+        relevant_page.append(no_suggestion)
 
     details = Gtk.Expander(label="How this file was identified")
     grid = Gtk.Grid(column_spacing=14, row_spacing=8)
@@ -644,7 +698,7 @@ def build_window(application, identification: Identification,
     for index, reason in enumerate(identification.reasons):
         _add_detail_row(grid, 5 + index, "Why", reason)
     details.set_child(grid)
-    content.append(details)
+    outer.append(details)
 
     commands = Gtk.Expander(label="Command line")
     command_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -668,7 +722,7 @@ def build_window(application, identification: Identification,
         row.append(copy)
         command_box.append(row)
     commands.set_child(command_box)
-    content.append(commands)
+    outer.append(commands)
 
     if recommendation.notes:
         notes = Gtk.Expander(label="Notes")
@@ -682,7 +736,7 @@ def build_window(application, identification: Identification,
             label.set_xalign(0)
             note_box.append(label)
         notes.set_child(note_box)
-        content.append(notes)
+        outer.append(notes)
 
     action = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
     action.set_halign(Gtk.Align.END)
@@ -705,7 +759,7 @@ def build_window(application, identification: Identification,
     close = Gtk.Button(label="Close")
     close.connect("clicked", lambda _button: window.close())
     action.append(close)
-    content.append(action)
+    outer.append(action)
 
     # Escape closes the window, so a user is never trapped in it.
     Gdk = _gdk
