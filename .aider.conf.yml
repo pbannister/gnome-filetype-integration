@@ -1,0 +1,17 @@
+# Aider configuration specific to this project.
+#
+# Inject your rule/prompt instruction files as read-only context on launch.
+# The order mirrors prompts/02-workflow.md section 1 (Load Project Rules);
+# AGENTS.md is the tool-neutral entry point and is read first.
+#
+# Aider has no lazy loading, so the glossary is read here even though the
+# workflow loads it on demand; drop this line to match the baseline exactly.
+read:
+  - AGENTS.md
+  - prompts/01-contract.md
+  - prompts/02-workflow.md
+  - prompts/03-conventions.md
+  - prompts/common/02-universal-rules.md
+  - prompts/common/03-glossary.md
+  - prompts/flavors/01-semantic-sort-naming.md
+  - tools/aider-rules.md

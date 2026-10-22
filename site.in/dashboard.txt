@@ -1,0 +1,19 @@
+<h1>Dashboard</h1>
+
+<p>
+Live state from the owning host, captured by <code>scripts/site-state-fetch.sh</code>
+(<code>make state</code>) and substituted into this page at build time. The
+values are <code>__KEY__</code> placeholders; a key with no value renders as
+<code>unavailable</code>, so the pages still build on a host where the project
+is not installed. A real project extends the fetch script with the values its
+dashboard shows. See <code>documents/06-project-pages.md</code>.
+</p>
+
+<table>
+  <tr><th>Key</th><th>Value</th></tr>
+  <tr><td>Fetched</td><td>__FETCHED__</td></tr>
+  <tr><td>Host</td><td>__HOST__</td></tr>
+  <tr><td>Branch</td><td>__BRANCH__</td></tr>
+  <tr><td>Commit</td><td>__COMMIT__</td></tr>
+  <tr><td>Example with no value</td><td>__EXAMPLE_UNSET__</td></tr>
+</table>

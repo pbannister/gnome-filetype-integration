@@ -1,0 +1,21 @@
+
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.*
+dataflow.out/*
+logs/*
+site.out/*
+
+!dataflow.out/.gitkeep
+!logs/.gitkeep
+!site.out/.gitkeep
+
+# Scratch trees a pipeline or test may create (keep the pattern, not the tree).
+.tmp-*
+_site/
+node_modules/
+__pycache__/
+*.py[cod]
+
+# An accidental in-source build directory (builds belong in dataflow.out/build).
+build/
