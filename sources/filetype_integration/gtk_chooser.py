@@ -535,7 +535,7 @@ def build_window(application, identification: Identification,
             display = None
     window = Gtk.ApplicationWindow(application=application)
     window.set_default_size(820, 700)
-    window.set_title(f"Open with — {identification.name}")
+    window.set_title(f"Discover Applications — {identification.name}")
 
     header = Gtk.HeaderBar()
     window.set_titlebar(header)
