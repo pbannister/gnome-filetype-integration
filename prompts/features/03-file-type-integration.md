@@ -27,7 +27,7 @@ never a dead end.
 - `FILETYPE-R015` — The Nautilus right-click extension is optional and must be installed only when the Nautilus Python bindings are available; its absence must not disable the double-click handler or the command line.
 - `FILETYPE-R016` — The command line must expose identification, application listing, opening, directory scanning, handler status, handler installation, handler removal, type inspection, catalog inspection, and diagnostics, with a stable JSON document for each.
 - `FILETYPE-R017` — The command line must not require a graphical session, and the graphical chooser must not be required to use any capability.
-- `FILETYPE-R018` — The tool must collect no telemetry and make no network request except the user-initiated About availability check, which may issue one short HEAD or GET request per candidate page and nothing else.
+- `FILETYPE-R018` — The tool must collect no telemetry and make no network request except the user-initiated About availability check, which may issue one short HEAD or GET request for at most six candidate pages and nothing else.
 - `FILETYPE-R019` — File opening must pass the file as one argument vector element, never through a shell, and must report a launcher that is registered but whose program is missing.
 - `FILETYPE-R020` — Tests must run against a sandboxed `HOME` and sandboxed XDG directories, must not change the real desktop, and must classify the graphical, Nautilus, and live checks as tool-gated.
 - `FILETYPE-R021` — The tool must report the libmagic database, MIME database, desktop entries, GTK, catalog, and handler state through a diagnostics command.

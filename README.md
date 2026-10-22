@@ -215,7 +215,8 @@ work; `filetype doctor` says what is missing.
 
 - No telemetry and no uploads. The tool reads local files and local databases.
   The only network request is the About check the user explicitly starts: one
-  short HEAD (or one-byte GET) per candidate page, with no file content sent.
+  short HEAD (or one-byte GET) for up to six candidate pages, with no file
+  content sent.
 - The file is never executed. Opening it is a separate, explicit action.
 - Launching uses an argument vector, never a shell; a file name with shell
   metacharacters is one argument.
