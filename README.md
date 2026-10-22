@@ -24,9 +24,11 @@ candidate pages (AppStream project page, vendor page, Flathub, Snapcraft,
 distribution package pages, and search pages). On click it probes the first six
 with a short HEAD request, falls back to a one-byte GET when HEAD is rejected,
 and opens the first page that answers; a dead site moves to the next
-candidate. The install dialog's **Run**
-button performs the selected install and streams its output and exit status into
-the dialog. The chooser itself is never listed as an installed application.
+candidate. Each chooser process has its own application identity, so a second
+launch cannot remote-activate a window in another session; **Close**, **Escape**,
+and **Ctrl+Q** all end a window. The install dialog's **Run** button performs the
+selected install and streams its output and exit status into the dialog. The
+chooser itself is never listed as an installed application.
 
 **Status: implemented and tested** (2026-10-22). The identifier, the MIME
 index, the desktop discovery, the catalog, the chooser, the handler install and
