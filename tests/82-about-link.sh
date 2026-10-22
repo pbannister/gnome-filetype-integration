@@ -1,9 +1,10 @@
 #!/bin/sh
 #
-# Verify the About link exists on application rows, has a usable URL, and sits
-# beside the application name while the action button is on the left.
+# Verify the About button exists on application rows, sits beside the
+# application name, and opens the grouped About dialog.  The test never
+# launches a URI: a test must not open a browser page on the real desktop.
 #
-# Tier: tool-gated (xvfb-run, GTK4, and a default https handler).
+# Tier: tool-gated (xvfb-run and GTK4).
 set -eu
 
 DIRECTORY_SCRIPT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
@@ -39,7 +40,8 @@ gi.require_version("Gdk", "4.0")
 from gi.repository import Gdk, Gio, GLib, Gtk
 
 import filetype_integration.gtk_chooser as chooser
-from filetype_integration.gtk_chooser import _install_dialog, build_window, load
+from filetype_integration.gtk_chooser import (_about_dialog, _install_dialog,
+                                                build_window, load)
 
 
 def walk(widget):
@@ -58,15 +60,11 @@ def on_activate(application):
 
 
 def check(window, application, recommendation):
-    links = [widget for widget in walk(window) if isinstance(widget, Gtk.LinkButton)]
-    assert links, "no About link was built"
+    links = [widget for widget in walk(window)
+             if isinstance(widget, Gtk.Button) and widget.get_label() == "About"]
+    assert links, "no About button was built"
     for link in links:
-        assert link.get_label() == "About", link.get_label()
-        assert link.get_tooltip_text() is None, "the About link has a tooltip"
-        uri = link.get_uri()
-        assert uri.startswith("https://"), uri
-        assert "." in uri.split("://", 1)[1], uri
-        print(f"ABOUT {link.get_label()} {uri}")
+        assert link.get_tooltip_text() is None, "the About button has a tooltip"
     # The install dialog has a Run button and an output view.  Replace the
     # package-manager argv with a harmless command so the test exercises the
     # wiring and the output view without installing anything.
@@ -90,11 +88,8 @@ def check(window, application, recommendation):
         assert isinstance(first, Gtk.Button), type(first)
         assert first.get_label() in {"Open", "Install…", "Installed"}, first.get_label()
     scheme = Gio.AppInfo.get_default_for_type("x-scheme-handler/https", False)
-    assert scheme is not None, "no default https handler for the About link"
+    assert scheme is not None, "no default https handler for the About links"
     print(f"HTTPS-HANDLER {scheme.get_id()}")
-    launched = Gio.AppInfo.launch_default_for_uri("https://example.org/filetype", None)
-    assert launched, "the https handler did not accept the link"
-    print("HTTPS-LAUNCH ok")
     print(f"ABOUT-LINKS {len(links)}")
     print(f"ROWS {len(rows)}")
 
@@ -113,16 +108,10 @@ def check(window, application, recommendation):
         return results
 
     chooser.check_about_urls = fake_check
-    links[0].emit("activate-link")
-
-    def toplevels():
-        model = Gtk.Window.get_toplevels()
-        return [model.get_item(index) for index in range(model.get_n_items())]
-
-    about_windows = [window for window in toplevels()
-                     if (window.get_title() or "").startswith("About ")]
-    assert about_windows, "clicking About did not open the About dialog"
-    about_dialog = about_windows[0]
+    # Build the dialog directly.  Emitting Gtk.LinkButton::activate-link would
+    # also run the stock handler and open a real browser page, which is exactly
+    # what this test must never do.
+    about_dialog = _about_dialog(window, recommendation.installed[0])
     about_buttons = [widget for widget in walk(about_dialog)
                      if isinstance(widget, Gtk.LinkButton)]
     assert about_buttons, "the About dialog has no candidate links"
@@ -185,11 +174,6 @@ printf '%s\n' "$output" | grep -q '^HTTPS-HANDLER ' || {
     echo '82-about-link: no https handler was found' >&2
     exit 1
 }
-printf '%s\n' "$output" | grep -q '^HTTPS-LAUNCH ok' || {
-    printf '%s\n' "$output" >&2
-    echo '82-about-link: the https handler did not accept the link' >&2
-    exit 1
-}
 printf '%s\n' "$output" | grep -q '^RUN-BUTTONS [1-9]' || {
     printf '%s\n' "$output" >&2
     echo '82-about-link: the install dialog has no Run button' >&2
@@ -205,11 +189,13 @@ printf '%s\n' "$output" | grep -q '^ABOUT-DIALOG ok' || {
     echo '82-about-link: the About dialog did not show enabled candidates' >&2
     exit 1
 }
-printf '%s\n' "$output" | grep -q '^ABOUT About https://' || {
-    printf '%s\n' "$output" >&2
-    echo '82-about-link: no valid About URI was printed' >&2
+
+# A test must never hand a URI to the desktop's real browser.
+if grep -R -n 'Gio.AppInfo.launch' "$REPOSITORY_ROOT/tests" --include='*.sh' \
+        | grep -v '82-about-link.sh' | grep -q .; then
+    echo '82-about-link: a test still launches a URI' >&2
     exit 1
-}
+fi
 
 echo '82-about-link: ok'
 exit 0

@@ -76,7 +76,7 @@ def _css() -> str:
     .filetype-warning { padding: 12px; border-radius: 10px; background: alpha(#e5a50a, 0.18); }
     .filetype-danger { padding: 12px; border-radius: 10px; background: alpha(#e01b24, 0.15); }
     .filetype-mono { font-family: monospace; font-size: 0.9em; }
-    .filetype-about { font-size: 0.9em; }
+    .filetype-about { font-size: 0.9em; color: #3584e4; text-decoration: underline; padding: 0; min-height: 0; }
     .filetype-title { font-size: 1.35em; font-weight: bold; }
     .filetype-section { font-weight: bold; margin-top: 6px; }
     """
@@ -376,11 +376,8 @@ def _about_dialog(parent, application: RankedApplication):
     return window
 
 
-def _about_clicked(parent, application: RankedApplication, link) -> bool:
+def _about_clicked(parent, application: RankedApplication) -> None:
     _about_dialog(parent, application)
-    # Stop Gtk.LinkButton's default immediate-open behaviour; the dialog probes
-    # the candidates and enables only the links that answer.
-    return True
 
 
 def _application_row(parent, application: RankedApplication, path: str,
@@ -430,13 +427,13 @@ def _application_row(parent, application: RankedApplication, path: str,
     name.add_css_class("heading")
     name_row.append(name)
     about_urls = application.about_urls
-    about_url = about_urls[0] if about_urls else ""
-    if about_url:
-        about = Gtk.LinkButton.new_with_label(about_url, "About")
+    if about_urls:
+        # A plain button, not a Gtk.LinkButton: the About action opens a list
+        # and must never let Gtk open the first URI as a side effect.
+        about = Gtk.Button(label="About")
         about.add_css_class("filetype-about")
         about.set_valign(Gtk.Align.CENTER)
-        about.connect("activate-link",
-                      lambda link: _about_clicked(parent, application, link))
+        about.connect("clicked", lambda _button: _about_clicked(parent, application))
         name_row.append(about)
     if application.installed:
         name_row.append(_badge("Installed"))
