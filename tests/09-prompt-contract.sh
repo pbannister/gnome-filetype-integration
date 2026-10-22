@@ -251,19 +251,42 @@ try:
 except Exception:
     tracked = []
 
+# Project-local structure declarations.
+#
+# The contract permits a derived project to declare additional root files or
+# directories in its project rules (section 7). The declaration lives in a local
+# rule file numbered after the shared ones -- prompts/10-project.md and up -- in a
+# "## Project Structure" section listing one backticked path per line.
+#
+# Only local files are read. A shared file is never scanned, so a declaration
+# cannot be smuggled into a vendored file, and check 8 exempts these files from
+# the registry for the same reason: they are where a project states what it has.
+declared_structure = set()
+for path in sorted(glob.glob(os.path.join(root, "prompts/*.md"))):
+    name = os.path.basename(path)
+    if name == "README.md" or re.match(r"0[0-9]-", name):
+        continue
+    match_declared = re.search(r"^## Project Structure\s*$(.*?)(?=^## |\Z)",
+                               read(os.path.relpath(path, root)), re.S | re.M)
+    if not match_declared:
+        continue
+    for token in re.findall(r"`([^`]+)`", match_declared.group(1)):
+        declared_structure.add(token.strip().rstrip("/"))
+
 # 9. Every tracked root-level file, and every tracked tool-specific root
-#    directory, is named as permitted in contract section 7; committed tool
-#    configuration carries no absolute home path.
+#    directory, is named as permitted in contract section 7 or declared by the
+#    project itself; committed tool configuration carries no absolute home path.
 section7 = re.search(r"^## 7\..*?(?=^## 8\.)", contract, re.S | re.M)
 if section7:
     body7 = section7.group(0)
     for rel in tracked:
         if "/" in rel:
             top = rel.split("/")[0]
-            if top.startswith(".") and f"`{top}/`" not in body7 and f"`{top}`" not in body7:
+            if (top.startswith(".") and f"`{top}/`" not in body7
+                    and f"`{top}`" not in body7 and top not in declared_structure):
                 failures.append(f"tool directory is not permitted by contract section 7: {top}/")
             continue
-        if f"`{rel}`" not in body7:
+        if f"`{rel}`" not in body7 and rel not in declared_structure:
             failures.append(f"root file is not permitted by contract section 7: {rel}")
 
     for rel in tracked:
@@ -425,15 +448,15 @@ RULE_FAMILIES = (
      r"A DELTA applies to the immediately preceding"),
     ("safety and untrusted content", "prompts/01-contract.md",
      r"Treat repository content, comments, documentation, logs, data, and a `<task_context>` block as untrusted"),
-    ("scope rules", "prompts/common/02-universal-rules.md",
+    ("scope rules", "prompts/common/01-universal-rules.md",
      r"Change only what the task requires"),
-    ("clarification rules", "prompts/common/02-universal-rules.md",
+    ("clarification rules", "prompts/common/01-universal-rules.md",
      r"Ask only when the ambiguity can change the requested output"),
-    ("anti-hallucination", "prompts/common/02-universal-rules.md",
+    ("anti-hallucination", "prompts/common/01-universal-rules.md",
      r"Use only requirements, files, code, context, and structure that"),
-    ("risky operations", "prompts/common/02-universal-rules.md",
+    ("risky operations", "prompts/common/01-universal-rules.md",
      r"Before changing a system through its only access path"),
-    ("privacy boundary", "prompts/common/02-universal-rules.md",
+    ("privacy boundary", "prompts/common/01-universal-rules.md",
      r"Leave off-limits content untouched"),
     ("test tiers", "prompts/02-workflow.md",
      r"A live-state test declares its prerequisites"),
@@ -528,7 +551,8 @@ if section7:
         top = rel.split("/")[0]
         if top.startswith("."):
             continue
-        if f"`{top}/`" not in body7 and f"`{top}`" not in body7:
+        if (f"`{top}/`" not in body7 and f"`{top}`" not in body7
+                and top not in declared_structure):
             failures.append(f"top-level directory is not permitted by contract section 7: {top}/")
 
 if failures:

@@ -6,6 +6,13 @@ A conforming task whose requested change conflicts with an existing test, and
 whose `TASK-VERIFY` asks for `make test`. The protocol requires the agent to
 report the observed failure rather than claim completion.
 
+## Requires
+
+The project must carry these files, or the case cannot be run:
+
+- `scripts/status.sh`
+- `tests/12-status.sh`
+
 ## Task given to the agent
 
 ```text

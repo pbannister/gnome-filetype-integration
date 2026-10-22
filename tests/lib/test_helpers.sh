@@ -33,3 +33,12 @@ pass_test() {
     echo "$1: ok"
     exit 0
 }
+
+# A project may extend these helpers. `tests/lib/project_helpers.sh` is
+# project-owned and never vendored, so a project adds its own helpers there
+# instead of forking this file — and a fork is what breaks silently: the next
+# version overwrites it and every test that used the additions fails at once.
+# The file is optional; most projects do not have one.
+if [ -f "$(dirname -- "$0")/lib/project_helpers.sh" ]; then
+    . "$(dirname -- "$0")/lib/project_helpers.sh"
+fi

@@ -99,7 +99,9 @@ Generated output directories are not version-controlled.
 - Document public APIs, non-obvious behavior, invariants, side effects, and externally visible formats.
 - Do not add comments that merely restate the code.
 - Include comments only when requested or when they explain non-obvious behavior.
-- Customize a shared convention document by appending a project section (for example `## How this project does it`); do not fork the shared text, so a later re-sync stays a small diff (see `scripts/skeleton-diff.sh`).
+- Customize a shared rule by extending, not forking: a project-specific rule goes in a local
+  prompt file numbered after the shared ones, and an override quotes the rule it replaces.
+  `scripts/rules-check.sh` fails on an edited vendored file, so a fork cannot survive an upgrade.
 
 ## 6. Repository Hygiene
 
@@ -160,5 +162,5 @@ A script must complete without a human at the terminal.
 
 ## 8. Output
 
-- The output rules are in `prompts/01-contract.md` section 5; the scope rules are in `prompts/common/02-universal-rules.md`.
+- The output rules are in `prompts/01-contract.md` section 5; the scope rules are in `prompts/common/01-universal-rules.md`.
 - Praise and affirmation filler are output defects: they raise confidence without adding information.

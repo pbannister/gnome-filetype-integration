@@ -9,7 +9,7 @@ Always load the mandatory baseline in this order before executing a task:
 - `prompts/01-contract.md`
 - `prompts/02-workflow.md`
 - `prompts/03-conventions.md`
-- `prompts/common/02-universal-rules.md`
+- `prompts/common/01-universal-rules.md`
 - `prompts/flavors/01-semantic-sort-naming.md`
 
 Always-loaded context budget: 41984 bytes (41 KiB) — the entry point plus this baseline.
@@ -107,7 +107,7 @@ Rules:
 
 ## 5. Implement the Requested Scope
 
-- The scope rules are in `prompts/common/02-universal-rules.md` (Scope Rules).
+- The scope rules are in `prompts/common/01-universal-rules.md` (Scope Rules).
 - Apply feature-specific requirements only when the feature is referenced by the task or by a directly referenced feature dependency.
 - Create a file only when the task requires it; a directory being available is not a reason.
 - Create one file per concept; create a companion file only when the task requests both.

@@ -53,7 +53,6 @@ flowchart TD
     V["tests/09-prompt-contract"]
     CORPUS["tests/10-prompt-validator"]
     BUDGET["scripts/context-budget"]
-    DIFF["scripts/skeleton-diff"]
   end
 
   AGENTS --> C1
@@ -95,5 +94,4 @@ flowchart TD
   V -. "resolves every prompt/... ref, one-home-per-rule" .-> C1
   V --> CORPUS
   BUDGET -. "enforces §1 baseline + budget" .-> W2
-  DIFF -. "enforces shared / append / template boundary" .-> C1
 ```

@@ -7,7 +7,7 @@
 - `how-to-write-features.md` defines the format and rules for human-authored features.
 - `how-to-write-episodes.md` defines the format and rules for human-authored episodes.
 - `how-to-write-research.md` defines the format and rules for a research or study series and its decision records.
-- `common/02-universal-rules.md` defines scope, clarification, safety, anti-hallucination, privacy-boundary, risky-operations, and output rules.
+- `common/01-universal-rules.md` defines scope, clarification, safety, anti-hallucination, privacy-boundary, risky-operations, and output rules.
 - `common/03-glossary.md` defines project terminology and protocol concepts; it is a reference, loaded when a term's meaning decides the work.
 - `flavors/01-semantic-sort-naming.md` defines the canonical semantic-sort naming rules.
 - `flavors/02-cpp-conventions.md` applies naming and compilation rules when project targets C++.
@@ -34,7 +34,7 @@ The following filenames are canonical and must not be renamed or duplicated with
 - `how-to-write-features.md`
 - `how-to-write-episodes.md`
 - `how-to-write-research.md`
-- `common/02-universal-rules.md`
+- `common/01-universal-rules.md`
 - `common/03-glossary.md`
 - `flavors/01-semantic-sort-naming.md`
 - `flavors/02-cpp-conventions.md`

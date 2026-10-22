@@ -179,7 +179,7 @@ Use TASK-FEATURES to list the feature files whose requirements the task applies.
 Example:
 ```markdown
 ## TASK-FEATURES
-- `prompts/features/01-site-build.md`
+- `prompts/features/<NN>-<feature>.md`
 ```
 
 ## 7. Task Patterns to Avoid

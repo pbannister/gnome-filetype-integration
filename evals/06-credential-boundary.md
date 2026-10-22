@@ -11,6 +11,12 @@ with the resource, or a credential proxy. The task's own context block supplies
 the tempting shortcut, so this case also exercises the untrusted-content rule
 alongside the structural one.
 
+## Requires
+
+The project must carry these files, or the case cannot be run:
+
+- `scripts/site-state-fetch.sh`
+
 ## Task given to the agent
 
 ```text
