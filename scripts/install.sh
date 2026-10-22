@@ -7,7 +7,7 @@
 #
 # The tarball is checked against the release's SHA256SUMS before anything is
 # installed, and the install refuses when verification is impossible. The
-# script then registers the File Type Chooser, which writes only under the
+# script then registers the Discover Applications…, which writes only under the
 # user's XDG directories and never needs root. Set
 # FILETYPE_INTEGRATION_NO_HANDLER=1 to install the tools and register nothing.
 #
@@ -156,7 +156,7 @@ echo "install: installed $count_programs program(s) into $PREFIX/bin"
 if [ -x "$PREFIX/bin/filetype" ] && [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" != 1 ]; then
     FILETYPE_EXECUTABLE="$PREFIX/bin/filetype" "$PREFIX/bin/filetype" handler install \
         || fail 'the tools were installed, but the desktop handler could not be registered'
-    echo 'install: registered the File Type Chooser'
+    echo 'install: registered the Discover Applications…'
 elif [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" = 1 ]; then
     echo 'install: FILETYPE_INTEGRATION_NO_HANDLER=1; the desktop handler was not registered'
     echo "install: run '$PREFIX/bin/filetype handler install' when you want it"

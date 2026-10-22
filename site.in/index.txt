@@ -12,7 +12,7 @@ package command for each.
 </p>
 <p>
 The same work appears in four places: a double-click on an unhandled file opens
-the File Type Chooser; a right-click in Nautilus offers the chooser and the
+the Discover Applications…; a right-click in Nautilus offers the chooser and the
 inspector when the Nautilus Python bindings are installed; the chooser is listed
 in Open With for every known type; and the <code>filetype</code> command line
 carries every capability, with stable JSON.

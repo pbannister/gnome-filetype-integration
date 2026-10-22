@@ -19,7 +19,7 @@ is not installed. See <code>documents/06-project-pages.md</code>.
   <tr><td>Catalog applications</td><td>__CATALOG_APPLICATIONS__</td></tr>
   <tr><td>Installed applications found</td><td>__INSTALLED_APPLICATIONS__</td></tr>
   <tr><td>Types with no installed handler</td><td>__UNHANDLED_TYPES__</td></tr>
-  <tr><td>File Type Chooser installed</td><td>__HANDLER_INSTALLED__</td></tr>
+  <tr><td>Discover Applications… installed</td><td>__HANDLER_INSTALLED__</td></tr>
 </table>
 
 <h2>Reading the numbers</h2>

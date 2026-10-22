@@ -47,4 +47,4 @@ fi
 
 # The entry must point at this install, even when PREFIX/bin is not on PATH.
 FILETYPE_EXECUTABLE="$PREFIX/bin/filetype" "$PREFIX/bin/filetype" handler install
-echo "program-install: registered the File Type Chooser"
+echo "program-install: registered the Discover Applications…"

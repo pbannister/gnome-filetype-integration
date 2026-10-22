@@ -147,7 +147,7 @@ def desktop_entry_text(executable: str, mime_types: list[str]) -> str:
     return "\n".join([
         "[Desktop Entry]",
         "Type=Application",
-        "Name=File Type Chooser",
+        "Name=Discover Applications…",
         "GenericName=Choose an Application",
         "Comment=Inspect a file and choose the application that opens it",
         "Comment[en_GB]=Inspect a file and choose the application that opens it",

@@ -425,7 +425,7 @@ def command_handler(arguments) -> int:
             _print_json({"result": result.to_dict()})
         else:
             verb = "Would install" if result.dry_run else "Installed"
-            print(f"{verb} the File Type Chooser.")
+            print(f"{verb} Discover Applications…")
             print(f"  Desktop entry: {result.desktop_entry}")
             print(f"  Icon:          {result.icon}")
             print(f"  File types:    {result.handler_mime_types}")
@@ -444,7 +444,7 @@ def command_handler(arguments) -> int:
         if _json_requested(arguments):
             _print_json({"result": result.to_dict()})
         else:
-            print(f"{'Would remove' if arguments.dry_run else 'Removed'} the File Type Chooser.")
+            print(f"{'Would remove' if arguments.dry_run else 'Removed'} Discover Applications…")
             print(f"  Restored defaults: {result.restored_defaults}")
             print(f"  Kept user choices: {result.kept_user_defaults}")
             for path in result.removed_files:

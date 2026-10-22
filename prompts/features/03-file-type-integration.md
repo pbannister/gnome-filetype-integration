@@ -43,7 +43,7 @@ never a dead end.
 
 ## Behavior
 
-- Double-clicking a file with no installed application opens the File Type Chooser, which explains the problem and offers installable applications.
+- Double-clicking a file with no installed application opens the Discover Applications…, which explains the problem and offers installable applications.
 - Right-clicking a file offers the chooser and the inspector when the Nautilus extension is active.
 - Opening a file with an already-installed application uses the desktop entry's `Exec` line, with the file substituted as one argument.
 - Installing the handler records every file and every changed default; uninstalling it puts the desktop back and preserves later user choices.

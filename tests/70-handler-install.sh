@@ -53,7 +53,7 @@ FILE_MIMEAPPS="$XDG_CONFIG_HOME/mimeapps.list"
 [ -f "$FILE_MANIFEST" ] || fail 'the manifest was not written'
 [ -f "$XDG_DATA_HOME/icons/hicolor/scalable/apps/filetype-chooser.svg" ] || fail 'the icon was not written'
 
-grep -q '^Name=File Type Chooser$' "$FILE_DESKTOP" || fail 'the entry has no name'
+grep -q '^Name=Discover Applications…$' "$FILE_DESKTOP" || fail 'the entry has no name'
 grep -q '^Exec=.* handle %f$' "$FILE_DESKTOP" || fail 'the entry does not call handle'
 grep -q 'MimeType=.*text/plain' "$FILE_DESKTOP" || fail 'the entry does not list text/plain'
 grep -q 'MimeType=.*application/pdf' "$FILE_DESKTOP" || fail 'the entry does not list application/pdf'
@@ -107,7 +107,7 @@ import json, sys
 d = json.load(open(sys.argv[1], encoding="utf-8"))
 applications = d["applications"]["installed"] + d["applications"]["available"]
 assert not any(item.get("desktop_id") == "filetype-handler.desktop" for item in applications), applications
-assert not any(item.get("name") == "File Type Chooser" for item in applications), applications
+assert not any(item.get("name") == "Discover Applications…" for item in applications), applications
 PYCHECK
 
 # 3. Status reports the installed handler and its ownership.

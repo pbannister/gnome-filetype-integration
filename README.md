@@ -11,7 +11,7 @@ with the package command for each.
 
 The same work is available in four places:
 
-- **Double-click** a file with no working handler opens the File Type Chooser.
+- **Double-click** a file with no working handler opens the **Discover Applications…** window.
 - **Right-click** any file in Nautilus offers *Choose Application…* and
   *Inspect File Type* when the Nautilus Python bindings are installed.
 - **Open With** lists the chooser for every known type, even when a working
