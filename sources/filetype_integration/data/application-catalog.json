@@ -390,7 +390,8 @@
       "desktop_ids": [
         "org.gnome.Meld.desktop"
       ],
-      "binary": "meld"
+      "binary": "meld",
+      "homepage": "https://meld.app"
     },
     {
       "id": "com.obsidian.Obsidian",
@@ -498,7 +499,8 @@
       "install": {
         "apt": "cherrytree"
       },
-      "binary": "cherrytree"
+      "binary": "cherrytree",
+      "homepage": "https://www.giuspen.net/cherrytree/"
     },
     {
       "id": "org.zim.Zim",
@@ -520,7 +522,8 @@
       "install": {
         "apt": "zim"
       },
-      "binary": "zim"
+      "binary": "zim",
+      "homepage": "https://zim-wiki.org"
     },
     {
       "id": "org.libreoffice.LibreOffice",
@@ -616,7 +619,8 @@
       "desktop_ids": [
         "abiword.desktop"
       ],
-      "binary": "abiword"
+      "binary": "abiword",
+      "homepage": "https://gitlab.gnome.org/World/AbiWord"
     },
     {
       "id": "gnumeric",
@@ -644,7 +648,8 @@
       "desktop_ids": [
         "gnumeric.desktop"
       ],
-      "binary": "gnumeric"
+      "binary": "gnumeric",
+      "homepage": "http://www.gnumeric.org/"
     },
     {
       "id": "org.gnome.Papers",
@@ -758,7 +763,8 @@
       "desktop_ids": [
         "org.pwmt.zathura.desktop"
       ],
-      "binary": "zathura"
+      "binary": "zathura",
+      "homepage": "https://pwmt.org/projects/zathura"
     },
     {
       "id": "com.github.xournalpp.xournalpp",
@@ -844,7 +850,8 @@
       "install": {
         "apt": "pandoc"
       },
-      "binary": "pandoc"
+      "binary": "pandoc",
+      "homepage": "https://pandoc.org/"
     },
     {
       "id": "texlive",
@@ -869,7 +876,8 @@
       "install": {
         "apt": "texlive-latex-recommended"
       },
-      "binary": "pdflatex"
+      "binary": "pdflatex",
+      "homepage": "http://www.tug.org/texlive/"
     },
     {
       "id": "typst",
@@ -891,7 +899,8 @@
       "install": {
         "apt": "typst"
       },
-      "binary": "typst"
+      "binary": "typst",
+      "homepage": "https://typst.app/"
     },
     {
       "id": "ghostscript",
@@ -913,7 +922,8 @@
       "install": {
         "apt": "ghostscript"
       },
-      "binary": "gs"
+      "binary": "gs",
+      "homepage": "https://www.ghostscript.com/"
     },
     {
       "id": "poppler-utils",
@@ -934,7 +944,8 @@
       "install": {
         "apt": "poppler-utils"
       },
-      "binary": "pdftotext"
+      "binary": "pdftotext",
+      "homepage": "https://poppler.freedesktop.org/"
     },
     {
       "id": "qpdf",
@@ -955,7 +966,8 @@
       "install": {
         "apt": "qpdf"
       },
-      "binary": "qpdf"
+      "binary": "qpdf",
+      "homepage": "https://qpdf.sourceforge.io"
     },
     {
       "id": "ocrmypdf",
@@ -976,7 +988,8 @@
       "install": {
         "apt": "ocrmypdf"
       },
-      "binary": "ocrmypdf"
+      "binary": "ocrmypdf",
+      "homepage": "https://github.com/jbarlow83/OCRmyPDF"
     },
     {
       "id": "tesseract-ocr",
@@ -995,7 +1008,8 @@
       "install": {
         "apt": "tesseract-ocr"
       },
-      "binary": "tesseract"
+      "binary": "tesseract",
+      "homepage": "https://github.com/tesseract-ocr/"
     },
     {
       "id": "com.calibre_ebook.calibre",
@@ -1399,7 +1413,8 @@
       "desktop_ids": [
         "org.kde.kolourpaint.desktop"
       ],
-      "binary": "kolourpaint"
+      "binary": "kolourpaint",
+      "homepage": "https://apps.kde.org/kolourpaint/"
     },
     {
       "id": "org.darktable.Darktable",
@@ -1495,7 +1510,8 @@
       "install": {
         "apt": "imagemagick"
       },
-      "binary": "magick"
+      "binary": "magick",
+      "homepage": "https://www.imagemagick.org/"
     },
     {
       "id": "graphicsmagick",
@@ -1513,7 +1529,8 @@
       "install": {
         "apt": "graphicsmagick"
       },
-      "binary": "gm"
+      "binary": "gm",
+      "homepage": "http://www.graphicsmagick.org/"
     },
     {
       "id": "libvips-tools",
@@ -1531,7 +1548,8 @@
       "install": {
         "apt": "libvips-tools"
       },
-      "binary": "vips"
+      "binary": "vips",
+      "homepage": "https://libvips.github.io/libvips/"
     },
     {
       "id": "webp",
@@ -1552,7 +1570,8 @@
       "install": {
         "apt": "webp"
       },
-      "binary": "cwebp"
+      "binary": "cwebp",
+      "homepage": "https://developers.google.com/speed/webp/"
     },
     {
       "id": "optipng",
@@ -1573,7 +1592,8 @@
       "install": {
         "apt": "optipng"
       },
-      "binary": "optipng"
+      "binary": "optipng",
+      "homepage": "https://optipng.sourceforge.net/"
     },
     {
       "id": "jpegoptim",
@@ -1595,7 +1615,8 @@
       "install": {
         "apt": "jpegoptim"
       },
-      "binary": "jpegoptim"
+      "binary": "jpegoptim",
+      "homepage": "https://github.com/tjko/jpegoptim"
     },
     {
       "id": "libimage-exiftool-perl",
@@ -1615,7 +1636,8 @@
       "install": {
         "apt": "libimage-exiftool-perl"
       },
-      "binary": "exiftool"
+      "binary": "exiftool",
+      "homepage": "https://exiftool.org/"
     },
     {
       "id": "org.videolan.VLC",
@@ -1754,7 +1776,8 @@
       "desktop_ids": [
         "rhythmbox.desktop"
       ],
-      "binary": "rhythmbox"
+      "binary": "rhythmbox",
+      "homepage": "https://wiki.gnome.org/Apps/Rhythmbox"
     },
     {
       "id": "io.bassi.Amberol",
@@ -1846,7 +1869,8 @@
       "desktop_ids": [
         "strawberry.desktop"
       ],
-      "binary": "strawberry"
+      "binary": "strawberry",
+      "homepage": "https://strawberrymusicplayer.org"
     },
     {
       "id": "audacious",
@@ -1867,7 +1891,8 @@
       "desktop_ids": [
         "audacious.desktop"
       ],
-      "binary": "audacious"
+      "binary": "audacious",
+      "homepage": "https://www.audacious-media-player.org/"
     },
     {
       "id": "org.audacityteam.Audacity",
@@ -2004,7 +2029,8 @@
       "desktop_ids": [
         "hydrogen.desktop"
       ],
-      "binary": "hydrogen"
+      "binary": "hydrogen",
+      "homepage": "http://www.hydrogen-music.org/"
     },
     {
       "id": "sox",
@@ -2022,7 +2048,8 @@
       "install": {
         "apt": "sox"
       },
-      "binary": "sox"
+      "binary": "sox",
+      "homepage": "https://sox.sourceforge.io/"
     },
     {
       "id": "ffmpeg",
@@ -2041,7 +2068,8 @@
       "install": {
         "apt": "ffmpeg"
       },
-      "binary": "ffmpeg"
+      "binary": "ffmpeg",
+      "homepage": "https://ffmpeg.org/"
     },
     {
       "id": "org.kde.kdenlive",
@@ -2117,7 +2145,8 @@
       "desktop_ids": [
         "pitivi.desktop"
       ],
-      "binary": "pitivi"
+      "binary": "pitivi",
+      "homepage": "https://www.pitivi.org"
     },
     {
       "id": "fr.handbrake.ghb",
@@ -2213,7 +2242,8 @@
       "desktop_ids": [
         "mkvtoolnix-gui.desktop"
       ],
-      "binary": "mkvtoolnix-gui"
+      "binary": "mkvtoolnix-gui",
+      "homepage": "https://mkvtoolnix.download/index.html"
     },
     {
       "id": "org.gnome.FileRoller",
@@ -2295,7 +2325,8 @@
       "desktop_ids": [
         "xarchiver.desktop"
       ],
-      "binary": "xarchiver"
+      "binary": "xarchiver",
+      "homepage": "https://github.com/ib/xarchiver"
     },
     {
       "id": "io.github.peazip.PeaZip",
@@ -2339,7 +2370,8 @@
       "install": {
         "apt": "7zip"
       },
-      "binary": "7zz"
+      "binary": "7zz",
+      "homepage": "https://www.7-zip.org/"
     },
     {
       "id": "unzip",
@@ -2360,7 +2392,8 @@
       "install": {
         "apt": "unzip"
       },
-      "binary": "unzip"
+      "binary": "unzip",
+      "homepage": "https://infozip.sourceforge.net/UnZip.html"
     },
     {
       "id": "zip",
@@ -2381,7 +2414,8 @@
       "install": {
         "apt": "zip"
       },
-      "binary": "zip"
+      "binary": "zip",
+      "homepage": "https://infozip.sourceforge.net/Zip.html"
     },
     {
       "id": "p7zip-full",
@@ -2399,7 +2433,8 @@
       "install": {
         "apt": "p7zip-full"
       },
-      "binary": "7z"
+      "binary": "7z",
+      "homepage": "https://7-zip.org/"
     },
     {
       "id": "unrar",
@@ -2421,7 +2456,8 @@
       "install": {
         "apt": "unrar"
       },
-      "binary": "unrar"
+      "binary": "unrar",
+      "homepage": "https://www.rarlab.com/"
     },
     {
       "id": "zstd",
@@ -2443,7 +2479,8 @@
       "install": {
         "apt": "zstd"
       },
-      "binary": "zstd"
+      "binary": "zstd",
+      "homepage": "https://github.com/facebook/zstd"
     },
     {
       "id": "xz-utils",
@@ -2465,7 +2502,8 @@
       "install": {
         "apt": "xz-utils"
       },
-      "binary": "xz"
+      "binary": "xz",
+      "homepage": "https://tukaani.org/xz/"
     },
     {
       "id": "atool",
@@ -2483,7 +2521,8 @@
       "install": {
         "apt": "atool"
       },
-      "binary": "atool"
+      "binary": "atool",
+      "homepage": "https://www.nongnu.org/atool/"
     },
     {
       "id": "dpkg-deb",
@@ -2507,7 +2546,8 @@
       "install": {
         "apt": "dpkg"
       },
-      "binary": "dpkg-deb"
+      "binary": "dpkg-deb",
+      "homepage": "https://wiki.debian.org/Teams/Dpkg"
     },
     {
       "id": "rpm2cpio",
@@ -2531,7 +2571,8 @@
       "install": {
         "apt": "rpm2cpio"
       },
-      "binary": "rpm2cpio"
+      "binary": "rpm2cpio",
+      "homepage": "https://rpm.org/"
     },
     {
       "id": "flatpak",
@@ -2557,7 +2598,8 @@
       "install": {
         "apt": "flatpak"
       },
-      "binary": "flatpak"
+      "binary": "flatpak",
+      "homepage": "https://flatpak.org/"
     },
     {
       "id": "gnome-software",
@@ -2579,7 +2621,8 @@
       "install": {
         "apt": "gnome-software"
       },
-      "binary": "gnome-software"
+      "binary": "gnome-software",
+      "homepage": "https://apps.gnome.org/Software/"
     },
     {
       "id": "gdb",
@@ -2602,7 +2645,8 @@
       "install": {
         "apt": "gdb"
       },
-      "binary": "gdb"
+      "binary": "gdb",
+      "homepage": "https://www.gnu.org/s/gdb/"
     },
     {
       "id": "radare2",
@@ -2621,7 +2665,8 @@
       "install": {
         "apt": "radare2"
       },
-      "binary": "r2"
+      "binary": "r2",
+      "homepage": "https://www.radare.org"
     },
     {
       "id": "ghidra",
@@ -2664,7 +2709,8 @@
       "install": {
         "apt": "binwalk"
       },
-      "binary": "binwalk"
+      "binary": "binwalk",
+      "homepage": "https://github.com/ReFirmLabs/binwalk"
     },
     {
       "id": "net.werwolv.ImHex",
@@ -2711,7 +2757,8 @@
       "desktop_ids": [
         "org.gnome.GHex.desktop"
       ],
-      "binary": "ghex"
+      "binary": "ghex",
+      "homepage": "https://wiki.gnome.org/Apps/Ghex"
     },
     {
       "id": "bless",
@@ -2733,7 +2780,8 @@
       "desktop_ids": [
         "bless.desktop"
       ],
-      "binary": "bless"
+      "binary": "bless",
+      "homepage": "https://github.com/afrantzis/bless"
     },
     {
       "id": "wireshark",
@@ -2786,7 +2834,8 @@
       "install": {
         "apt": "tshark"
       },
-      "binary": "tshark"
+      "binary": "tshark",
+      "homepage": "https://www.wireshark.org/"
     },
     {
       "id": "org.gnome.font-viewer",
@@ -2819,7 +2868,8 @@
       "desktop_ids": [
         "org.gnome.font-viewer.desktop"
       ],
-      "binary": "gnome-font-viewer"
+      "binary": "gnome-font-viewer",
+      "homepage": "https://apps.gnome.org/FontViewer/"
     },
     {
       "id": "fontforge",
@@ -2849,7 +2899,8 @@
       "desktop_ids": [
         "fontforge.desktop"
       ],
-      "binary": "fontforge"
+      "binary": "fontforge",
+      "homepage": "https://fontforge.github.io/en-US/"
     },
     {
       "id": "birdfont",
@@ -2876,7 +2927,8 @@
       "desktop_ids": [
         "birdfont.desktop"
       ],
-      "binary": "birdfont"
+      "binary": "birdfont",
+      "homepage": "https://birdfont.org/"
     },
     {
       "id": "python3-fonttools",
@@ -2898,7 +2950,8 @@
       "install": {
         "apt": "python3-fonttools"
       },
-      "binary": "fonttools"
+      "binary": "fonttools",
+      "homepage": "https://github.com/fonttools/fonttools"
     },
     {
       "id": "libharfbuzz-bin",
@@ -2916,7 +2969,8 @@
       "install": {
         "apt": "libharfbuzz-bin"
       },
-      "binary": "hb-shape"
+      "binary": "hb-shape",
+      "homepage": "https://harfbuzz.github.io/"
     },
     {
       "id": "fontconfig",
@@ -2934,7 +2988,8 @@
       "install": {
         "apt": "fontconfig"
       },
-      "binary": "fc-scan"
+      "binary": "fc-scan",
+      "homepage": "https://www.freedesktop.org/wiki/Software/fontconfig/"
     },
     {
       "id": "sqlitebrowser",
@@ -3011,7 +3066,8 @@
       "install": {
         "apt": "duckdb"
       },
-      "binary": "duckdb"
+      "binary": "duckdb",
+      "homepage": "https://duckdb.org"
     },
     {
       "id": "jq",
@@ -3037,7 +3093,8 @@
       "install": {
         "apt": "jq"
       },
-      "binary": "jq"
+      "binary": "jq",
+      "homepage": "https://jqlang.github.io/jq"
     },
     {
       "id": "yq",
@@ -3062,7 +3119,8 @@
       "install": {
         "apt": "yq"
       },
-      "binary": "yq"
+      "binary": "yq",
+      "homepage": "https://github.com/kislyuk/yq"
     },
     {
       "id": "miller",
@@ -3086,7 +3144,8 @@
       "install": {
         "apt": "miller"
       },
-      "binary": "mlr"
+      "binary": "mlr",
+      "homepage": "https://github.com/johnkerl/miller"
     },
     {
       "id": "csvkit",
@@ -3109,7 +3168,11 @@
       "install": {
         "apt": "csvkit"
       },
-      "binary": "csvlook"
+      "binary": "csvlook",
+      "homepage": "https://github.com/wireservice/csvkit",
+      "about": [
+        "https://csvkit.readthedocs.io/"
+      ]
     },
     {
       "id": "python3",
@@ -3134,7 +3197,8 @@
       "install": {
         "apt": "python3"
       },
-      "binary": "python3"
+      "binary": "python3",
+      "homepage": "https://www.python.org/"
     },
     {
       "id": "jupyter-notebook",
@@ -3156,7 +3220,8 @@
       "install": {
         "apt": "jupyter-notebook"
       },
-      "binary": "jupyter-notebook"
+      "binary": "jupyter-notebook",
+      "homepage": "https://github.com/jupyter/notebook"
     },
     {
       "id": "r-base",
@@ -3180,7 +3245,8 @@
       "install": {
         "apt": "r-base"
       },
-      "binary": "R"
+      "binary": "R",
+      "homepage": "https://www.R-project.org/"
     },
     {
       "id": "julia",
@@ -3202,7 +3268,8 @@
       "install": {
         "apt": "julia"
       },
-      "binary": "julia"
+      "binary": "julia",
+      "homepage": "https://julialang.org"
     },
     {
       "id": "octave",
@@ -3224,7 +3291,8 @@
       "install": {
         "apt": "octave"
       },
-      "binary": "octave"
+      "binary": "octave",
+      "homepage": "https://www.octave.org/"
     },
     {
       "id": "scilab",
@@ -3246,7 +3314,8 @@
       "install": {
         "apt": "scilab"
       },
-      "binary": "scilab"
+      "binary": "scilab",
+      "homepage": "https://www.scilab.org"
     },
     {
       "id": "qgis",
@@ -3296,7 +3365,8 @@
       "install": {
         "apt": "gdal-bin"
       },
-      "binary": "gdalinfo"
+      "binary": "gdalinfo",
+      "homepage": "http://www.gdal.org/"
     },
     {
       "id": "paraview",
@@ -3322,7 +3392,8 @@
       "install": {
         "apt": "paraview"
       },
-      "binary": "paraview"
+      "binary": "paraview",
+      "homepage": "https://www.paraview.org/"
     },
     {
       "id": "hdfview",
@@ -3347,7 +3418,8 @@
       "install": {
         "apt": "hdfview"
       },
-      "binary": "hdfview"
+      "binary": "hdfview",
+      "homepage": "https://www.hdfgroup.org/downloads/hdfview/"
     },
     {
       "id": "org.blender.Blender",
@@ -3473,7 +3545,8 @@
       "desktop_ids": [
         "librecad.desktop"
       ],
-      "binary": "librecad"
+      "binary": "librecad",
+      "homepage": "http://www.librecad.org/"
     },
     {
       "id": "qcad",
@@ -3498,7 +3571,8 @@
       "desktop_ids": [
         "qcad.desktop"
       ],
-      "binary": "qcad"
+      "binary": "qcad",
+      "homepage": "https://qcad.org/"
     },
     {
       "id": "meshlab",
@@ -3523,7 +3597,8 @@
       "install": {
         "apt": "meshlab"
       },
-      "binary": "meshlab"
+      "binary": "meshlab",
+      "homepage": "https://www.meshlab.net/"
     },
     {
       "id": "com.prusa3d.PrusaSlicer",
@@ -3680,7 +3755,8 @@
       "desktop_ids": [
         "org.f3d.F3D.desktop"
       ],
-      "binary": "f3d"
+      "binary": "f3d",
+      "homepage": "https://f3d.app/"
     },
     {
       "id": "org.gnome.DiskUtility",
@@ -3710,7 +3786,8 @@
       "desktop_ids": [
         "org.gnome.DiskUtility.desktop"
       ],
-      "binary": "gnome-disks"
+      "binary": "gnome-disks",
+      "homepage": "https://apps.gnome.org/DiskUtility/"
     },
     {
       "id": "org.balena.Etcher",
@@ -3829,7 +3906,8 @@
       "desktop_ids": [
         "gnome-multi-writer.desktop"
       ],
-      "binary": "gnome-multi-writer"
+      "binary": "gnome-multi-writer",
+      "homepage": "https://wiki.gnome.org/Apps/MultiWriter"
     },
     {
       "id": "coreutils",
@@ -3853,7 +3931,8 @@
       "install": {
         "apt": "coreutils"
       },
-      "binary": "dd"
+      "binary": "dd",
+      "homepage": "https://www.gnu.org/software/coreutils/"
     },
     {
       "id": "org.gnome.Boxes",
@@ -3910,7 +3989,8 @@
       "desktop_ids": [
         "virt-manager.desktop"
       ],
-      "binary": "virt-manager"
+      "binary": "virt-manager",
+      "homepage": "https://virt-manager.org/"
     },
     {
       "id": "qemu-system-x86",
@@ -3936,7 +4016,8 @@
       "install": {
         "apt": "qemu-system-x86"
       },
-      "binary": "qemu-system-x86_64"
+      "binary": "qemu-system-x86_64",
+      "homepage": "http://www.qemu.org/"
     },
     {
       "id": "org.mozilla.Thunderbird",
@@ -4005,7 +4086,8 @@
       "desktop_ids": [
         "org.gnome.Evolution.desktop"
       ],
-      "binary": "evolution"
+      "binary": "evolution",
+      "homepage": "https://gitlab.gnome.org/GNOME/evolution/-/wikis/home"
     },
     {
       "id": "org.gnome.Geary",
@@ -4266,7 +4348,8 @@
       "desktop_ids": [
         "deluge.desktop"
       ],
-      "binary": "deluge"
+      "binary": "deluge",
+      "homepage": "https://deluge-torrent.org"
     },
     {
       "id": "de.haeckerfelix.Fragments",
@@ -4326,7 +4409,8 @@
       "desktop_ids": [
         "gnome-subtitles.desktop"
       ],
-      "binary": "gnome-subtitles"
+      "binary": "gnome-subtitles",
+      "homepage": "http://gnomesubtitles.org"
     },
     {
       "id": "aegisub",
@@ -4352,7 +4436,8 @@
       "desktop_ids": [
         "aegisub.desktop"
       ],
-      "binary": "aegisub"
+      "binary": "aegisub",
+      "homepage": "https://www.aegisub.org/"
     },
     {
       "id": "com.jgraph.drawio.desktop",
@@ -4407,7 +4492,8 @@
       "desktop_ids": [
         "dia.desktop"
       ],
-      "binary": "dia"
+      "binary": "dia",
+      "homepage": "https://wiki.gnome.org/Apps/Dia/"
     },
     {
       "id": "org.keepassxc.KeePassXC",

@@ -39,6 +39,7 @@ never a dead end.
 - `FILETYPE-R027` — The tool must record each About site visited with the date, result, and HTTP status, must not visit the same site more than once per local day, and must expose the history through the command line.
 - `FILETYPE-R028` — A package search page must not be used as an About candidate unless its content is fetched and checked for a useful result; direct package pages are preferred.
 - `FILETYPE-R029` — A catalog application with a Flathub id but no homepage must take its project website from the Flathub page's Project Website link, recorded as the catalog homepage.
+- `FILETYPE-R030` — A catalog application with an apt package but no homepage must take its upstream homepage from the Debian tracker package page, recorded as the catalog homepage.
 
 ## Behavior
 

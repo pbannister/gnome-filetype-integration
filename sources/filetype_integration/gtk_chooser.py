@@ -277,7 +277,19 @@ def _about_dialog(parent, application: RankedApplication):
     _gdk, Gtk = _gtk()
     window = Gtk.Window(transient_for=parent, modal=True,
                         title=f"About {application.name}")
-    window.set_default_size(760, 620)
+    # Let the natural content set the height, but never let it grow past the
+    # monitor.  The scroller below contributes its natural height up to a cap.
+    window.set_default_size(760, -1)
+    display = _gdk.Display.get_default()
+    max_height = 760
+    try:
+        monitor = display.get_primary_monitor() if display is not None else None
+        if monitor is None and display is not None:
+            monitor = display.get_monitors().get_item(0)
+        if monitor is not None:
+            max_height = max(320, int(monitor.get_geometry().height * 0.82))
+    except Exception:
+        pass
     try:
         window.set_destroy_with_parent(True)
     except Exception:
@@ -302,6 +314,11 @@ def _about_dialog(parent, application: RankedApplication):
     else:
         scroller = Gtk.ScrolledWindow()
         scroller.set_vexpand(True)
+        scroller.set_propagate_natural_height(True)
+        try:
+            scroller.set_max_content_height(max_height)
+        except Exception:
+            pass
         content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         rows: dict[str, tuple[object, object]] = {}
         for category, grouped in group_links(links):
@@ -494,7 +511,7 @@ def build_window(application, identification: Identification,
     if display is None:
         try:
             from gi.repository import Gdk
-            display = Gdk.Display.get_default()
+            display = _gdk.Display.get_default()
         except Exception:
             display = None
     window = Gtk.ApplicationWindow(application=application)
@@ -717,7 +734,7 @@ def _configure_css() -> None:
     _gdk, Gtk = _gtk()
     try:
         from gi.repository import Gdk
-        display = Gdk.Display.get_default()
+        display = _gdk.Display.get_default()
         if display is None:
             return
         provider = Gtk.CssProvider()

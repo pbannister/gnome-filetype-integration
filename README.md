@@ -240,6 +240,7 @@ make site      # the static page set
 make check     # the publish leak gate over site.out/
 make status    # next TODO, last test result, working tree
 sh scripts/catalog-enrich-flathub.sh --dry-run   # check Flathub project links (network)
+sh scripts/catalog-enrich-debian.sh --dry-run    # check Debian tracker project links (network)
 ```
 
 Tests are sandboxed: `HOME`, `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, and

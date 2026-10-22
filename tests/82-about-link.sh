@@ -36,7 +36,7 @@ from types import SimpleNamespace
 import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gdk", "4.0")
-from gi.repository import Gio, GLib, Gtk
+from gi.repository import Gdk, Gio, GLib, Gtk
 
 import filetype_integration.gtk_chooser as chooser
 from filetype_integration.gtk_chooser import _install_dialog, build_window, load
@@ -138,6 +138,15 @@ def check(window, application, recommendation):
                   if isinstance(widget, Gtk.Label) and widget.get_text()]
         for category in ("Project", "Package"):
             assert category in labels, (category, labels)
+        display = about_dialog.get_display()
+        monitor = display.get_primary_monitor() if display is not None else None
+        if monitor is None and display is not None:
+            monitor = display.get_monitors().get_item(0)
+        print(f"ABOUT-SIZE {about_dialog.get_width()}x{about_dialog.get_height()}")
+        assert about_dialog.get_height() > 300, about_dialog.get_height()
+        if monitor is not None:
+            assert about_dialog.get_height() <= monitor.get_geometry().height, (
+                about_dialog.get_height(), monitor.get_geometry().height)
         print("ABOUT-DIALOG ok")
         about_dialog.close()
         text = output_view.get_buffer().get_text(

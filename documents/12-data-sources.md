@@ -28,6 +28,7 @@ depend on the host's database.
 | GIO | `Gio.AppInfo` | a second resolution of the default when the files do not name one |
 | Flatpak exports | `$XDG_DATA_DIRS/flatpak/exports/share/applications` | installed Flatpak applications |
 | Flathub application pages | `https://flathub.org/apps/<id>` | project website for a catalog entry with a Flatpak id |
+| Debian tracker pages | `https://tracker.debian.org/pkg/<package>` | upstream homepage for a catalog entry with an apt package; often the link also found in the source README |
 
 On the development machine 196 installed entries were found and 581 MIME types
 had at least one registered handler. This is host state, not project data.

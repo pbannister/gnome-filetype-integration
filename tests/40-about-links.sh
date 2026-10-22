@@ -26,7 +26,8 @@ os.environ["NO_PROXY"] = "127.0.0.1,localhost"
 from filetype_integration import about_links
 from filetype_integration.application_catalog import (ApplicationCatalog, _catalog_entry_for,
                                                        about_candidates, recommend)
-from filetype_integration.catalog_enrich import extract_flathub_homepage
+from filetype_integration.catalog_enrich import (extract_debian_homepage,
+                                                   extract_flathub_homepage)
 from filetype_integration.desktop_application import ApplicationIndex, InstalledApplication
 from filetype_integration.file_identifier import identify
 from filetype_integration.mime_index import TypeIndex
@@ -191,6 +192,20 @@ try:
     assert "https://flathub.org/apps/org.gnu.emacs" in emacs_urls, emacs_urls
     assert emacs_urls.index("https://www.gnu.org/software/emacs") < emacs_urls.index(
         "https://flathub.org/apps/org.gnu.emacs"), emacs_urls
+
+    # 13. Debian tracker pages carry the upstream homepage. csvkit is the
+    #     concrete case whose Debian source README also links the docs.
+    tracker = ('<a href="https://github.com/wireservice/csvkit"'
+               ' title="upstream web homepage">homepage</a>')
+    assert extract_debian_homepage(tracker) == "https://github.com/wireservice/csvkit"
+    assert extract_debian_homepage("<p>no homepage</p>") == ""
+    csvkit = catalog.get("csvkit")
+    assert csvkit.homepage == "https://github.com/wireservice/csvkit", csvkit.homepage
+    assert "https://csvkit.readthedocs.io/" in csvkit.about, csvkit.about
+    csvkit_urls = about_candidates(csvkit, None)
+    assert csvkit_urls[0] == "https://github.com/wireservice/csvkit", csvkit_urls
+    assert "https://csvkit.readthedocs.io/" in csvkit_urls, csvkit_urls
+    assert all("/search?" not in url for url in csvkit_urls), csvkit_urls
 
     print("40-about-links: ok")
 finally:

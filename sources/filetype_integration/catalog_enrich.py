@@ -21,6 +21,7 @@ from .application_catalog import ApplicationCatalog, DEFAULT_CATALOG_PATH
 from .about_links import USER_AGENT
 
 FLATHUB_APP = "https://flathub.org/apps/{identifier}"
+DEBIAN_TRACKER = "https://tracker.debian.org/pkg/{package}"
 HOMEPAGE_PATTERNS = (
     re.compile(r'\\"homepage\\"\s*:\s*\\"(https?://[^"\\]+)'),
     re.compile(r'"homepage"\s*:\s*"(https?://[^"]+)"'),
@@ -34,6 +35,23 @@ def _fetch(url: str, timeout: float = 15.0) -> str:
             return response.read().decode("utf-8", "replace")
     except (urllib.error.URLError, TimeoutError, OSError):
         return ""
+
+
+def extract_debian_homepage(html: str) -> str:
+    """Return the upstream homepage from a Debian tracker package page."""
+    if not html:
+        return ""
+    patterns = (
+        re.compile(r'href="(https?://[^"]+)"[^>]*title="upstream web homepage"'),
+        re.compile(r'href="(https?://[^"]+)"[^>]*>homepage</a>'),
+    )
+    for pattern in patterns:
+        match = pattern.search(html)
+        if match:
+            candidate = match.group(1).replace("\\/", "/")
+            if "tracker.debian.org" not in candidate:
+                return candidate
+    return ""
 
 
 def extract_flathub_homepage(html: str) -> str:
@@ -55,6 +73,47 @@ def extract_flathub_homepage(html: str) -> str:
             if "flathub.org" not in candidate:
                 return candidate
     return ""
+
+
+def enrich_debian(catalog_path: Path | str = DEFAULT_CATALOG_PATH,
+                  workers: int = 8, dry_run: bool = False) -> dict[str, object]:
+    path = Path(catalog_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    targets = [application for application in data["applications"]
+               if application.get("install", {}).get("apt")
+               and not application.get("homepage")]
+    found: dict[str, str] = {}
+    failed: list[str] = []
+
+    def work(application: dict[str, object]) -> tuple[str, str]:
+        identifier = str(application["id"])
+        package = str(application["install"]["apt"])  # type: ignore[index]
+        html = _fetch(DEBIAN_TRACKER.format(package=package))
+        return identifier, extract_debian_homepage(html)
+
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+        futures = {pool.submit(work, application): application for application in targets}
+        for future in as_completed(futures):
+            identifier, homepage = future.result()
+            if homepage:
+                found[identifier] = homepage
+            else:
+                failed.append(identifier)
+
+    if not dry_run:
+        for application in data["applications"]:
+            if application["id"] in found:
+                application["homepage"] = found[application["id"]]
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+    return {
+        "candidates": len(targets),
+        "found": len(found),
+        "failed": sorted(failed),
+        "dry_run": dry_run,
+        "path": str(path),
+        "homepages": dict(sorted(found.items())),
+    }
 
 
 def enrich(catalog_path: Path | str = DEFAULT_CATALOG_PATH,
@@ -104,11 +163,14 @@ def main(argv: list[str] | None = None) -> int:
         description="Fill missing catalog homepages from Flathub project pages.")
     parser.add_argument("--catalog", default=str(DEFAULT_CATALOG_PATH))
     parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument("--source", choices=("flathub", "debian"), default="flathub",
+                        help="where to look for a missing project homepage")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--json", action="store_true")
     arguments = parser.parse_args(argv)
     try:
-        report = enrich(arguments.catalog, arguments.workers, arguments.dry_run)
+        function = enrich_debian if arguments.source == "debian" else enrich
+        report = function(arguments.catalog, arguments.workers, arguments.dry_run)
     except (OSError, json.JSONDecodeError) as error:
         print(f"catalog-enrich: {error}", file=sys.stderr)
         return 1
