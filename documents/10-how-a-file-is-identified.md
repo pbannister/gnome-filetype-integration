@@ -35,8 +35,11 @@ A template language is a deliberate exception. PHP often begins with an HTML
 body, so libmagic reports `text/html` while the name says `application/x-php`.
 The name wins for PHP and the other template/script types listed in
 `TEMPLATE_MIME_TYPES`; the HTML is the template body, not the file's kind.
-libmagic's `text/x-php` is also aliased to `application/x-php`, because the two
-databases spell the same language differently.
+The same rule covers JSP, ASP.NET, Razor, ERB, EJS, Handlebars, Mustache, Twig,
+Liquid, Nunjucks, Jinja, Pug, Haml, Slim, ColdFusion, Vue, Svelte, Astro,
+JSX/TSX, and server-side includes. libmagic's `text/x-php` is aliased to
+`application/x-php`, because the two databases spell the same language
+differently.
 
 A generic content type does not mean "unidentified": it means the bytes carry
 no format signature, so the name is the better evidence. A *specific* content

@@ -41,6 +41,7 @@ never a dead end.
 - `FILETYPE-R029` — A catalog application with a Flathub id but no homepage must take its project website from the Flathub page's Project Website link, recorded as the catalog homepage.
 - `FILETYPE-R030` — A catalog application with an apt package but no homepage must take its upstream homepage from the Debian tracker package page, recorded as the catalog homepage.
 - `FILETYPE-R031` — A template or scripting language whose body is HTML, such as PHP, must be identified by its language name rather than as HTML, and its libmagic alias must resolve to the same MIME type.
+- `FILETYPE-R032` — The built-in template set must include JSP, ASP.NET, Razor, ERB, EJS, Handlebars, Mustache, Twig, Liquid, Nunjucks, Jinja, Pug, Haml, Slim, ColdFusion, Vue, Svelte, Astro, JSX/TSX, and server-side includes, with a code category and description.
 
 ## Behavior
 

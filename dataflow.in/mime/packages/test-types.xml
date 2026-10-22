@@ -29,6 +29,9 @@
     <comment>PHP script</comment>
     <icon name="text-x-script"/>
   </mime-type>
+  <mime-type type="application/x-tiled-tsx">
+    <comment>Tiled tileset files</comment>
+  </mime-type>
   <mime-type type="application/x-custom-format">
     <comment>Fixture custom format</comment>
     <glob pattern="*.custom" weight="50"/>

@@ -15,8 +15,8 @@ import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .mime_index import (GENERIC_MIME_TYPES, GlobMatch, TypeIndex, category_label,
-                         humanize_mime, normalize_mime)
+from .mime_index import (GENERIC_MIME_TYPES, WEB_TEMPLATE_MIME_TYPES, GlobMatch,
+                         TypeIndex, category_label, humanize_mime, normalize_mime)
 
 # A template language's body is often ordinary HTML; the language, not the
 # body, is the file's kind.
@@ -25,12 +25,9 @@ TEMPLATE_MIME_TYPES = frozenset(
         "application/x-php",
         "text/x-php",
         "application/x-httpd-php",
-        "application/x-jsp",
-        "application/x-aspx",
-        "application/x-asp",
         "text/x-eruby",
     }
-)
+) | WEB_TEMPLATE_MIME_TYPES
 TEMPLATE_BODY_MIME_TYPES = frozenset(
     {
         "text/html",
@@ -38,6 +35,12 @@ TEMPLATE_BODY_MIME_TYPES = frozenset(
         "text/plain",
         "application/xml",
         "text/xml",
+        "application/javascript",
+        "text/javascript",
+        "application/x-javascript",
+        "application/typescript",
+        "text/typescript",
+        "text/x-typescript",
     }
 )
 
@@ -298,6 +301,16 @@ def identify(path: str | os.PathLike[str], index: TypeIndex | None = None) -> Id
 
     hint = extension_hint(target, index)
     magic = magic_probe(target)
+    # .tsx is claimed by the shared MIME database for Tiled tilesets.  When
+    # the bytes are HTML-like or plain, it is the React/TypeScript component
+    # form instead.
+    if (hint.suffix == "tsx" and hint.mime in {"application/x-tiled-tsx", ""}
+            and magic.mime in {"text/html", "application/xhtml+xml", "text/plain",
+                               "application/javascript", "text/javascript",
+                               "application/x-javascript", "application/typescript",
+                               "text/typescript", "text/x-typescript"}):
+        hint = ExtensionHint(suffix="tsx", mime="application/x-tsx",
+                             description="React TSX source", matches=hint.matches)
     reasons: list[str] = []
 
     if magic.mime:

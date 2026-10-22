@@ -27,6 +27,36 @@ BUILTIN_ALIASES = {
     "application/x-httpd-php": "application/x-php",
 }
 
+# Web application source that is HTML-shaped but is not a renderable page.
+# These types are built in because the shared MIME database does not know most
+# templating languages.  A .jsp, .erb, .vue, or .cshtml file must not be handed
+# to a browser as if it were HTML.
+WEB_TEMPLATE_TYPES = {
+    "application/x-jsp": ("JavaServer Pages template", ("jsp", "jspx", "jspf")),
+    "application/x-aspx": ("ASP.NET page", ("aspx", "ascx", "asmx", "ashx", "asax")),
+    "application/x-razor": ("Razor view", ("cshtml", "vbhtml")),
+    "application/x-erb": ("Embedded Ruby template", ("erb", "rhtml")),
+    "application/x-ejs": ("Embedded JavaScript template", ("ejs",)),
+    "application/x-handlebars": ("Handlebars template", ("hbs", "handlebars")),
+    "application/x-mustache": ("Mustache template", ("mustache",)),
+    "text/x-twig": ("Twig template", ("twig",)),
+    "application/x-liquid": ("Liquid template", ("liquid",)),
+    "application/x-nunjucks": ("Nunjucks template", ("njk", "nunjucks")),
+    "application/x-jinja2": ("Jinja template", ("jinja", "jinja2", "j2")),
+    "application/x-pug": ("Pug template", ("pug", "jade")),
+    "application/x-haml": ("Haml template", ("haml",)),
+    "application/x-slim": ("Slim template", ("slim",)),
+    "application/x-coldfusion": ("ColdFusion page", ("cfm", "cfml")),
+    "application/x-vue": ("Vue component", ("vue",)),
+    "application/x-svelte": ("Svelte component", ("svelte",)),
+    "application/x-astro": ("Astro component", ("astro",)),
+    "application/x-asp": ("ASP page", ("asp",)),
+    "application/x-jsx": ("React JSX source", ("jsx",)),
+    "application/x-tsx": ("React TSX source", ()),
+    "application/x-ssi": ("Server-side includes page", ("shtml",)),
+}
+WEB_TEMPLATE_MIME_TYPES = frozenset(WEB_TEMPLATE_TYPES)
+
 GENERIC_MIME_TYPES = frozenset(
     {
         "application/octet-stream",
@@ -185,6 +215,7 @@ class TypeIndex:
         index._load_subclasses(directories)
         index._load_packages([directory / "packages" for directory in directories])
         index._load_mime_types(files)
+        index._load_web_templates()
         index._finalize()
         return index
 
@@ -365,6 +396,19 @@ class TypeIndex:
                                     case_sensitive=False, source=str(path))
                     if not any(existing.pattern == rule.pattern for existing in self.globs):
                         self._add_glob(rule)
+
+    def _load_web_templates(self) -> None:
+        for mime, (description, extensions) in WEB_TEMPLATE_TYPES.items():
+            info = self._add_type(mime)
+            if not info.description:
+                info.description = description
+            info.source = info.source or "builtin:web-template"
+            for extension in extensions:
+                rule = GlobRule(pattern=f"*.{extension}", mime=mime, weight=55,
+                                case_sensitive=False, source="builtin:web-template")
+                if not any(existing.pattern == rule.pattern and existing.mime == rule.mime
+                           for existing in self.globs):
+                    self._add_glob(rule)
 
     def _finalize(self) -> None:
         # Package XML globs are added after globs2; merge them here so that
@@ -692,6 +736,8 @@ CATEGORY_SUBTYPE = (
 
 def category_of(mime: str) -> str:
     mime = normalize_mime(mime)
+    if mime in WEB_TEMPLATE_MIME_TYPES:
+        return "code"
     if mime in CATEGORY_EXACT:
         return CATEGORY_EXACT[mime]
     subtype = mime.split("/", 1)[-1]

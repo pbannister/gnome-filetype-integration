@@ -83,6 +83,14 @@ check_field "$FIXTURES/sample-template.php" "f['description']" "PHP script"
 check_field "$FIXTURES/sample-template.php" "f['source']" "name"
 check_field "$FIXTURES/sample-template.php" "f['conflict'] is None" "True"
 check_field "$FIXTURES/sample-code.php" "f['mime']" "application/x-php"
+check_field "$FIXTURES/sample-page.jsp" "f['mime']" "application/x-jsp"
+check_field "$FIXTURES/sample-page.jsp" "f['category']" "code"
+check_field "$FIXTURES/sample-view.vue" "f['mime']" "application/x-vue"
+check_field "$FIXTURES/sample-template.erb" "f['mime']" "application/x-erb"
+check_field "$FIXTURES/sample-component.jsx" "f['mime']" "application/x-jsx"
+check_field "$FIXTURES/sample-component.tsx" "f['mime']" "application/x-tsx"
+check_field "$FIXTURES/sample-tileset.tsx" "f['mime']" "application/x-tiled-tsx"
+check_field "$FIXTURES/sample-page.shtml" "f['mime']" "application/x-ssi"
 
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then

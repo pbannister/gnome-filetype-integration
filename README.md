@@ -144,7 +144,9 @@ The decision follows the evidence:
   type. This is how an empty `.png` or a Markdown file is identified.
 - A template language whose body is HTML is named by its language, not its
   body: a `.php` file that starts with `<html>` is a PHP script, not an HTML
-  document.
+  document. The same applies to JSP, ASP.NET/Razor, ERB, EJS, Handlebars,
+  Mustache, Twig, Liquid, Nunjucks, Jinja, Pug, Haml, Slim, ColdFusion, Vue,
+  Svelte, Astro, JSX/TSX, and server-side includes.
 - If the bytes are specific and disagree with the name, the **bytes win** and
   the report names both types. A PNG renamed to `.txt` is reported as a PNG
   with a conflict, not silently as text.

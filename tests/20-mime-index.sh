@@ -24,7 +24,7 @@ index = TypeIndex.load()
 sources = " ".join(str(path) for path in index.source_files)
 assert "/etc/mime.types" not in sources, sources
 assert "/usr/share/mime" not in sources, sources
-assert 10 <= index.type_count() <= 20, index.type_count()
+assert 10 <= index.type_count() <= 60, index.type_count()
 
 # 1. Simple and compound extensions.
 assert index.lookup_extension("photo.png")[0].mime == "image/png"
