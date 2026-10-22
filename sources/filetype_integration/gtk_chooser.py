@@ -297,7 +297,7 @@ def _about_clicked(parent, application: RankedApplication, link) -> bool:
 
     def worker() -> None:
         try:
-            url, results = find_first_available(urls)
+            url, results = find_first_available(urls, limit=6)
         except Exception as error:
             url, results = "", []
             from gi.repository import GLib
@@ -668,7 +668,9 @@ def run(path: str, self_test: bool = False) -> int:
     _gdk, Gtk = _gtk()
     Adw = _adw()
     application_class = Adw.Application if Adw is not None else Gtk.Application
-    application = application_class(application_id="io.github.filetype.Chooser")
+    application_id = ("io.github.filetype.Chooser"
+                      if not self_test else f"io.github.filetype.Chooser.Test{os.getpid()}")
+    application = application_class(application_id=application_id)
     if Adw is not None:
         try:
             Adw.init()

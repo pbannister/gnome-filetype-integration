@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -348,37 +349,8 @@ class RankedApplication:
 
     @property
     def about_urls(self) -> list[str]:
-        """Candidate pages for About, best first.
-
-        A URL recorded when the catalog was written may disappear.  The
-        chooser keeps every candidate it can derive, checks them in order, and
-        opens the first one that answers.
-        """
-        urls: list[str] = []
-
-        def add(url: str) -> None:
-            if url and url.startswith(("http://", "https://")) and url not in urls:
-                urls.append(url)
-
-        if self.desktop is not None:
-            add(application_homepage(self.desktop))
-        if self.catalog is not None:
-            add(self.catalog.homepage)
-            install = self.catalog.install
-            add(install.get("url", ""))
-            if install.get("flatpak"):
-                add(f"https://flathub.org/apps/{quote(install['flatpak'])}")
-            if install.get("snap"):
-                add(f"https://snapcraft.io/{quote(install['snap'])}")
-            if install.get("apt"):
-                add(f"https://packages.ubuntu.com/search?keywords={quote(install['apt'])}")
-        if self.desktop is not None:
-            executable = self.desktop.executable or self.desktop.name
-            if executable:
-                # A path such as /snap/bin/gimp names the package "gimp".
-                executable = executable.rsplit("/", 1)[-1]
-                add(f"https://packages.ubuntu.com/search?keywords={quote(executable)}")
-        return urls
+        """Candidate pages for About, best first."""
+        return about_candidates(self.catalog, self.desktop)
 
     @property
     def about_url(self) -> str:
@@ -500,11 +472,114 @@ def preferred_install(application: CatalogApplication) -> dict[str, str] | None:
     return commands[0]
 
 
+def _name_key(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
+
+
+def _application_matches_catalog(application: InstalledApplication,
+                                 catalog_application: CatalogApplication) -> bool:
+    """Best-effort identity match when a distribution renames a desktop id.
+
+    A snap LibreOffice Calc is named "LibreOffice 26.2 Calc" with the desktop
+    id ``libreoffice_calc.desktop``; neither equals the catalog's
+    ``org.libreoffice.LibreOffice`` entry, but the catalog still describes it.
+    """
+    if application.desktop_id in catalog_application.desktop_ids:
+        return True
+    if application.flatpak_id and application.flatpak_id == catalog_application.install.get("flatpak"):
+        return True
+    if catalog_application.binary and application.executable:
+        if application.executable.rsplit("/", 1)[-1] == catalog_application.binary:
+            return True
+    installed_key = _name_key(application.name)
+    catalog_key = _name_key(catalog_application.name)
+    if not installed_key or not catalog_key:
+        return False
+    if installed_key == catalog_key:
+        return True
+    # Only a version or edition suffix is allowed to differ:
+    # "LibreOffice 26.2 Calc" starts with "LibreOffice".  A single shared word
+    # such as "Python" is not enough: "Test Python Editor" is not Python.
+    return (installed_key.startswith(catalog_key + " ")
+            or catalog_key.startswith(installed_key + " "))
+
+
+def _catalog_entry_for(application: InstalledApplication,
+                       catalog: ApplicationCatalog | None) -> CatalogApplication | None:
+    if catalog is None:
+        return None
+    matches = [candidate for candidate in catalog.applications
+               if _application_matches_catalog(application, candidate)]
+    if not matches:
+        return None
+    return max(matches, key=lambda candidate: len(_name_key(candidate.name)))
+
+
+def _package_name(value: str) -> str:
+    value = value.rsplit("/", 1)[-1]
+    value = value.removesuffix(".desktop")
+    value = value.replace("_", "-").replace(".", "-")
+    value = re.sub(r"-+", "-", value).strip("-")
+    return value
+
+
+def about_candidates(catalog_application: CatalogApplication | None,
+                     desktop: InstalledApplication | None) -> list[str]:
+    """Ordered pages that describe an application.
+
+    The list is deliberately redundant: a project page, Flathub, the
+    distribution package page, and search pages.  The chooser probes them and
+    opens the first that answers, so one dead site is not a dead end.
+    """
+    urls: list[str] = []
+
+    def add(url: str) -> None:
+        if url and url.startswith(("http://", "https://")) and url not in urls:
+            urls.append(url)
+
+    if desktop is not None:
+        add(application_homepage(desktop))
+    if catalog_application is not None:
+        add(catalog_application.homepage)
+        install = catalog_application.install
+        add(install.get("url", ""))
+        if install.get("flatpak"):
+            add(f"https://flathub.org/apps/{quote(install['flatpak'])}")
+        if install.get("snap"):
+            add(f"https://snapcraft.io/{quote(install['snap'])}")
+        if install.get("apt"):
+            package = install["apt"]
+            add(f"https://packages.ubuntu.com/search?keywords={quote(package)}")
+            add(f"https://packages.debian.org/search?keywords={quote(package)}")
+            add(f"https://tracker.debian.org/pkg/{quote(package)}")
+        name = catalog_application.name
+        add(f"https://flathub.org/apps/search?q={quote(name)}")
+        add(f"https://snapcraft.io/search?q={quote(name)}")
+
+    if desktop is not None:
+        executable = desktop.executable or desktop.name
+        package_names = []
+        if executable:
+            executable_name = executable.rsplit("/", 1)[-1]
+            if executable_name not in {"flatpak", "snap"}:
+                package_names.append(executable_name)
+                package_names.append(_package_name(executable_name))
+            if executable.startswith("/snap/bin/"):
+                add(f"https://snapcraft.io/{quote(executable_name.split('.')[0])}")
+        if desktop.desktop_id and not executable.endswith("/flatpak"):
+            package_names.append(_package_name(desktop.desktop_id))
+        for package in dict.fromkeys(name for name in package_names if name):
+            add(f"https://packages.ubuntu.com/search?keywords={quote(package)}")
+            add(f"https://packages.debian.org/search?keywords={quote(package)}")
+        add(f"https://flathub.org/apps/search?q={quote(desktop.name)}")
+        add(f"https://snapcraft.io/search?q={quote(desktop.name)}")
+    return urls
+
+
 def _catalog_is_installed(application: CatalogApplication,
                           installed: ApplicationIndex) -> tuple[bool, InstalledApplication | None]:
-    for desktop_id in application.desktop_ids:
-        entry = installed.entry(desktop_id)
-        if entry is not None:
+    for entry in installed.entries.values():
+        if _application_matches_catalog(entry, application):
             return True, entry
     if application.binary and shutil.which(application.binary):
         return True, None
@@ -514,14 +589,7 @@ def _catalog_is_installed(application: CatalogApplication,
 def _installed_application(application: InstalledApplication,
                            catalog: ApplicationCatalog | None,
                            identification_category: str = "") -> RankedApplication:
-    catalog_entry = None
-    if catalog is not None:
-        for candidate in catalog.applications:
-            if (application.desktop_id in candidate.desktop_ids
-                    or (candidate.binary and candidate.binary == application.executable)
-                    or candidate.name.casefold() == application.name.casefold()):
-                catalog_entry = candidate
-                break
+    catalog_entry = _catalog_entry_for(application, catalog)
     maturity = catalog_entry.maturity if catalog_entry is not None else "unknown"
     popularity = catalog_entry.popularity if catalog_entry is not None else None
     usefulness = catalog_entry.usefulness if catalog_entry is not None else "installed"

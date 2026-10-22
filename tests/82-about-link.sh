@@ -28,6 +28,7 @@ LIBRARY="$REPOSITORY_ROOT/dataflow.out/build/program/lib/gnome-filetype-integrat
 
 output=$(PYTHONPATH="$LIBRARY" xvfb-run -a env GDK_BACKEND=x11 \
     python3 - "$FIXTURES/sample.png" <<'PY' 2>&1
+import os
 import sys
 
 import gi
@@ -98,7 +99,7 @@ def check(window, application, recommendation):
     run_buttons[0].emit("clicked")
 
     about_opened = []
-    chooser.find_first_available = lambda urls, timeout=4.0: (urls[0], [])
+    chooser.find_first_available = lambda urls, timeout=4.0, limit=None: (urls[0], [])
     chooser.open_uri = lambda url: about_opened.append(url) or True
     links[0].emit("activate-link")
 
@@ -121,7 +122,7 @@ def check(window, application, recommendation):
     return False
 
 
-application = Gtk.Application(application_id="io.github.filetype.AboutTest")
+application = Gtk.Application(application_id=f"io.github.filetype.AboutTest{os.getpid()}")
 application.connect("activate", on_activate)
 raise SystemExit(application.run([]))
 PY

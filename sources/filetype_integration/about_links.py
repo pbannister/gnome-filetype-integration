@@ -96,11 +96,12 @@ def probe_url(url: str, timeout: float = DEFAULT_TIMEOUT,
 
 
 def find_first_available(urls: list[str], timeout: float = DEFAULT_TIMEOUT,
-                    probe=None) -> tuple[str, list[ProbeResult]]:
+                    probe=None, limit: int | None = None) -> tuple[str, list[ProbeResult]]:
     """Probe candidates in order and return the first that answers."""
     probe = probe or probe_url
     results: list[ProbeResult] = []
-    for url in urls:
+    candidates = urls[:limit] if limit else urls
+    for url in candidates:
         if not url:
             continue
         ok = bool(probe(url, timeout=timeout))

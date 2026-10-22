@@ -20,10 +20,11 @@ The same work is available in four places:
 
 Inside the chooser, each application row has its action button on the left and an
 **About** link beside the application name. The link keeps an ordered list of
-candidate pages (AppStream project page, vendor page, Flathub, Snapcraft, and
-the distribution package page). On click it makes a short HEAD request, falls
-back to a one-byte GET when HEAD is rejected, and opens the first page that
-answers; a dead site moves to the next candidate. The install dialog's **Run**
+candidate pages (AppStream project page, vendor page, Flathub, Snapcraft,
+distribution package pages, and search pages). On click it probes the first six
+with a short HEAD request, falls back to a one-byte GET when HEAD is rejected,
+and opens the first page that answers; a dead site moves to the next
+candidate. The install dialog's **Run**
 button performs the selected install and streams its output and exit status into
 the dialog. The chooser itself is never listed as an installed application.
 

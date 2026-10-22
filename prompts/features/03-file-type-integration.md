@@ -32,7 +32,7 @@ never a dead end.
 - `FILETYPE-R020` — Tests must run against a sandboxed `HOME` and sandboxed XDG directories, must not change the real desktop, and must classify the graphical, Nautilus, and live checks as tool-gated.
 - `FILETYPE-R021` — The tool must report the libmagic database, MIME database, desktop entries, GTK, catalog, and handler state through a diagnostics command.
 - `FILETYPE-R022` — A directory scan must report, per file, whether an installed application can open it, and must offer an exit status that lets a script fail when at least one file needs help.
-- `FILETYPE-R023` — Each application row in the chooser must place its action button on the left and offer an About link beside the application name; the link must keep an ordered list of candidate pages and, when clicked, probe them in order with a short HTTP request, opening the first that answers and trying the next when one fails.
+- `FILETYPE-R023` — Each application row in the chooser must place its action button on the left and offer an About link beside the application name; the link must keep an ordered list of at least two candidate pages where possible, and when clicked must probe them in order with a short HTTP request, opening the first that answers and trying the next when one fails.
 - `FILETYPE-R024` — The install dialog must offer a Run action for each install hint and show the command's output and exit status as it runs.
 - `FILETYPE-R025` — The chooser's own desktop entry must not appear in the list of installed applications.
 

@@ -24,8 +24,9 @@ os.environ["no_proxy"] = "127.0.0.1,localhost"
 os.environ["NO_PROXY"] = "127.0.0.1,localhost"
 
 from filetype_integration import about_links
-from filetype_integration.application_catalog import ApplicationCatalog, recommend
-from filetype_integration.desktop_application import ApplicationIndex
+from filetype_integration.application_catalog import (ApplicationCatalog, _catalog_entry_for,
+                                                       about_candidates, recommend)
+from filetype_integration.desktop_application import ApplicationIndex, InstalledApplication
 from filetype_integration.file_identifier import identify
 from filetype_integration.mime_index import TypeIndex
 
@@ -106,7 +107,37 @@ try:
     assert "https://flathub.org/apps/org.gimp.GIMP" in urls, urls
     assert "https://packages.ubuntu.com/search?keywords=gimp" in urls, urls
     assert len(urls) == len(set(urls)), urls
-    assert all(url.startswith("https://") for url in urls), urls
+    assert all(url.startswith(("http://", "https://")) for url in urls), urls
+
+    # 7. Every catalog application has at least one alternative, and every
+    #    URL is structurally usable (scheme, host, no whitespace).
+    from urllib.parse import urlparse
+    for application in catalog.applications:
+        candidates = about_candidates(application, None)
+        assert 2 <= len(candidates), (application.id, candidates)
+        assert len(candidates) == len(set(candidates)), (application.id, candidates)
+        for url in candidates:
+            parsed = urlparse(url)
+            assert parsed.scheme in {"http", "https"}, (application.id, url)
+            assert parsed.netloc, (application.id, url)
+            assert not any(character.isspace() for character in url), (application.id, url)
+
+    # 8. A distribution that renames the desktop id and appends a version still
+    #    finds the catalog entry and its alternatives.
+    snap_calc = InstalledApplication(
+        desktop_id="libreoffice_calc.desktop", name="LibreOffice 26.2 Calc",
+        comment="", executable="/snap/bin/libreoffice.calc",
+        exec_line="/snap/bin/libreoffice.calc %U", mime_types=["application/vnd.oasis.opendocument.spreadsheet"],
+        source_path="/tmp/libreoffice_calc.desktop",
+    )
+    matched = _catalog_entry_for(snap_calc, catalog)
+    assert matched is not None and matched.id == "org.libreoffice.LibreOffice", matched
+    snap_urls = about_candidates(matched, snap_calc)
+    assert snap_urls[0] == "https://www.libreoffice.org/", snap_urls
+    assert any("packages.ubuntu.com" in url for url in snap_urls), snap_urls
+    assert any("flathub.org" in url for url in snap_urls), snap_urls
+    assert len(snap_urls) >= 3, snap_urls
+
     print("40-about-links: ok")
 finally:
     server.shutdown()

@@ -65,8 +65,9 @@ application, it prints the command the user's package manager already knows.
   vendor download page, not a direct binary.
 - `homepage` — optional; the project page shown first by the About link. The
   About candidates are built in this order: AppStream homepage, `homepage`,
-  `install.url`, Flathub, Snapcraft, and the distribution package page. On click
-  the chooser probes them with a short HEAD request (one-byte GET fallback) and
+  `install.url`, Flathub, Snapcraft, the Ubuntu and Debian package pages, the
+  Debian tracker, and Flathub/Snapcraft search pages. On click the chooser
+  probes the first six with a short HEAD request (one-byte GET fallback) and
   opens the first that answers.
 - `desktop_ids` — optional; used to notice that a catalog application is
   already installed but not registered for this type.
