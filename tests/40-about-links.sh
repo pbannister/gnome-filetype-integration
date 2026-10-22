@@ -105,7 +105,7 @@ try:
     urls = offer.about_urls
     assert urls[0] == "https://www.gimp.org/", urls
     assert "https://flathub.org/apps/org.gimp.GIMP" in urls, urls
-    assert "https://packages.ubuntu.com/search?keywords=gimp" in urls, urls
+    assert "https://tracker.debian.org/pkg/gimp" in urls, urls
     assert len(urls) == len(set(urls)), urls
     assert all(url.startswith(("http://", "https://")) for url in urls), urls
 
@@ -134,7 +134,7 @@ try:
     assert matched is not None and matched.id == "org.libreoffice.LibreOffice", matched
     snap_urls = about_candidates(matched, snap_calc)
     assert snap_urls[0] == "https://www.libreoffice.org/", snap_urls
-    assert any("packages.ubuntu.com" in url for url in snap_urls), snap_urls
+    assert any("tracker.debian.org" in url for url in snap_urls), snap_urls
     assert any("flathub.org" in url for url in snap_urls), snap_urls
     assert len(snap_urls) >= 3, snap_urls
 
@@ -155,6 +155,21 @@ try:
         "https://github.com/vim/vim",
     ], vim_urls
     assert all("packages." not in url for url in vim_urls[:3]), vim_urls
+
+    # 10. Helix prefers its project page, repository, documentation, and
+    #     community before any distribution page, and no application uses a
+    #     package search page (a search page answers 200 even with no result).
+    helix = catalog.get("com.github.helix")
+    helix_urls = about_candidates(helix, None)
+    assert helix_urls[:4] == [
+        "https://helix-editor.com/",
+        "https://github.com/helix-editor/helix",
+        "https://docs.helix-editor.com/",
+        "https://www.reddit.com/r/HelixEditor/",
+    ], helix_urls
+    for application in catalog.applications:
+        for url in about_candidates(application, None):
+            assert "/search?" not in url and "search?q=" not in url, (application.id, url)
 
     print("40-about-links: ok")
 finally:

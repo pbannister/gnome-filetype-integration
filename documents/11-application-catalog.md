@@ -71,10 +71,12 @@ application, it prints the command the user's package manager already knows.
 - `about` — optional extra reference pages (for example Wikipedia and the
   source repository), used after `homepage` and before package pages.
 - The About candidates are built in this order: AppStream homepage, `homepage`,
-  `about`, `install.url`, Flathub, Snapcraft, the Ubuntu and Debian package
-  pages, the Debian tracker, and Flathub/Snapcraft search pages. On click the
-  chooser probes the first six with a short HEAD request (one-byte GET
-  fallback) and opens the first that answers.
+  `about`, `install.url`, Flathub, Snapcraft, and direct package pages
+  (`tracker.debian.org`, `sources.debian.org`, Launchpad, Repology). Package
+  search pages are not used: a search page answers HTTP 200 even when it finds
+  nothing, which makes it a false positive. On click the chooser probes the
+  first six with a short HEAD request (one-byte GET fallback) and opens the
+  first that answers.
 - `desktop_ids` — optional; used to notice that a catalog application is
   already installed but not registered for this type.
 - `binary` — optional; used to notice a command-line application on `PATH`.

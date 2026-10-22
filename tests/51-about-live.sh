@@ -33,6 +33,7 @@ sample = [
     "com.obsproject.Studio", "org.keepassxc.KeePassXC", "qgis",
     "com.calibre_ebook.calibre", "com.github.johnfactotum.Foliate",
     "com.github.xournalpp.xournalpp", "org.kde.okular", "org.gnome.Nautilus",
+    "com.github.helix",
 ]
 
 

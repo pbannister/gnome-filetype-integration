@@ -531,6 +531,20 @@ def _package_name(value: str) -> str:
     return value
 
 
+def _add_package_pages(add, package: str) -> None:
+    """Direct package pages, never a search page.
+
+    A search page answers HTTP 200 even when it finds nothing, which is how a
+    Helix click landed on an empty Debian search.  These endpoints either
+    describe the package or fail visibly.
+    """
+    quoted = quote(package)
+    add(f"https://tracker.debian.org/pkg/{quoted}")
+    add(f"https://sources.debian.org/src/{quoted}/")
+    add(f"https://launchpad.net/ubuntu/+source/{quoted}")
+    add(f"https://repology.org/project/{quoted}/versions")
+
+
 def about_candidates(catalog_application: CatalogApplication | None,
                      desktop: InstalledApplication | None) -> list[str]:
     """Ordered pages that describe an application.
@@ -558,13 +572,7 @@ def about_candidates(catalog_application: CatalogApplication | None,
         if install.get("snap"):
             add(f"https://snapcraft.io/{quote(install['snap'])}")
         if install.get("apt"):
-            package = install["apt"]
-            add(f"https://packages.ubuntu.com/search?keywords={quote(package)}")
-            add(f"https://packages.debian.org/search?keywords={quote(package)}")
-            add(f"https://tracker.debian.org/pkg/{quote(package)}")
-        name = catalog_application.name
-        add(f"https://flathub.org/apps/search?q={quote(name)}")
-        add(f"https://snapcraft.io/search?q={quote(name)}")
+            _add_package_pages(add, install["apt"])
 
     if desktop is not None:
         executable = desktop.executable or desktop.name
@@ -579,10 +587,7 @@ def about_candidates(catalog_application: CatalogApplication | None,
         if desktop.desktop_id and not executable.endswith("/flatpak"):
             package_names.append(_package_name(desktop.desktop_id))
         for package in dict.fromkeys(name for name in package_names if name):
-            add(f"https://packages.ubuntu.com/search?keywords={quote(package)}")
-            add(f"https://packages.debian.org/search?keywords={quote(package)}")
-        add(f"https://flathub.org/apps/search?q={quote(desktop.name)}")
-        add(f"https://snapcraft.io/search?q={quote(desktop.name)}")
+            _add_package_pages(add, package)
     return urls
 
 

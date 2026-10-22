@@ -180,7 +180,12 @@
       "desktop_ids": [
         "code.desktop"
       ],
-      "binary": "code"
+      "binary": "code",
+      "homepage": "https://code.visualstudio.com/",
+      "about": [
+        "https://en.wikipedia.org/wiki/Visual_Studio_Code",
+        "https://github.com/microsoft/vscode"
+      ]
     },
     {
       "id": "com.vscodium.codium",
@@ -207,7 +212,11 @@
       "desktop_ids": [
         "codium.desktop"
       ],
-      "binary": "codium"
+      "binary": "codium",
+      "homepage": "https://vscodium.com/",
+      "about": [
+        "https://github.com/VSCodium/vscodium"
+      ]
     },
     {
       "id": "org.vim.Vim",
@@ -313,7 +322,13 @@
       "install": {
         "apt": "helix"
       },
-      "binary": "hx"
+      "binary": "hx",
+      "homepage": "https://helix-editor.com/",
+      "about": [
+        "https://github.com/helix-editor/helix",
+        "https://docs.helix-editor.com/",
+        "https://www.reddit.com/r/HelixEditor/"
+      ]
     },
     {
       "id": "org.geany.Geany",
@@ -393,7 +408,11 @@
         "flatpak": "md.obsidian.Obsidian",
         "url": "https://obsidian.md/"
       },
-      "binary": "obsidian"
+      "binary": "obsidian",
+      "homepage": "https://obsidian.md/",
+      "about": [
+        "https://help.obsidian.md/"
+      ]
     },
     {
       "id": "net.cozic.joplin_desktop",
@@ -419,7 +438,11 @@
       "desktop_ids": [
         "joplin.desktop"
       ],
-      "binary": "joplin"
+      "binary": "joplin",
+      "homepage": "https://joplinapp.org/",
+      "about": [
+        "https://github.com/laurent22/joplin"
+      ]
     },
     {
       "id": "com.zettlr.Zettlr",
@@ -442,7 +465,11 @@
       "install": {
         "url": "https://www.zettlr.com/"
       },
-      "binary": "zettlr"
+      "binary": "zettlr",
+      "homepage": "https://www.zettlr.com/",
+      "about": [
+        "https://github.com/Zettlr/Zettlr"
+      ]
     },
     {
       "id": "org.gnome.CherryTree",
@@ -1083,7 +1110,11 @@
       "install": {
         "url": "https://koodoreader.com/"
       },
-      "binary": "koodo-reader"
+      "binary": "koodo-reader",
+      "homepage": "https://koodoreader.com/",
+      "about": [
+        "https://github.com/koodo-reader/koodo-reader"
+      ]
     },
     {
       "id": "org.gnome.Loupe",
@@ -1682,7 +1713,11 @@
       "desktop_ids": [
         "com.github.rafostar.Clapper.desktop"
       ],
-      "binary": "clapper"
+      "binary": "clapper",
+      "homepage": "https://rafostar.github.io/clapper/",
+      "about": [
+        "https://github.com/Rafostar/clapper"
+      ]
     },
     {
       "id": "org.gnome.Rhythmbox",
@@ -1724,7 +1759,11 @@
       "desktop_ids": [
         "io.bassi.Amberol.desktop"
       ],
-      "binary": "amberol"
+      "binary": "amberol",
+      "homepage": "https://apps.gnome.org/Amberol/",
+      "about": [
+        "https://gitlab.gnome.org/GNOME/amberol"
+      ]
     },
     {
       "id": "org.gnome.Lollypop",
@@ -2254,7 +2293,11 @@
       "install": {
         "flatpak": "io.github.peazip.PeaZip"
       },
-      "binary": "peazip"
+      "binary": "peazip",
+      "homepage": "https://peazip.github.io/",
+      "about": [
+        "https://github.com/peazip/PeaZip"
+      ]
     },
     {
       "id": "7zip",
@@ -2576,7 +2619,11 @@
       "install": {
         "url": "https://ghidra-sre.org/"
       },
-      "binary": "ghidraRun"
+      "binary": "ghidraRun",
+      "homepage": "https://ghidra-sre.org/",
+      "about": [
+        "https://github.com/NationalSecurityAgency/ghidra"
+      ]
     },
     {
       "id": "binwalk",
@@ -2914,7 +2961,11 @@
       "install": {
         "flatpak": "io.dbeaver.DBeaverCommunity"
       },
-      "binary": "dbeaver"
+      "binary": "dbeaver",
+      "homepage": "https://dbeaver.io/",
+      "about": [
+        "https://github.com/dbeaver/dbeaver"
+      ]
     },
     {
       "id": "duckdb",
@@ -3531,7 +3582,11 @@
       "desktop_ids": [
         "com.softfever.OrcaSlicer.desktop"
       ],
-      "binary": "orcaslicer"
+      "binary": "orcaslicer",
+      "homepage": "https://www.orcaslicer.com/",
+      "about": [
+        "https://github.com/SoftFever/OrcaSlicer"
+      ]
     },
     {
       "id": "org.kicad.KiCad",
@@ -3661,7 +3716,11 @@
       "desktop_ids": [
         "balena-etcher-electron.desktop"
       ],
-      "binary": "balena-etcher"
+      "binary": "balena-etcher",
+      "homepage": "https://etcher.balena.io/",
+      "about": [
+        "https://github.com/balena-io/etcher"
+      ]
     },
     {
       "id": "usbimager",
@@ -3685,7 +3744,11 @@
       "install": {
         "url": "https://bztsrc.gitlab.io/usbimager/"
       },
-      "binary": "usbimager"
+      "binary": "usbimager",
+      "homepage": "https://bztsrc.gitlab.io/usbimager/",
+      "about": [
+        "https://gitlab.com/bztsrc/usbimager"
+      ]
     },
     {
       "id": "ventoy",
@@ -3710,7 +3773,11 @@
       "install": {
         "url": "https://www.ventoy.net/"
       },
-      "binary": "ventoy"
+      "binary": "ventoy",
+      "homepage": "https://www.ventoy.net/",
+      "about": [
+        "https://github.com/ventoy/Ventoy"
+      ]
     },
     {
       "id": "gnome-multi-writer",
@@ -4193,7 +4260,11 @@
       "desktop_ids": [
         "de.haeckerfelix.Fragments.desktop"
       ],
-      "binary": "fragments"
+      "binary": "fragments",
+      "homepage": "https://apps.gnome.org/Fragments/",
+      "about": [
+        "https://gitlab.gnome.org/World/Fragments"
+      ]
     },
     {
       "id": "gnome-subtitles",
@@ -4278,7 +4349,11 @@
       "desktop_ids": [
         "drawio.desktop"
       ],
-      "binary": "drawio"
+      "binary": "drawio",
+      "homepage": "https://www.drawio.com/",
+      "about": [
+        "https://github.com/jgraph/drawio-desktop"
+      ]
     },
     {
       "id": "dia",
