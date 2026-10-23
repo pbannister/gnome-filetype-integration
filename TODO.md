@@ -10,6 +10,15 @@
 
 ## Recently Completed
 
+* [x] publish a release and make it install with one command (2026-10-23; owner
+      instruction):
+    * [x] `make release-publish` and `scripts/release-publish.sh` tag the commit
+      and create or update the GitHub release.
+    * [x] `scripts/install.sh` defaults to the project repository and asset name,
+      so the documented `curl … | sh` needs no environment variables; it also
+      builds from the source archive when no prebuilt asset matches the machine.
+    * [x] `tests/08-release-publish.sh` and `tests/11-release-install.sh` cover
+      the publish decisions, the default repository URL, and the handler opt-out.
 * [x] implement the file type integration end to end (2026-10-22):
     * [x] identify a file from libmagic and the shared-mime-info globs, with a reported conflict and confidence.
     * [x] index 1,943 MIME types and 2,245 extensions on the development machine, including compound extensions and aliases.
