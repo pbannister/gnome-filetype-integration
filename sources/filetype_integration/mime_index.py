@@ -57,6 +57,26 @@ WEB_TEMPLATE_TYPES = {
 }
 WEB_TEMPLATE_MIME_TYPES = frozenset(WEB_TEMPLATE_TYPES)
 
+# Machine-learning model formats the shared MIME database does not know.  The
+# extensions are specific enough to name the type.  `.pt` is deliberately
+# absent: the database already claims it for an unrelated format, and guessing
+# PyTorch from the name alone would mislabel those files.  `.bin`, `.pkl`,
+# `.joblib`, `.npy`, and `.h5` are absent for the same reason: they are generic
+# containers used by many things, not only models.
+AI_MODEL_TYPES = {
+    "application/x-gguf": ("GGUF model", ("gguf",)),
+    "application/x-ggml": ("GGML model", ("ggml",)),
+    "application/x-safetensors": ("Safetensors model", ("safetensors",)),
+    "application/x-onnx": ("ONNX model", ("onnx",)),
+    "application/x-tflite": ("TensorFlow Lite model", ("tflite",)),
+    "application/x-mlmodel": ("Core ML model", ("mlmodel",)),
+    "application/x-keras": ("Keras model", ("keras",)),
+    "application/x-pytorch": ("PyTorch model", ("pth",)),
+    "application/x-torch-checkpoint": ("PyTorch checkpoint", ("ckpt",)),
+}
+AI_MODEL_MIME_TYPES = frozenset(AI_MODEL_TYPES)
+
+
 GENERIC_MIME_TYPES = frozenset(
     {
         "application/octet-stream",
@@ -216,6 +236,7 @@ class TypeIndex:
         index._load_packages([directory / "packages" for directory in directories])
         index._load_mime_types(files)
         index._load_web_templates()
+        index._load_ai_models()
         index._finalize()
         return index
 
@@ -406,6 +427,19 @@ class TypeIndex:
             for extension in extensions:
                 rule = GlobRule(pattern=f"*.{extension}", mime=mime, weight=55,
                                 case_sensitive=False, source="builtin:web-template")
+                if not any(existing.pattern == rule.pattern and existing.mime == rule.mime
+                           for existing in self.globs):
+                    self._add_glob(rule)
+
+    def _load_ai_models(self) -> None:
+        for mime, (description, extensions) in AI_MODEL_TYPES.items():
+            info = self._add_type(mime)
+            if not info.description:
+                info.description = description
+            info.source = info.source or "builtin:ai-model"
+            for extension in extensions:
+                rule = GlobRule(pattern=f"*.{extension}", mime=mime, weight=55,
+                                case_sensitive=False, source="builtin:ai-model")
                 if not any(existing.pattern == rule.pattern and existing.mime == rule.mime
                            for existing in self.globs):
                     self._add_glob(rule)
@@ -736,6 +770,8 @@ CATEGORY_SUBTYPE = (
 
 def category_of(mime: str) -> str:
     mime = normalize_mime(mime)
+    if mime in AI_MODEL_MIME_TYPES:
+        return "ai"
     if mime in WEB_TEMPLATE_MIME_TYPES:
         return "code"
     if mime in CATEGORY_EXACT:
@@ -770,6 +806,7 @@ def category_generic_icon(category: str) -> str:
         "database": "x-office-spreadsheet",
         "data": "text-x-generic",
         "model": "image-x-generic",
+        "ai": "applications-science",
         "cad": "image-x-generic",
         "disk-image": "media-optical",
         "ebook": "x-office-document",
@@ -800,6 +837,7 @@ def category_label(category: str) -> str:
         "database": "Database",
         "data": "Data",
         "model": "3D model",
+        "ai": "AI model",
         "cad": "CAD drawing",
         "disk-image": "Disk image",
         "ebook": "Ebook",

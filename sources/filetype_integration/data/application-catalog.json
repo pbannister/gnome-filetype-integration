@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-22",
+  "updated": "2026-10-23",
   "note": "Curated suggestions for applications that may not be installed. Installed applications are discovered from the desktop itself.",
   "scales": {
     "maturity": [
@@ -4557,6 +4557,324 @@
       ],
       "binary": "keepassxc",
       "homepage": "https://keepassxc.org/"
+    },
+    {
+      "id": "llama.cpp",
+      "name": "llama.cpp",
+      "purpose": "Run GGUF and GGML language models locally with llama-cli and llama-server.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "gguf",
+          "ggml"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "apt": "llama.cpp",
+        "url": "https://github.com/ggml-org/llama.cpp/releases"
+      },
+      "binary": "llama-cli",
+      "homepage": "https://github.com/ggml-org/llama.cpp",
+      "notes": "The Ubuntu package installs llama-cli, llama-server, and the quantization tools."
+    },
+    {
+      "id": "lmstudio",
+      "name": "LM Studio",
+      "purpose": "Download, run, and chat with GGUF models in a desktop window.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 85,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "gguf",
+          "ggml"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://lmstudio.ai/"
+      },
+      "homepage": "https://lmstudio.ai/",
+      "notes": "Proprietary; the Linux download is an AppImage or a Debian package.",
+      "about": [
+        "https://lmstudio.ai/docs"
+      ]
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "purpose": "Run and manage local language models, including imported GGUF models, from the command line.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 80,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "gguf"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://ollama.com/download"
+      },
+      "binary": "ollama",
+      "homepage": "https://ollama.com/",
+      "notes": "Ollama stores models in its own library; import a GGUF file with a Modelfile."
+    },
+    {
+      "id": "koboldcpp",
+      "name": "KoboldCpp",
+      "purpose": "Run GGUF models with one executable and a browser interface.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "gguf"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/LostRuins/koboldcpp/releases"
+      },
+      "binary": "koboldcpp",
+      "homepage": "https://github.com/LostRuins/koboldcpp",
+      "notes": "A single executable; no installation or Python environment is needed."
+    },
+    {
+      "id": "gpt4all",
+      "name": "GPT4All",
+      "purpose": "Chat with local GGUF models on the desktop.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 65,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "gguf"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://www.nomic.ai/gpt4all"
+      },
+      "binary": "gpt4all",
+      "homepage": "https://www.nomic.ai/gpt4all",
+      "about": [
+        "https://github.com/nomic-ai/gpt4all"
+      ]
+    },
+    {
+      "id": "jan",
+      "name": "Jan",
+      "purpose": "Open-source desktop chat for local GGUF models.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "gguf"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://jan.ai/download"
+      },
+      "binary": "jan",
+      "homepage": "https://jan.ai/"
+    },
+    {
+      "id": "netron",
+      "name": "Netron",
+      "purpose": "View the structure of GGUF, ONNX, safetensors, PyTorch, TensorFlow Lite, Keras, and Core ML models.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 70,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "gguf",
+          "ggml",
+          "onnx",
+          "safetensors",
+          "pth",
+          "ckpt",
+          "tflite",
+          "mlmodel",
+          "keras"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/lutzroeder/netron/releases"
+      },
+      "binary": "netron",
+      "homepage": "https://netron.app/"
+    },
+    {
+      "id": "text-generation-webui",
+      "name": "Text Generation WebUI",
+      "purpose": "Run GGUF, safetensors, and PyTorch models behind a local web interface.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "gguf",
+          "safetensors",
+          "pth",
+          "ckpt"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/oobabooga/text-generation-webui"
+      },
+      "homepage": "https://github.com/oobabooga/text-generation-webui",
+      "notes": "A Python environment and a launcher script; the browser is the interface.",
+      "about": [
+        "https://github.com/oobabooga/text-generation-webui/wiki"
+      ]
+    },
+    {
+      "id": "llama-cpp-python",
+      "name": "llama-cpp-python",
+      "purpose": "Load GGUF models from Python with llama.cpp bindings.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 55,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "gguf",
+          "ggml"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/abetlen/llama-cpp-python"
+      },
+      "homepage": "https://github.com/abetlen/llama-cpp-python",
+      "notes": "Install with pip; an OpenAI-compatible server is included.",
+      "about": [
+        "https://pypi.org/project/llama-cpp-python/"
+      ]
+    },
+    {
+      "id": "python3-gguf",
+      "name": "Python GGUF",
+      "purpose": "Read and write GGUF metadata and tensors from Python.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 40,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "gguf"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "apt": "python3-gguf",
+        "url": "https://github.com/ggml-org/gguf-py"
+      },
+      "homepage": "https://github.com/ggml-org/gguf-py",
+      "notes": "The gguf Python package is part of the llama.cpp project."
+    },
+    {
+      "id": "pytorch",
+      "name": "PyTorch",
+      "purpose": "Load and run PyTorch model weights and checkpoints.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 90,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "pth",
+          "ckpt"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "apt": "python3-torch",
+        "url": "https://pytorch.org/get-started/locally/"
+      },
+      "homepage": "https://pytorch.org/"
+    },
+    {
+      "id": "onnxruntime",
+      "name": "ONNX Runtime",
+      "purpose": "Run and inspect ONNX models.",
+      "kind": "cli",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "specialized",
+      "handles": {
+        "extensions": [
+          "onnx"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "apt": "python3-onnxruntime",
+        "url": "https://onnxruntime.ai/"
+      },
+      "homepage": "https://onnxruntime.ai/"
+    },
+    {
+      "id": "safetensors",
+      "name": "Safetensors",
+      "purpose": "Read and write safetensors model weights from Python.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 60,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "safetensors"
+        ],
+        "categories": [
+          "ai"
+        ]
+      },
+      "install": {
+        "apt": "python3-safetensors",
+        "url": "https://github.com/huggingface/safetensors"
+      },
+      "homepage": "https://github.com/huggingface/safetensors"
     }
   ]
 }

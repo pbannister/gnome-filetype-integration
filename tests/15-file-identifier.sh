@@ -98,6 +98,30 @@ check_field "$FIXTURES/sample.AppImage" "f['description']" "AppImage application
 check_field "$FIXTURES/sample.AppImage" "f['category']" "package"
 check_field "$FIXTURES/sample.AppImage" "f['conflict'] is None" "True"
 
+# 8.3 AI model formats the shared MIME database does not know.  The bytes are
+#     generic, so the extension is the deciding witness.
+for model in \
+    "gguf:application/x-gguf:GGUF model" \
+    "ggml:application/x-ggml:GGML model" \
+    "safetensors:application/x-safetensors:Safetensors model" \
+    "onnx:application/x-onnx:ONNX model" \
+    "tflite:application/x-tflite:TensorFlow Lite model" \
+    "mlmodel:application/x-mlmodel:Core ML model" \
+    "keras:application/x-keras:Keras model" \
+    "pth:application/x-pytorch:PyTorch model" \
+    "ckpt:application/x-torch-checkpoint:PyTorch checkpoint"
+do
+    suffix=${model%%:*}
+    rest=${model#*:}
+    mime=${rest%%:*}
+    description=${rest#*:}
+    check_field "$FIXTURES/sample.$suffix" "f['mime']" "$mime"
+    check_field "$FIXTURES/sample.$suffix" "f['description']" "$description"
+    check_field "$FIXTURES/sample.$suffix" "f['category']" "ai"
+done
+check_field "$FIXTURES/sample.gguf" "f['source']" "name"
+check_field "$FIXTURES/sample.gguf" "f['extension']['suffix']" "gguf"
+
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
     fail 'identify exited zero for a missing file'

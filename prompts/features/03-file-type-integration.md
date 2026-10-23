@@ -46,6 +46,7 @@ never a dead end.
 - `FILETYPE-R034` — A file named `*.AppImage` must be identified as an AppImage application bundle, with the package category, even when libmagic reports the underlying ELF executable.
 - `FILETYPE-R035` — The About candidates for an installed application must prefer a curated catalog homepage over stale AppStream metadata, and must not guess a distribution package from an AppImage path or a reverse-DNS desktop id.
 - `FILETYPE-R036` — A package category match must be used only when no application matches the package MIME type or extension, and a Flatpak-hosted desktop entry's launcher must not be treated as the Flatpak tool.
+- `FILETYPE-R037` — A `.gguf`, `.ggml`, `.safetensors`, `.onnx`, `.tflite`, `.mlmodel`, `.keras`, `.pth`, or `.ckpt` file must be identified with an AI model type and the AI model category even though the shared MIME database does not know the extension; a specific AI extension match must suppress the broad AI-category suggestions, and a GGUF file must offer the local-LLM tools and the Python GGUF bindings.
 
 ## Behavior
 
@@ -55,6 +56,8 @@ never a dead end.
 - Installing the handler records every file and every changed default; uninstalling it puts the desktop back and preserves later user choices.
 - `filetype scan --unhandled-only --fail-on-unhandled` exits 4 when at least one file has no installed application.
 - A missing file is reported as a finding with exit status 1, not as a crash.
+- A `.gguf` file is identified as `application/x-gguf` and offers llama.cpp, LM Studio, Ollama, KoboldCpp, Netron, and the Python GGUF bindings.
+- An `.onnx` file offers Netron and ONNX Runtime, not every AI-category application.
 
 ## Dependencies
 

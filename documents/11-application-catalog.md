@@ -31,9 +31,10 @@ application, it prints the command the user's package manager already knows.
 ## Matching
 
 A MIME type or extension match is specific. A category match is the broader
-fallback. For a package format, the broad package category adds nothing when a
+fallback. For a package or AI format, the broad category adds nothing when a
 specific match exists: Flatpak is not offered for an AppImage merely because
-both are packages. Other categories stay as a fallback, because a generic
+both are packages, and PyTorch is not offered for a GGUF file merely because
+both are AI models. Other categories stay as a fallback, because a generic
 image or document tool may still open a type that another application names
 exactly.
 
@@ -166,8 +167,19 @@ The build fails if any known type has no installed or suggested application.
 
 The catalog's categories are the same categories the identifier assigns:
 directory, text, code, document, spreadsheet, presentation, drawing, image,
-audio, video, font, archive, package, executable, database, data, model, CAD,
-disk image, ebook, email, calendar, contact, subtitle, binary, web.
+audio, video, font, archive, package, executable, database, data, model, AI
+model, CAD, disk image, ebook, email, calendar, contact, subtitle, binary, web.
+
+The shared MIME database does not know the newer model formats, so the index
+adds them as built-in types: `application/x-gguf` (`.gguf`),
+`application/x-ggml` (`.ggml`), `application/x-safetensors`
+(`.safetensors`), `application/x-onnx` (`.onnx`), `application/x-tflite`
+(`.tflite`), `application/x-mlmodel` (`.mlmodel`), `application/x-keras`
+(`.keras`), `application/x-pytorch` (`.pth`), and
+`application/x-torch-checkpoint` (`.ckpt`). Their extensions are specific
+enough to name the type. `.pt`, `.bin`, `.pkl`, `.joblib`, `.npy`, and `.h5`
+stay with their existing generic or unrelated types, because the name alone
+cannot tell a model from another use of the extension.
 
 ## Adding an application
 

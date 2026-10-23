@@ -222,12 +222,13 @@ class ApplicationCatalog:
             -match.application.popularity,
             match.application.name.lower(),
         ))
-        # A package-format tool is specific to the format it names.  When a
-        # package type has a specific match, the broad package category must
-        # not add unrelated tools: Flatpak is not a handler for an AppImage
-        # merely because both are packages.  A package type with no specific
+        # A format-specific tool is specific to the format it names.  When a
+        # package or AI type has a specific match, the broad category must not
+        # add unrelated tools: Flatpak is not a handler for an AppImage merely
+        # because both are packages, and PyTorch is not a handler for a GGUF
+        # file merely because both are AI models.  A type with no specific
         # match keeps the category fallback.
-        if (category == "package"
+        if (category in {"package", "ai"}
                 and any(match.match_score > 45 for match in matches)):
             matches = [match for match in matches if match.match_score > 45]
         return matches

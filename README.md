@@ -200,7 +200,7 @@ The scale and the sources are stated in `documents/11-application-catalog.md`.
 ## Coverage
 
 The MIME index on this machine is typically about 1,900 types and 2,200
-extensions. The shipped catalog has 169 applications across 26 categories.
+extensions. The shipped catalog has 183 applications across 27 categories.
 `dataflow.out/catalog-stats.json` records the coverage measured at build time,
 including how many known types have no installed handler yet. Every known type
 is required to have at least one installed or suggested application; the build
@@ -208,8 +208,14 @@ fails if that stops being true.
 
 The catalog is deliberately curated, not exhaustive. It covers the common
 document, image, audio, video, archive, ebook, font, data, CAD, 3D-printing,
-disk-image, email, calendar, contact, subtitle, binary, and security formats.
-Adding an application is a JSON edit and `make test`.
+disk-image, email, calendar, contact, subtitle, binary, security, and AI-model
+formats. Adding an application is a JSON edit and `make test`.
+
+The shared MIME database does not know the newer AI model formats, so the index
+adds them as built-in types: GGUF, GGML, safetensors, ONNX, TensorFlow Lite,
+Core ML, Keras, and PyTorch `.pth`/`.ckpt`. A `.gguf` file is identified as a
+GGUF model and ranked for the local-LLM tools, including llama.cpp, LM Studio,
+Ollama, KoboldCpp, Netron, and the Python GGUF bindings.
 
 ## What the handler writes
 

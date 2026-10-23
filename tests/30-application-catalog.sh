@@ -120,6 +120,30 @@ assert "AppImage Activator" in names, names
 assert "Flatpak" not in names, names
 assert "PrusaSlicer" not in names, names
 
+# 4.2 A GGUF model gets the local-LLM tools.  PyTorch, ONNX Runtime, and the
+#     safetensors library are AI-category matches, not GGUF handlers, so the
+#     specific extension matches suppress them.
+gguf = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.gguf"), index)
+assert gguf.mime == "application/x-gguf", gguf.mime
+assert gguf.category == "ai", gguf.category
+gguf_recommendation = recommend(gguf, applications, catalog, index)
+gguf_names = {application.name for application in gguf_recommendation.available}
+for name in ("llama.cpp", "LM Studio", "Ollama", "KoboldCpp", "Netron",
+             "Text Generation WebUI", "llama-cpp-python", "Python GGUF"):
+    assert name in gguf_names, sorted(gguf_names)
+assert "PyTorch" not in gguf_names, sorted(gguf_names)
+assert "ONNX Runtime" not in gguf_names, sorted(gguf_names)
+assert "Safetensors" not in gguf_names, sorted(gguf_names)
+
+# 4.3 An ONNX model gets the ONNX tools, not every AI application.
+onnx = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.onnx"), index)
+assert onnx.mime == "application/x-onnx", onnx.mime
+onnx_names = {application.name for application in
+              recommend(onnx, applications, catalog, index).available}
+assert "ONNX Runtime" in onnx_names, sorted(onnx_names)
+assert "Netron" in onnx_names, sorted(onnx_names)
+assert "llama.cpp" not in onnx_names, sorted(onnx_names)
+
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)
 assert unknown.mime == "application/x-custom-format"
