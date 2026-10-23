@@ -21,9 +21,12 @@ import os
 from pathlib import Path
 
 from filetype_integration.application_catalog import (ApplicationCatalog, CatalogError,
+                                                       _application_matches_catalog,
+                                                       _catalog_entry_for,
                                                        install_argv, install_commands,
                                                        preferred_install, recommend)
-from filetype_integration.desktop_application import ApplicationIndex
+from filetype_integration.desktop_application import (ApplicationIndex,
+                                                      InstalledApplication)
 from filetype_integration.file_identifier import identify
 from filetype_integration.mime_index import TypeIndex
 
@@ -53,6 +56,25 @@ png_match = next(match for match in catalog.matches("image/png", "png", "image",
 assert png_match.match_score >= 100, png_match
 markdown = catalog.matches("text/markdown", "md", "text", index)
 assert any(match.application.id == "com.obsidian.Obsidian" for match in markdown), markdown
+
+# 2.1 A broad category match is a last resort.  Flatpak is not a handler for
+#     an AppImage merely because both are packages.
+appimage_matches = catalog.matches("application/vnd.appimage", "appimage", "package", index)
+assert any(match.application.id == "com.github.pbannister.AppImageActivator"
+           for match in appimage_matches), appimage_matches
+assert all(match.application.id != "flatpak" for match in appimage_matches), appimage_matches
+
+# 2.2 A Flatpak-hosted desktop entry runs through the Flatpak launcher; that
+#     launcher is not the application and must not identify the Flatpak tool.
+gcode_viewer = InstalledApplication(
+    desktop_id="com.prusa3d.PrusaSlicer.GCodeViewer.desktop",
+    name="Prusa GCode viewer", executable="/usr/bin/flatpak",
+    exec_line="/usr/bin/flatpak run com.prusa3d.PrusaSlicer --gcodeviewer %F",
+    flatpak_id="com.prusa3d.PrusaSlicer", mime_types=["text/x.gcode"],
+    source_path="/tmp/com.prusa3d.PrusaSlicer.GCodeViewer.desktop",
+)
+assert not _application_matches_catalog(gcode_viewer, catalog.get("flatpak"))
+assert _catalog_entry_for(gcode_viewer, catalog).id == "com.prusa3d.PrusaSlicer"
 
 # 3. Install hints are generated in the expected commands.
 commands = install_commands(gimp)
@@ -88,6 +110,15 @@ gimp_offer = next(application for application in recommendation.available
 assert gimp_offer.about_url == "https://www.gimp.org/", gimp_offer.about_url
 assert "https://flathub.org/apps/org.gimp.GIMP" in gimp_offer.about_urls
 assert "about_urls" in gimp_offer.to_dict()
+
+# 4.1 An AppImage gets the AppImage handler, not a package tool.
+appimage = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.AppImage"), index)
+appimage_recommendation = recommend(appimage, applications, catalog, index)
+names = {application.name for application in appimage_recommendation.installed
+         + appimage_recommendation.available}
+assert "AppImage Activator" in names, names
+assert "Flatpak" not in names, names
+assert "PrusaSlicer" not in names, names
 
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)

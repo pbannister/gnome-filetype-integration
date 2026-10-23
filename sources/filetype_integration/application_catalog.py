@@ -222,6 +222,14 @@ class ApplicationCatalog:
             -match.application.popularity,
             match.application.name.lower(),
         ))
+        # A package-format tool is specific to the format it names.  When a
+        # package type has a specific match, the broad package category must
+        # not add unrelated tools: Flatpak is not a handler for an AppImage
+        # merely because both are packages.  A package type with no specific
+        # match keeps the category fallback.
+        if (category == "package"
+                and any(match.match_score > 45 for match in matches)):
+            matches = [match for match in matches if match.match_score > 45]
         return matches
 
     def stats(self) -> dict[str, object]:
@@ -504,7 +512,12 @@ def _application_matches_catalog(application: InstalledApplication,
     if application.flatpak_id and application.flatpak_id == catalog_application.install.get("flatpak"):
         return True
     if catalog_application.binary and application.executable:
-        if application.executable.rsplit("/", 1)[-1] == catalog_application.binary:
+        executable_name = application.executable.rsplit("/", 1)[-1]
+        # A Flatpak-hosted desktop entry runs through /usr/bin/flatpak.  Its
+        # launcher is not the application: matching it against the catalog's
+        # Flatpak tool would pair that tool with an unrelated application.
+        hosted = bool(application.flatpak_id) or executable_name in {"flatpak", "snap"}
+        if not hosted and executable_name == catalog_application.binary:
             return True
     installed_key = _name_key(application.name)
     catalog_key = _name_key(catalog_application.name)

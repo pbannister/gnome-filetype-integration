@@ -45,6 +45,7 @@ never a dead end.
 - `FILETYPE-R033` — The main window must use four tabs: Installed, Relevant, About, and Why. About must initially show the project version, the GitHub repository link, and the labs.bannister.us project link; clicking an application's About action must replace that page with the candidate list for the application. Why must contain the identification evidence and the command-line equivalents without collapsing either section.
 - `FILETYPE-R034` — A file named `*.AppImage` must be identified as an AppImage application bundle, with the package category, even when libmagic reports the underlying ELF executable.
 - `FILETYPE-R035` — The About candidates for an installed application must prefer a curated catalog homepage over stale AppStream metadata, and must not guess a distribution package from an AppImage path or a reverse-DNS desktop id.
+- `FILETYPE-R036` — A package category match must be used only when no application matches the package MIME type or extension, and a Flatpak-hosted desktop entry's launcher must not be treated as the Flatpak tool.
 
 ## Behavior
 

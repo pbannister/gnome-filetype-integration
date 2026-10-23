@@ -28,6 +28,19 @@ Ubuntu 26.04 (2026-10-22); Flatpak IDs are the Flathub application IDs. The
 catalog carries no licence or download URL requirement: it never downloads an
 application, it prints the command the user's package manager already knows.
 
+## Matching
+
+A MIME type or extension match is specific. A category match is the broader
+fallback. For a package format, the broad package category adds nothing when a
+specific match exists: Flatpak is not offered for an AppImage merely because
+both are packages. Other categories stay as a fallback, because a generic
+image or document tool may still open a type that another application names
+exactly.
+
+A Flatpak-hosted desktop entry runs through `/usr/bin/flatpak`. That launcher
+is not the application, so it must not identify the Flatpak tool as installed
+for the hosted application's file.
+
 ## Schema
 
 ```json
