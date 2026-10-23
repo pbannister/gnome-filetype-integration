@@ -119,5 +119,92 @@ PREFIX="$DIRECTORY_TEST/prefix-skip" TARBALL="$DIRECTORY_NOSUM/$(basename "$FILE
     || fail 'SKIP_VERIFY did not permit the install'
 [ -x "$DIRECTORY_TEST/prefix-skip/bin/demo" ] || fail 'the SKIP_VERIFY install produced no program'
 
+echo '=== the documented one-liner uses the project GitHub release by default ==='
+DIRECTORY_DEFAULT="$DIRECTORY_TEST/default-release"
+DIRECTORY_BIN="$DIRECTORY_TEST/bin"
+FILE_CURL_LOG="$DIRECTORY_TEST/curl.log"
+mkdir -p "$DIRECTORY_DEFAULT" "$DIRECTORY_BIN"
+cp "$FILE_TARBALL" "$DIRECTORY_DEFAULT/gnome-filetype-integration-linux-$ARCHITECTURE.tar.gz"
+(
+    cd "$DIRECTORY_DEFAULT"
+    sha256sum "gnome-filetype-integration-linux-$ARCHITECTURE.tar.gz" > SHA256SUMS
+)
+cat > "$DIRECTORY_BIN/curl" <<'CURL'
+#!/bin/sh
+# The installer's download, served from LOCAL_RELEASE instead of github.com.
+printf '%s\n' "$*" >> "${CURL_LOG:?}"
+dest=
+url=
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -o)
+            dest=$2
+            shift 2
+            ;;
+        -*)
+            shift
+            ;;
+        *)
+            url=$1
+            shift
+            ;;
+    esac
+done
+[ -n "$dest" ] && [ -n "$url" ] || exit 1
+name=${url##*/}
+case "$url" in
+    https://github.com/pbannister/gnome-filetype-integration/releases/latest/download/*)
+        cp "$LOCAL_RELEASE/$name" "$dest"
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+CURL
+chmod 755 "$DIRECTORY_BIN/curl"
+env -u REPOSITORY -u RELEASE_URL -u TARBALL -u FILETYPE_INTEGRATION_RELEASE_URL \
+    PATH="$DIRECTORY_BIN:$PATH" \
+    LOCAL_RELEASE="$DIRECTORY_DEFAULT" \
+    CURL_LOG="$FILE_CURL_LOG" \
+    PREFIX="$DIRECTORY_TEST/prefix-default" \
+    sh "$REPOSITORY_ROOT/scripts/install.sh" >/dev/null \
+    || fail 'the documented one-liner did not install from the default repository'
+[ -x "$DIRECTORY_TEST/prefix-default/bin/demo" ] \
+    || fail 'the default-repository install produced no program'
+grep -Fq 'https://github.com/pbannister/gnome-filetype-integration/releases/latest/download/' "$FILE_CURL_LOG" \
+    || fail 'the installer did not use the project GitHub release URL'
+
+echo '=== the installer registers the handler, unless it is declined ==='
+DIRECTORY_HANDLER_BUILD="$DIRECTORY_TEST/build-handler"
+DIRECTORY_HANDLER_RELEASE="$DIRECTORY_TEST/release-handler"
+FILE_HANDLER_LOG="$DIRECTORY_TEST/handler.log"
+mkdir -p "$DIRECTORY_HANDLER_BUILD/bin"
+cat > "$DIRECTORY_HANDLER_BUILD/bin/filetype" <<'PROGRAM'
+#!/bin/sh
+printf '%s\n' "$*" >> "${HANDLER_LOG:?}"
+exit 0
+PROGRAM
+chmod 755 "$DIRECTORY_HANDLER_BUILD/bin/filetype"
+printf '%s\n' '1.0.0' > "$DIRECTORY_HANDLER_BUILD/VERSION"
+: > "$FILE_HANDLER_LOG"
+DIRECTORY_RELEASE="$DIRECTORY_HANDLER_RELEASE" PROJECT_NAME=gnome-filetype-integration \
+    sh "$REPOSITORY_ROOT/scripts/release-package.sh" "$DIRECTORY_HANDLER_BUILD" >/dev/null
+FILE_HANDLER_TARBALL="$DIRECTORY_HANDLER_RELEASE/gnome-filetype-integration-linux-$ARCHITECTURE.tar.gz"
+PREFIX="$DIRECTORY_TEST/prefix-handler" HANDLER_LOG="$FILE_HANDLER_LOG" \
+    TARBALL="$FILE_HANDLER_TARBALL" \
+    sh "$REPOSITORY_ROOT/scripts/install.sh" >/dev/null \
+    || fail 'the handler install failed'
+grep -Fxq 'handler install' "$FILE_HANDLER_LOG" \
+    || fail 'the installer did not run the handler registration'
+: > "$FILE_HANDLER_LOG"
+PREFIX="$DIRECTORY_TEST/prefix-no-handler" HANDLER_LOG="$FILE_HANDLER_LOG" \
+    FILETYPE_INTEGRATION_NO_HANDLER=1 TARBALL="$FILE_HANDLER_TARBALL" \
+    sh "$REPOSITORY_ROOT/scripts/install.sh" >/dev/null \
+    || fail 'the no-handler install failed'
+if [ -s "$FILE_HANDLER_LOG" ]; then
+    fail 'FILETYPE_INTEGRATION_NO_HANDLER=1 still registered the handler'
+fi
+
 echo '11-release-install: ok'
 exit 0
+

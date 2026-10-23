@@ -11,7 +11,10 @@
 #		        run on the owning host)
 #		check:  validate generated output (the leak gate over site.out/);
 #		        a pipeline project extends this with its own validation mode
-#		release: sh scripts/release-package.sh (the files a release publishes)
+#		release: build, check that the version names this commit, then
+#		        sh scripts/release-package.sh (the files a release publishes)
+#		release-publish: sh scripts/release-publish.sh (tag and publish the
+#		        package as a GitHub release; needs the GitHub CLI)
 #		clean:  rm -rf generated output (keeps .gitkeep placeholders)
 #		test:   npm test
 #		deploy: RETIRED - all publishing to labs.bannister.us goes through
@@ -57,7 +60,12 @@ check:
 	@if [ -d site.out ]; then sh scripts/leak-gate.sh site.out; else echo '==== nothing to check: site.out/ is not built (run make site)'; fi
 
 release:
+	sh scripts/program-build.sh
+	sh scripts/release-gate.sh "$$(dataflow.out/build/program/bin/filetype --version | awk '{print $$2}')"
 	sh scripts/release-package.sh
+
+release-publish:
+	sh scripts/release-publish.sh
 
 clean:
 	rm -rf dataflow.out/* site.out/* logs/*
@@ -75,4 +83,4 @@ deploy:
 install: build
 	sh scripts/program-install.sh
 
-.PHONY: all build program-build catalog-export site state status maturity context check release clean test deploy install
+.PHONY: all build program-build catalog-export site state status maturity context check release release-publish clean test deploy install

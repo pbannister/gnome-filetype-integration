@@ -1,168 +1,280 @@
 #!/bin/sh
 #
-# install.sh: install the products of a release, verifying the download.
+# install.sh: install the products of gnome-filetype-integration from a GitHub
+# release.
 #
-#   RELEASE_URL=https://... sh scripts/install.sh
-#   TARBALL=dataflow.out/release/<project>-linux-<arch>.tar.gz sh scripts/install.sh
+#   curl -fsSL https://raw.githubusercontent.com/pbannister/gnome-filetype-integration/master/scripts/install.sh | sh
 #
-# The tarball is checked against the release's SHA256SUMS before anything is
-# installed, and the install refuses when verification is impossible. The
-# script then registers the Discover Applications…, which writes only under the
-# user's XDG directories and never needs root. Set
-# FILETYPE_INTEGRATION_NO_HANDLER=1 to install the tools and register nothing.
+# It fetches the release tarball for this machine, checks it against the
+# release's SHA256SUMS, and installs into $PREFIX (default $HOME/.local).  Where
+# no prebuilt build exists for this machine it builds from the source archive
+# instead.  It then registers the Discover Applications… handler, which writes
+# only under the user's XDG directories and never needs root; that step rewrites
+# the user's MIME defaults and records what they were, so it can be declined
+# with FILETYPE_INTEGRATION_NO_HANDLER=1 and reversed with
+# "filetype handler uninstall".
 #
 # Environment:
-#   PREFIX         where to install (default: $HOME/.local)
-#   RELEASE_URL    base URL holding the tarball and SHA256SUMS
-#   TARBALL        install this local tarball instead of fetching
-#   REPOSITORY     owner/repo, for the default GitHub release URL
-#   VERSION        a release tag, or "latest" (default) for the GitHub URL
-#   PROJECT_NAME, ARCHITECTURE   override the asset-name pieces
-#   SKIP_VERIFY    set to 1 to install although SHA256SUMS is unavailable
+#   PREFIX                              where to install (default $HOME/.local)
+#   VERSION                             a release tag, or "latest" (default)
+#   REPOSITORY                          owner/repo to fetch from
+#   FILETYPE_INTEGRATION_RELEASE_URL    base URL to fetch assets from, instead of GitHub
+#   FILETYPE_INTEGRATION_TARBALL        install from this local tarball instead
+#   FILETYPE_INTEGRATION_SKIP_VERIFY=1  install although SHA256SUMS is missing
+#   FILETYPE_INTEGRATION_NO_BUILD=1     do not fall back to building from source
+#   FILETYPE_INTEGRATION_NO_HANDLER=1   install the tools, register no handler
+#   PROJECT_NAME                        asset-name piece (default gnome-filetype-integration)
 #
-# A project that publishes copies this script and sets REPOSITORY (or
-# PROJECT_NAME) for itself.
+# The RELEASE_URL, TARBALL, and SKIP_VERIFY names are accepted as aliases of the
+# project-specific variables above, for the shared packaging test.
 #
 # This script is POSIX sh on purpose: it may be piped into any shell.
 #
 # See prompts/capabilities/04-release-and-publishing.md.
 set -eu
 
+REPOSITORY=${REPOSITORY:-pbannister/gnome-filetype-integration}
 PREFIX=${PREFIX:-$HOME/.local}
-SKIP_VERIFY=${SKIP_VERIFY:-0}
-ARCHITECTURE=${ARCHITECTURE:-$(uname -m)}
+VERSION=${VERSION:-latest}
+PROGRAM_NAME=${PROJECT_NAME:-${PROGRAM_NAME:-gnome-filetype-integration}}
+FILE_TARBALL_LOCAL=${FILETYPE_INTEGRATION_TARBALL:-${TARBALL:-}}
+BASE_URL=${FILETYPE_INTEGRATION_RELEASE_URL:-${RELEASE_URL:-}}
+SKIP_VERIFY=${FILETYPE_INTEGRATION_SKIP_VERIFY:-${SKIP_VERIFY:-0}}
+NO_BUILD=${FILETYPE_INTEGRATION_NO_BUILD:-0}
+NO_HANDLER=${FILETYPE_INTEGRATION_NO_HANDLER:-0}
 
-case "$ARCHITECTURE" in
-    x86_64 | amd64)
-        ARCHITECTURE=x86_64
-        ;;
-    aarch64 | arm64)
-        ARCHITECTURE=aarch64
-        ;;
-    *)
-        echo "install: no build is published for machine $(uname -m)" >&2
-        exit 1
-        ;;
-esac
+say() {
+    echo "install: $1"
+}
 
 fail() {
     echo "install: $1" >&2
     exit 1
 }
 
-fetch() { # <url> <destination>
-    if command -v curl >/dev/null 2>&1; then
-        curl -fsSL "$1" -o "$2"
-    elif command -v wget >/dev/null 2>&1; then
-        wget -q -O "$2" "$1"
+have() {
+    command -v "$1" > /dev/null 2>&1
+}
+
+# ---------------------------------------------------------------------------
+# Platform
+
+machine=$(uname -s -m 2>/dev/null || echo unknown)
+case "$machine" in
+    Linux\ x86_64 | Linux\ amd64)
+        ARCHITECTURE=x86_64
+        ;;
+    Linux\ aarch64 | Linux\ arm64)
+        ARCHITECTURE=aarch64
+        ;;
+    *)
+        fail "no build is published for '$machine'; this project targets Linux on x86_64 and aarch64"
+        ;;
+esac
+ASSET="$PROGRAM_NAME-linux-$ARCHITECTURE.tar.gz"
+
+# ---------------------------------------------------------------------------
+# Tools
+
+if have curl; then
+    fetch() { # <url> <destination>
+        curl -fsSL --connect-timeout 20 --max-time 600 -o "$2" "$1"
+    }
+elif have wget; then
+    fetch() { # <url> <destination>
+        wget -q -T 20 -O "$2" "$1"
+    }
+else
+    fail "curl or wget is needed to download anything"
+fi
+
+sha256_of() { # <file>
+    if have sha256sum; then
+        sha256sum "$1" | awk '{print $1}'
+    elif have shasum; then
+        shasum -a 256 "$1" | awk '{print $1}'
     else
-        fail 'neither curl nor wget is available'
+        echo ""
     fi
 }
 
-digest_of() { # <file>
-    if command -v sha256sum >/dev/null 2>&1; then
-        sha256sum "$1" | cut -d' ' -f1
-    elif command -v shasum >/dev/null 2>&1; then
-        shasum -a 256 "$1" | cut -d' ' -f1
+if [ -z "$BASE_URL" ]; then
+    if [ "latest" = "$VERSION" ]; then
+        BASE_URL="https://github.com/$REPOSITORY/releases/latest/download"
     else
-        fail 'no sha256 tool is available'
+        BASE_URL="https://github.com/$REPOSITORY/releases/download/$VERSION"
     fi
-}
+fi
 
-install_file() { # <source> <destination>
-    # Copy to a temporary name and rename it over the destination: writing in
-    # place fails with "Text file busy" while the program is running, and a
-    # rename leaves any running copy with the file it started from.
-    file_temporary="$2.installing.$$"
-    cp "$1" "$file_temporary"
-    chmod 755 "$file_temporary"
-    mv -f "$file_temporary" "$2"
-}
-
-DIRECTORY_TEMP=
-DIRECTORY_STAGE=
+DIRECTORY_WORK=$(mktemp -d "${TMPDIR:-/tmp}/$PROGRAM_NAME-install.XXXXXX")
 cleanup() {
-    if [ -n "$DIRECTORY_STAGE" ]; then
-        rm -rf "$DIRECTORY_STAGE"
-    fi
-    if [ -n "$DIRECTORY_TEMP" ]; then
-        rm -rf "$DIRECTORY_TEMP"
-    fi
-    return 0
+    rm -rf "$DIRECTORY_WORK"
 }
-trap cleanup EXIT HUP INT TERM
+trap cleanup EXIT
 
-if [ -n "${TARBALL:-}" ]; then
-    FILE_TARBALL=$TARBALL
-    [ -f "$FILE_TARBALL" ] || fail "no such tarball: $FILE_TARBALL"
-    FILE_SUMS="$(dirname "$FILE_TARBALL")/SHA256SUMS"
-else
-    BASE_URL=${RELEASE_URL:-}
-    if [ -z "$BASE_URL" ] && [ -n "${REPOSITORY:-}" ]; then
-        BASE_URL="https://github.com/$REPOSITORY/releases/${VERSION:-latest}/download"
+# ---------------------------------------------------------------------------
+# Fetch and verify
+
+verify_tarball() { # <tarball> <sums-file>
+    file_tarball=$1
+    file_sums=$2
+    expected=$(awk -v name="$(basename "$file_tarball")" '$2 == name { print $1 }' "$file_sums")
+    if [ -z "$expected" ]; then
+        # A sums file made with a bare name and one made with a path both work.
+        expected=$(awk -v name="$(basename "$file_tarball")" 'index($2, name) > 0 { print $1 }' \
+            "$file_sums" | head -1)
     fi
-    [ -n "$BASE_URL" ] || fail 'set TARBALL or RELEASE_URL (or REPOSITORY)'
-    NAME_PROJECT=${PROJECT_NAME:-${REPOSITORY##*/}}
-    [ -n "$NAME_PROJECT" ] || fail 'set PROJECT_NAME (or REPOSITORY) for the asset name'
-    DIRECTORY_TEMP=$(mktemp -d)
-    FILE_TARBALL="$DIRECTORY_TEMP/$NAME_PROJECT-linux-$ARCHITECTURE.tar.gz"
-    FILE_SUMS="$DIRECTORY_TEMP/SHA256SUMS"
-    fetch "$BASE_URL/$(basename "$FILE_TARBALL")" "$FILE_TARBALL" \
-        || fail "could not fetch the tarball from $BASE_URL"
-    fetch "$BASE_URL/SHA256SUMS" "$FILE_SUMS" || rm -f "$FILE_SUMS"
-fi
+    if [ -z "$expected" ]; then
+        fail "$(basename "$file_sums") has no digest for $(basename "$file_tarball")"
+    fi
+    actual=$(sha256_of "$file_tarball")
+    if [ -z "$actual" ]; then
+        say "no sha256sum tool is available, so the digest could not be checked"
+        return 0
+    fi
+    if [ "$expected" != "$actual" ]; then
+        fail "the download does not match SHA256SUMS: expected $expected but got $actual"
+    fi
+    say "the download matches its published digest"
+}
 
-if [ ! -f "$FILE_SUMS" ]; then
-    if [ "$SKIP_VERIFY" = 1 ]; then
-        echo 'install: WARNING: SHA256SUMS is unavailable; installing without verification' >&2
+install_tarball() { # <tarball>
+    file_tarball=$1
+    mkdir -p "$PREFIX"
+    # The tarball holds bin/, lib/, and share/, which is the layout $PREFIX is
+    # meant to have; extracting it there is the install.
+    tar --extract --file "$file_tarball" --directory "$PREFIX" --no-same-owner
+    chmod 755 "$PREFIX/bin"/* 2>/dev/null || true
+    say "installed into $PREFIX"
+}
+
+# ---------------------------------------------------------------------------
+# Build from source, when no prebuilt build matches this machine
+
+build_from_source() {
+    for tool_name in python3 tar; do
+        if ! have "$tool_name"; then
+            fail "no prebuilt build for linux-$ARCHITECTURE, and building needs $tool_name; install it and try again, or set FILETYPE_INTEGRATION_RELEASE_URL to a mirror"
+        fi
+    done
+    if [ "latest" = "$VERSION" ]; then
+        source_url="https://github.com/$REPOSITORY/archive/refs/heads/master.tar.gz"
     else
-        fail 'SHA256SUMS could not be fetched, so the download cannot be checked; set SKIP_VERIFY=1 to install anyway'
+        source_url="https://github.com/$REPOSITORY/archive/refs/tags/$VERSION.tar.gz"
+    fi
+    say "no prebuilt build for linux-$ARCHITECTURE: building from $source_url"
+    fetch "$source_url" "$DIRECTORY_WORK/source.tar.gz" \
+        || fail "could not download the source archive"
+    tar --extract --file "$DIRECTORY_WORK/source.tar.gz" --directory "$DIRECTORY_WORK"
+    DIRECTORY_SOURCE=$(find "$DIRECTORY_WORK" -maxdepth 1 -type d -name "$PROGRAM_NAME-*" | head -1)
+    if [ -z "$DIRECTORY_SOURCE" ]; then
+        fail "the source archive is not shaped as expected"
+    fi
+    say "building; this needs python3"
+    (
+        cd "$DIRECTORY_SOURCE"
+        sh scripts/program-build.sh
+        # Register the handler once, below, after every install path has run.
+        FILETYPE_INTEGRATION_NO_HANDLER=1 PREFIX="$PREFIX" sh scripts/program-install.sh
+    ) || fail "the build failed"
+}
+
+# ---------------------------------------------------------------------------
+# Go
+
+if [ -n "$FILE_TARBALL_LOCAL" ]; then
+    if [ ! -f "$FILE_TARBALL_LOCAL" ]; then
+        fail "$FILE_TARBALL_LOCAL is not there"
+    fi
+    say "installing from $FILE_TARBALL_LOCAL"
+    FILE_SUMS_LOCAL="$(dirname "$FILE_TARBALL_LOCAL")/SHA256SUMS"
+    if [ -f "$FILE_SUMS_LOCAL" ]; then
+        verify_tarball "$FILE_TARBALL_LOCAL" "$FILE_SUMS_LOCAL"
+    elif [ "1" = "$SKIP_VERIFY" ]; then
+        say "SHA256SUMS is unavailable, and verification was skipped on request"
+    else
+        fail "SHA256SUMS is unavailable next to $FILE_TARBALL_LOCAL, so the tarball cannot be checked; set FILETYPE_INTEGRATION_SKIP_VERIFY=1 to install anyway"
+    fi
+    install_tarball "$FILE_TARBALL_LOCAL"
+else
+    FILE_TARBALL="$DIRECTORY_WORK/$ASSET"
+    if fetch "$BASE_URL/$ASSET" "$FILE_TARBALL" 2>/dev/null; then
+        if fetch "$BASE_URL/SHA256SUMS" "$DIRECTORY_WORK/SHA256SUMS" 2>/dev/null; then
+            verify_tarball "$FILE_TARBALL" "$DIRECTORY_WORK/SHA256SUMS"
+        elif [ "1" = "$SKIP_VERIFY" ]; then
+            say "SHA256SUMS could not be fetched, and verification was skipped on request"
+        else
+            fail "SHA256SUMS could not be fetched, so the download cannot be checked; set FILETYPE_INTEGRATION_SKIP_VERIFY=1 to install anyway"
+        fi
+        install_tarball "$FILE_TARBALL"
+    elif [ "1" = "$NO_BUILD" ]; then
+        fail "there is no $ASSET in $VERSION; nothing was installed"
+    else
+        build_from_source
     fi
 fi
 
-if [ -f "$FILE_SUMS" ]; then
-    expected_digest=$(awk -v name="$(basename "$FILE_TARBALL")" '$2 == name { print $1 }' "$FILE_SUMS")
-    [ -n "$expected_digest" ] || fail "SHA256SUMS does not cover $(basename "$FILE_TARBALL")"
-    actual_digest=$(digest_of "$FILE_TARBALL")
-    [ "$expected_digest" = "$actual_digest" ] \
-        || fail "the download does not match SHA256SUMS: expected $expected_digest but got $actual_digest"
+# ---------------------------------------------------------------------------
+# Register the handler
+#
+# The handler is what makes double-clicking a file open the chooser, and what
+# gives the types their icon.  It rewrites the user's MIME defaults and records
+# the previous ones, which is why the step stays visible -- but a user who has
+# just installed these tools has asked for the tool, so it runs here, says what
+# it did, and says how to undo it.  A failure is reported rather than fatal: the
+# tools are installed either way, and the command to finish the job is printed.
+
+if [ "1" = "$NO_HANDLER" ]; then
+    say "the desktop handler was not registered, on request (FILETYPE_INTEGRATION_NO_HANDLER=1)"
+elif [ -x "$PREFIX/bin/filetype" ]; then
+    if FILETYPE_EXECUTABLE="$PREFIX/bin/filetype" \
+            "$PREFIX/bin/filetype" handler install > "$DIRECTORY_WORK/handler.txt" 2>&1; then
+        say "the File Type Chooser is now installed as the handler for the known types"
+    else
+        say "the desktop handler could not be registered; the tool said:"
+        cat "$DIRECTORY_WORK/handler.txt" 2>/dev/null || true
+        say "run it yourself with: $PREFIX/bin/filetype handler install"
+    fi
 fi
 
-DIRECTORY_STAGE=$(mktemp -d)
-tar -xzf "$FILE_TARBALL" -C "$DIRECTORY_STAGE"
-[ -d "$DIRECTORY_STAGE/bin" ] || fail 'the tarball has no bin/ directory'
+# ---------------------------------------------------------------------------
+# Report
 
-mkdir -p "$PREFIX/bin"
-count_programs=0
-for file_source in "$DIRECTORY_STAGE"/bin/*; do
-    [ -f "$file_source" ] || continue
-    install_file "$file_source" "$PREFIX/bin/$(basename "$file_source")"
-    count_programs=$((count_programs + 1))
-done
-[ "$count_programs" -gt 0 ] || fail 'the tarball has no programs under bin/'
-
-if [ -d "$DIRECTORY_STAGE/lib" ]; then
-    mkdir -p "$PREFIX/lib"
-    cp -R "$DIRECTORY_STAGE/lib/." "$PREFIX/lib/"
-fi
-if [ -d "$DIRECTORY_STAGE/share" ]; then
-    mkdir -p "$PREFIX/share"
-    cp -R "$DIRECTORY_STAGE/share/." "$PREFIX/share/"
+VERSION_INSTALLED="unknown"
+if [ -f "$PREFIX/VERSION" ]; then
+    VERSION_INSTALLED=$(cat "$PREFIX/VERSION")
 fi
 
-echo "install: installed $count_programs program(s) into $PREFIX/bin"
+echo
+say "installed version $VERSION_INSTALLED into $PREFIX"
+if [ -x "$PREFIX/bin/filetype" ]; then
+    echo "  $PREFIX/bin/filetype"
+fi
+if [ -d "$PREFIX/lib/gnome-filetype-integration" ]; then
+    echo "  $PREFIX/lib/gnome-filetype-integration"
+fi
+if [ -f "$PREFIX/share/icons/hicolor/scalable/apps/filetype-chooser.svg" ]; then
+    echo "  $PREFIX/share/icons/hicolor/scalable/apps/filetype-chooser.svg"
+fi
 
-if [ -x "$PREFIX/bin/filetype" ] && [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" != 1 ]; then
-    FILETYPE_EXECUTABLE="$PREFIX/bin/filetype" "$PREFIX/bin/filetype" handler install \
-        || fail 'the tools were installed, but the desktop handler could not be registered'
-    echo 'install: registered the Discover Applications…'
-elif [ "${FILETYPE_INTEGRATION_NO_HANDLER:-0}" = 1 ]; then
-    echo 'install: FILETYPE_INTEGRATION_NO_HANDLER=1; the desktop handler was not registered'
-    echo "install: run '$PREFIX/bin/filetype handler install' when you want it"
+case ":$PATH:" in
+    *":$PREFIX/bin:"*)
+        ;;
+    *)
+        echo
+        say "$PREFIX/bin is not on your PATH; add it, for example:"
+        echo "  export PATH=\"$PREFIX/bin:\$PATH\""
+        ;;
+esac
+
+echo
+if [ "1" = "$NO_HANDLER" ]; then
+    say "to make the File Type Chooser the handler, which this run skipped:"
+    echo "  $PREFIX/bin/filetype handler install"
 else
-    echo 'install: this tarball has no filetype program to register'
+    say "to stop the File Type Chooser being the handler, and restore the"
+    say "handler that was there before:"
+    echo "  $PREFIX/bin/filetype handler uninstall"
 fi
-
-echo "install: add $PREFIX/bin to PATH if it is not already there"
-exit 0
+say "to identify a file:"
+echo "  $PREFIX/bin/filetype identify ~/Downloads/file.png"

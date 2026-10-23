@@ -86,6 +86,10 @@ under `$HOME/.local` (or `PREFIX`), and then runs the handler registration.
 The registration writes only under `$XDG_DATA_HOME`, `$XDG_CONFIG_HOME`, and
 the temporary directory; it never needs root.
 
+`scripts/release-package.sh` makes the assets a release publishes, and
+`make release-publish` (with the GitHub CLI authenticated) tags the commit and
+publishes them.
+
 ## Commands
 
 | Command | Purpose |
