@@ -41,8 +41,10 @@ chooser itself is never listed as an installed application.
 **Status: implemented and tested** (2026-10-22). The identifier, the MIME
 index, the desktop discovery, the catalog, the chooser, the handler install and
 uninstall, and the command line are built. The test suite runs with
-`make test`; the GTK window is exercised under Xvfb. The page set and a public
-release are pending; see `PHASES.md` and `TODO.md`.
+`make test`; the GTK window is exercised under Xvfb. Release
+`v2026-10-23-master` is published at
+<https://github.com/pbannister/gnome-filetype-integration/releases/latest>; the
+page set is pending. See `PHASES.md` and `TODO.md`.
 
 ## The problem, in one example
 

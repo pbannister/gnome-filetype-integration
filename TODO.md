@@ -2,7 +2,7 @@
 
 ## Open
 
-* [ ] publish the page set to the homelab site and cut a public release (needs the owner's repository and publishing credentials).
+* [ ] publish the page set to the homelab site (the public release `v2026-10-23-master` is published).
 * [ ] widen the catalog beyond the current 169 applications, starting with the least-covered categories (presentation, calendar, contact, subtitle).
 * [ ] verify the handler install and the chooser on a second distribution and on a non-GNOME XDG desktop.
 * [ ] add a Nautilus test that runs when `python3-nautilus` is present; the current test skips that path.
