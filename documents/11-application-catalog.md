@@ -149,9 +149,12 @@ match specificity first, then these weights.
    inherited type; an unavailable program is demoted.
 2. A catalog application that is installed but not registered for this type is
    moved into the installed list, with that fact stated.
-3. Remaining catalog matches are scored by match specificity (exact MIME,
-   family, extension, category), usefulness, maturity, popularity, and whether
-   the application is graphical.
+3. Remaining catalog matches are ordered first by match specificity (exact
+   MIME, wildcard family, direct extension, related extension family, ancestor
+   type, category), and only within the same specificity band by usefulness,
+   maturity, popularity, installation state, and whether the application is
+   graphical. A direct extension always precedes a generic ancestor such as
+   `text/plain`.
 4. Results are split into installed and available, so the window can say "you
    can open it now" before "you could install this".
 

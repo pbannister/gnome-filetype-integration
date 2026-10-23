@@ -196,15 +196,15 @@ class ApplicationCatalog:
                     score = max(score, 110)
                     reasons.append(f"Handles the {pattern[:-1]} family")
                 elif pattern in family:
-                    score = max(score, 95)
+                    score = max(score, 90)
                     reasons.append(f"Handles the related type {pattern}")
             if extension and extension in application.extensions:
-                score = max(score, 90)
+                score = max(score, 100)
                 reasons.append(f"Handles .{extension} files")
             elif extension:
                 for candidate in application.extensions:
                     if extension.endswith(f".{candidate}") or candidate.endswith(f".{extension}"):
-                        score = max(score, 85)
+                        score = max(score, 95)
                         reasons.append(f"Handles the .{candidate} family")
                         break
             if category and category in application.categories:
@@ -356,6 +356,7 @@ class RankedApplication:
     catalog: CatalogApplication | None = None
     match_kind: str = ""
     match_mime: str = ""
+    match_score: int = 0
 
     @property
     def desktop_id(self) -> str:
@@ -400,6 +401,7 @@ class RankedApplication:
             "about_links": [link.to_dict() for link in self.about_links],
             "match_kind": self.match_kind,
             "match_mime": self.match_mime,
+            "match_score": self.match_score,
             "score": round(self.score, 1),
             "reasons": list(self.reasons),
             "install": dict(self.install),
@@ -738,6 +740,7 @@ def _available_application(match: CatalogMatch, installed: bool,
         catalog=application,
         match_kind="catalog",
         match_mime="",
+        match_score=match.match_score,
     )
 
 
@@ -816,8 +819,12 @@ def recommend(identification: Identification, installed: ApplicationIndex,
             ranked.usable = False
             ranked.reasons.append("Command-line tool; run it in a terminal")
         available.append(ranked)
+    # Specificity comes first: a direct extension or MIME match is more
+    # relevant than an ancestor such as text/plain, and the weighted score
+    # (usefulness, maturity, popularity, installed) only orders applications
+    # within the same specificity band.
     available.sort(key=lambda application: (
-        not application.installed,
+        -application.match_score,
         -application.score,
         application.name.lower(),
     ))

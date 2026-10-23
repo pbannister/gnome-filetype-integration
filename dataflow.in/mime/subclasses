@@ -4,5 +4,7 @@ text/markdown text/plain
 application/vnd.openxmlformats-officedocument.wordprocessingml.document application/zip
 text/x-python application/x-executable
 application/x-php text/plain
+application/xml text/plain
 application/x-tiled-tsx application/xml
+application/vnd.google-earth.kml+xml application/xml
 application/vnd.appimage application/x-executable

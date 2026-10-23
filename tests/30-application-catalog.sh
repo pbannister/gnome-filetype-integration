@@ -144,6 +144,21 @@ assert "ONNX Runtime" in onnx_names, sorted(onnx_names)
 assert "Netron" in onnx_names, sorted(onnx_names)
 assert "llama.cpp" not in onnx_names, sorted(onnx_names)
 
+# 4.4 A KML file's direct extension match is more relevant than the text/plain
+#     ancestor that installed editors register.  The three specific
+#     applications come first, whatever their popularity; the text editors
+#     follow in the less-specific band.
+kml = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.kml"), index)
+assert kml.mime == "application/vnd.google-earth.kml+xml", kml.mime
+assert kml.category == "data", kml.category
+kml_recommendation = recommend(kml, applications, catalog, index)
+kml_offers = kml_recommendation.available
+assert {"Google Earth Pro", "QGIS", "Marble"} == {application.name for application in kml_offers[:3]}, \
+    [(application.name, application.match_score) for application in kml_offers[:5]]
+assert all(application.match_score == 100 for application in kml_offers[:3]), \
+    [(application.name, application.match_score) for application in kml_offers[:3]]
+assert kml_offers[3].match_score < 100, kml_offers[3].match_score
+
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)
 assert unknown.mime == "application/x-custom-format"

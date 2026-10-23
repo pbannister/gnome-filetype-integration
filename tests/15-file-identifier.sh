@@ -122,6 +122,11 @@ done
 check_field "$FIXTURES/sample.gguf" "f['source']" "name"
 check_field "$FIXTURES/sample.gguf" "f['extension']['suffix']" "gguf"
 
+# 8.4 KML is an XML type, and the name gives the more specific geographic type.
+check_field "$FIXTURES/sample.kml" "f['mime']" "application/vnd.google-earth.kml+xml"
+check_field "$FIXTURES/sample.kml" "f['description']" "KML geographic data"
+check_field "$FIXTURES/sample.kml" "f['category']" "data"
+
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
     fail 'identify exited zero for a missing file'

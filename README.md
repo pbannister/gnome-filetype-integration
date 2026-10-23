@@ -180,9 +180,12 @@ agreed.
    The default ranks first; an exact type match beats an inherited one.
 2. **Curated catalog applications** that are already installed but not
    registered for this type appear in the installed list, marked as such.
-3. **Catalog suggestions that are not installed** follow, ordered by how
-   specifically they handle the type, then usefulness, maturity, popularity,
-   and whether the program is graphical.
+3. **Catalog suggestions that are not installed** follow, ordered by match
+   specificity first — exact MIME, wildcard family, direct extension, related
+   extension family, ancestor type, category — then by usefulness, maturity,
+   popularity, and whether the program is graphical. A `.kml` file therefore
+   ranks Google Earth Pro, QGIS, and Marble above a text editor that only
+   registers `text/plain`.
 
 The catalog records, for each application:
 
@@ -200,7 +203,7 @@ The scale and the sources are stated in `documents/11-application-catalog.md`.
 ## Coverage
 
 The MIME index on this machine is typically about 1,900 types and 2,200
-extensions. The shipped catalog has 183 applications across 27 categories.
+extensions. The shipped catalog has 185 applications across 27 categories.
 `dataflow.out/catalog-stats.json` records the coverage measured at build time,
 including how many known types have no installed handler yet. Every known type
 is required to have at least one installed or suggested application; the build

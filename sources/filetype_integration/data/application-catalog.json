@@ -3380,6 +3380,61 @@
       "homepage": "https://qgis.org"
     },
     {
+      "id": "google-earth-pro",
+      "name": "Google Earth Pro",
+      "purpose": "View KML and KMZ geographic data on a 3D globe.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 75,
+      "usefulness": "primary",
+      "handles": {
+        "extensions": [
+          "kml",
+          "kmz"
+        ],
+        "categories": [
+          "data"
+        ]
+      },
+      "install": {
+        "url": "https://www.google.com/earth/versions/"
+      },
+      "desktop_ids": [
+        "google-earth-pro.desktop"
+      ],
+      "binary": "google-earth-pro",
+      "homepage": "https://www.google.com/earth/"
+    },
+    {
+      "id": "marble",
+      "name": "Marble",
+      "purpose": "Virtual globe and map viewer that opens KML, KMZ, and GPX files.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 50,
+      "usefulness": "general",
+      "handles": {
+        "extensions": [
+          "gpx",
+          "kml",
+          "kmz"
+        ],
+        "categories": [
+          "data",
+          "drawing"
+        ]
+      },
+      "install": {
+        "apt": "marble",
+        "flatpak": "org.kde.marble"
+      },
+      "desktop_ids": [
+        "org.kde.marble.desktop"
+      ],
+      "binary": "marble",
+      "homepage": "https://apps.kde.org/marble/"
+    },
+    {
       "id": "gdal-bin",
       "name": "GDAL",
       "purpose": "Translate and inspect geospatial raster and vector data.",
