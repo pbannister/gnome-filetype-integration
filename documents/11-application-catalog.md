@@ -31,12 +31,13 @@ application, it prints the command the user's package manager already knows.
 ## Matching
 
 A MIME type or extension match is specific. A category match is the broader
-fallback. For a package or AI format, the broad category adds nothing when a
-specific match exists: Flatpak is not offered for an AppImage merely because
-both are packages, and PyTorch is not offered for a GGUF file merely because
-both are AI models. Other categories stay as a fallback, because a generic
-image or document tool may still open a type that another application names
-exactly.
+fallback. For a package, AI, or wallet format, the broad category adds nothing
+when a specific match exists: Flatpak is not offered for an AppImage merely
+because both are packages, PyTorch is not offered for a GGUF file merely
+because both are AI models, and a password manager is not offered for a Wallet
+pass merely because both are data. Other categories stay as a fallback,
+because a generic image or document tool may still open a type that another
+application names exactly.
 
 A Flatpak-hosted desktop entry runs through `/usr/bin/flatpak`. That launcher
 is not the application, so it must not identify the Flatpak tool as installed
@@ -171,7 +172,8 @@ The build fails if any known type has no installed or suggested application.
 The catalog's categories are the same categories the identifier assigns:
 directory, text, code, document, spreadsheet, presentation, drawing, image,
 audio, video, font, archive, package, executable, database, data, model, AI
-model, CAD, disk image, ebook, email, calendar, contact, subtitle, binary, web.
+model, CAD, disk image, ebook, email, calendar, contact, wallet pass,
+subtitle, binary, web.
 
 The shared MIME database does not know the newer model formats, so the index
 adds them as built-in types: `application/x-gguf` (`.gguf`),

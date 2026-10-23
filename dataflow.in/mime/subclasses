@@ -7,4 +7,6 @@ application/x-php text/plain
 application/xml text/plain
 application/x-tiled-tsx application/xml
 application/vnd.google-earth.kml+xml application/xml
+application/vnd.apple.pkpass application/zip
+application/vnd.apple.pkpasses application/zip
 application/vnd.appimage application/x-executable

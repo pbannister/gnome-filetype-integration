@@ -127,6 +127,13 @@ check_field "$FIXTURES/sample.kml" "f['mime']" "application/vnd.google-earth.kml
 check_field "$FIXTURES/sample.kml" "f['description']" "KML geographic data"
 check_field "$FIXTURES/sample.kml" "f['category']" "data"
 
+# 8.5 Apple Wallet passes are ZIP containers; the name gives the wallet type.
+check_field "$FIXTURES/sample.pkpass" "f['mime']" "application/vnd.apple.pkpass"
+check_field "$FIXTURES/sample.pkpass" "f['description']" "Apple Wallet pass"
+check_field "$FIXTURES/sample.pkpass" "f['category']" "wallet"
+check_field "$FIXTURES/sample.pkpasses" "f['mime']" "application/vnd.apple.pkpasses"
+check_field "$FIXTURES/sample.pkpasses" "f['category']" "wallet"
+
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
     fail 'identify exited zero for a missing file'

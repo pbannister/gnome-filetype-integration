@@ -185,7 +185,8 @@ agreed.
    extension family, ancestor type, category — then by usefulness, maturity,
    popularity, and whether the program is graphical. A `.kml` file therefore
    ranks Google Earth Pro, QGIS, and Marble above a text editor that only
-   registers `text/plain`.
+   registers `text/plain`; a `.pkpass` file ranks GNOME PKPASS Integration,
+   Passes, KDE Itinerary, and pkpass (Python) above the generic ZIP tools.
 
 The catalog records, for each application:
 
@@ -203,7 +204,7 @@ The scale and the sources are stated in `documents/11-application-catalog.md`.
 ## Coverage
 
 The MIME index on this machine is typically about 1,900 types and 2,200
-extensions. The shipped catalog has 185 applications across 27 categories.
+extensions. The shipped catalog has 189 applications across 28 categories.
 `dataflow.out/catalog-stats.json` records the coverage measured at build time,
 including how many known types have no installed handler yet. Every known type
 is required to have at least one installed or suggested application; the build

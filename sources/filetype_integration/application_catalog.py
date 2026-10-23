@@ -223,12 +223,13 @@ class ApplicationCatalog:
             match.application.name.lower(),
         ))
         # A format-specific tool is specific to the format it names.  When a
-        # package or AI type has a specific match, the broad category must not
-        # add unrelated tools: Flatpak is not a handler for an AppImage merely
-        # because both are packages, and PyTorch is not a handler for a GGUF
-        # file merely because both are AI models.  A type with no specific
-        # match keeps the category fallback.
-        if (category in {"package", "ai"}
+        # package, AI, or wallet type has a specific match, the broad category
+        # must not add unrelated tools: Flatpak is not a handler for an
+        # AppImage merely because both are packages, PyTorch is not a handler
+        # for a GGUF file merely because both are AI models, and a password
+        # manager is not a handler for a Wallet pass merely because both are
+        # data.  A type with no specific match keeps the category fallback.
+        if (category in {"package", "ai", "wallet"}
                 and any(match.match_score > 45 for match in matches)):
             matches = [match for match in matches if match.match_score > 45]
         return matches

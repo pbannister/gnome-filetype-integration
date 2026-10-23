@@ -4930,6 +4930,117 @@
         "url": "https://github.com/huggingface/safetensors"
       },
       "homepage": "https://github.com/huggingface/safetensors"
+    },
+    {
+      "id": "gnome-pkpass-integration",
+      "name": "GNOME PKPASS Integration",
+      "purpose": "Inspect, render, and manage Apple Wallet passes on the GNOME desktop.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 35,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/vnd.apple.pkpass",
+          "application/vnd.apple.pkpasses"
+        ],
+        "extensions": [
+          "pkpass",
+          "pkpasses"
+        ],
+        "categories": [
+          "wallet"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/pbannister/gnome-pkpass-integration/releases/latest"
+      },
+      "desktop_ids": [
+        "pkpass-handler.desktop"
+      ],
+      "binary": "pkpass-integrate",
+      "homepage": "https://github.com/pbannister/gnome-pkpass-integration",
+      "notes": "The one-command installer is on the project page; the handler opens a pass in the viewer, and pkpass-inspect and pkpass-render are included."
+    },
+    {
+      "id": "me.sanchezrodriguez.passes",
+      "name": "Passes",
+      "purpose": "Manage and display Apple Wallet passes on the GNOME desktop.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 45,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/vnd.apple.pkpass"
+        ],
+        "extensions": [
+          "pkpass"
+        ],
+        "categories": [
+          "wallet"
+        ]
+      },
+      "install": {
+        "apt": "passes-gtk",
+        "flatpak": "me.sanchezrodriguez.passes"
+      },
+      "desktop_ids": [
+        "me.sanchezrodriguez.passes.desktop"
+      ],
+      "binary": "passes-gtk",
+      "homepage": "https://github.com/pablo-s/passes"
+    },
+    {
+      "id": "org.kde.itinerary",
+      "name": "KDE Itinerary",
+      "purpose": "Digital travel assistant that imports Apple Wallet passes and shows the trip.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 50,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.apple.pkpass"
+        ],
+        "extensions": [
+          "pkpass"
+        ],
+        "categories": [
+          "wallet"
+        ]
+      },
+      "install": {
+        "apt": "itinerary",
+        "flatpak": "org.kde.itinerary"
+      },
+      "desktop_ids": [
+        "org.kde.itinerary.desktop"
+      ],
+      "binary": "itinerary",
+      "homepage": "https://apps.kde.org/itinerary/"
+    },
+    {
+      "id": "python-pkpass",
+      "name": "pkpass (Python)",
+      "purpose": "Read Apple Wallet passes from Python, with airline and train parsers.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 25,
+      "usefulness": "companion",
+      "handles": {
+        "extensions": [
+          "pkpass"
+        ],
+        "categories": [
+          "wallet"
+        ]
+      },
+      "install": {
+        "url": "https://pypi.org/project/pkpass/"
+      },
+      "homepage": "https://github.com/konradit/pkpass",
+      "notes": "A Python library (pip install pkpass); it has no desktop window."
     }
   ]
 }

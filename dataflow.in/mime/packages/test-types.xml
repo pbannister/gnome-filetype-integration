@@ -41,6 +41,16 @@
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kml"/>
   </mime-type>
+  <mime-type type="application/vnd.apple.pkpass">
+    <comment>Apple Wallet pass</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.pkpass"/>
+  </mime-type>
+  <mime-type type="application/vnd.apple.pkpasses">
+    <comment>Apple Wallet passes bundle</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.pkpasses"/>
+  </mime-type>
   <mime-type type="application/vnd.appimage">
     <comment>AppImage application bundle</comment>
     <sub-class-of type="application/x-executable"/>

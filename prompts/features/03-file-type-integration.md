@@ -48,6 +48,7 @@ never a dead end.
 - `FILETYPE-R036` — A package category match must be used only when no application matches the package MIME type or extension, and a Flatpak-hosted desktop entry's launcher must not be treated as the Flatpak tool.
 - `FILETYPE-R037` — A `.gguf`, `.ggml`, `.safetensors`, `.onnx`, `.tflite`, `.mlmodel`, `.keras`, `.pth`, or `.ckpt` file must be identified with an AI model type and the AI model category even though the shared MIME database does not know the extension; a specific AI extension match must suppress the broad AI-category suggestions, and a GGUF file must offer the local-LLM tools and the Python GGUF bindings.
 - `FILETYPE-R038` — Application ranking must order matches by specificity before popularity: an exact MIME type, then a wildcard family, then a direct extension, then a related extension family, then an ancestor type, then a category; the weighted usefulness, maturity, and popularity score may order applications only within the same specificity band.
+- `FILETYPE-R039` — A `.pkpass` or `.pkpasses` file must be identified as an Apple Wallet pass with the wallet category and must offer the GNOME PKPASS Integration, Passes, KDE Itinerary, and the Python pkpass reader ahead of the generic ZIP tools.
 
 ## Behavior
 
@@ -60,6 +61,7 @@ never a dead end.
 - A `.gguf` file is identified as `application/x-gguf` and offers llama.cpp, LM Studio, Ollama, KoboldCpp, Netron, and the Python GGUF bindings.
 - An `.onnx` file offers Netron and ONNX Runtime, not every AI-category application.
 - A `.kml` file ranks Google Earth Pro, QGIS, and Marble above the text editors that register only `text/plain`.
+- A `.pkpass` file offers GNOME PKPASS Integration, Passes, KDE Itinerary, and pkpass (Python) before the generic ZIP tools.
 
 ## Dependencies
 

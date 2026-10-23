@@ -39,6 +39,7 @@ run_chooser "$FIXTURES/sample.png"
 run_chooser "$FIXTURES/sample.custom"
 run_chooser "$FIXTURES/sample-renamed.txt"
 run_chooser "$FIXTURES/sample.gguf"
+run_chooser "$FIXTURES/sample.pkpass"
 
 # The chooser is the handler entry point too.
 output=$(xvfb-run -a env GDK_BACKEND=x11 "$FILETYPE" handle --self-test "$FIXTURES/sample.txt" 2>&1) \

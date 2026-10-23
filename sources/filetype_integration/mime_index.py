@@ -681,6 +681,8 @@ CATEGORY_EXACT = {
     "text/calendar": "calendar",
     "text/vcard": "contact",
     "text/x-vcard": "contact",
+    "application/vnd.apple.pkpass": "wallet",
+    "application/vnd.apple.pkpasses": "wallet",
 }
 
 CATEGORY_PREFIX = {
@@ -813,6 +815,7 @@ def category_generic_icon(category: str) -> str:
         "email": "x-office-address-book",
         "calendar": "x-office-calendar",
         "contact": "x-office-address-book",
+        "wallet": "x-office-address-book",
         "subtitle": "text-x-generic",
     }.get(category, "text-x-generic")
 
@@ -844,5 +847,6 @@ def category_label(category: str) -> str:
         "email": "Email",
         "calendar": "Calendar",
         "contact": "Contact",
+        "wallet": "Wallet pass",
         "subtitle": "Subtitle",
     }.get(category, category.title())

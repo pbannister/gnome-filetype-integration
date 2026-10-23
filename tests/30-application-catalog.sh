@@ -159,6 +159,18 @@ assert all(application.match_score == 100 for application in kml_offers[:3]), \
     [(application.name, application.match_score) for application in kml_offers[:3]]
 assert kml_offers[3].match_score < 100, kml_offers[3].match_score
 
+# 4.5 A .pkpass offers the Wallet applications before the generic ZIP tools.
+pkpass = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.pkpass"), index)
+assert pkpass.mime == "application/vnd.apple.pkpass", pkpass.mime
+assert pkpass.category == "wallet", pkpass.category
+pkpass_recommendation = recommend(pkpass, applications, catalog, index)
+pkpass_names = [application.name for application in pkpass_recommendation.available]
+for name in ("GNOME PKPASS Integration", "Passes", "KDE Itinerary", "pkpass (Python)"):
+    assert name in pkpass_names, sorted(pkpass_names)
+assert all(application.match_score >= 100 for application in pkpass_recommendation.available[:4]), \
+    [(application.name, application.match_score) for application in pkpass_recommendation.available[:5]]
+assert pkpass_names.index("Passes") < pkpass_names.index("Archive Manager"), pkpass_names
+
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)
 assert unknown.mime == "application/x-custom-format"
