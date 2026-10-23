@@ -5,3 +5,4 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.document applicat
 text/x-python application/x-executable
 application/x-php text/plain
 application/x-tiled-tsx application/xml
+application/vnd.appimage application/x-executable

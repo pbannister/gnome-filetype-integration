@@ -92,6 +92,12 @@ check_field "$FIXTURES/sample-component.tsx" "f['mime']" "application/x-tsx"
 check_field "$FIXTURES/sample-tileset.tsx" "f['mime']" "application/x-tiled-tsx"
 check_field "$FIXTURES/sample-page.shtml" "f['mime']" "application/x-ssi"
 
+# 8.2 An AppImage is an ELF executable; the name gives the bundle type.
+check_field "$FIXTURES/sample.AppImage" "f['mime']" "application/vnd.appimage"
+check_field "$FIXTURES/sample.AppImage" "f['description']" "AppImage application bundle"
+check_field "$FIXTURES/sample.AppImage" "f['category']" "package"
+check_field "$FIXTURES/sample.AppImage" "f['conflict'] is None" "True"
+
 # 9. The command-line exit status distinguishes a missing file.
 if "$FILETYPE" identify "$DIRECTORY_TEST/does-not-exist.xyz" >/dev/null 2>&1; then
     fail 'identify exited zero for a missing file'

@@ -28,6 +28,27 @@ TEMPLATE_MIME_TYPES = frozenset(
         "text/x-eruby",
     }
 ) | WEB_TEMPLATE_MIME_TYPES
+# An AppImage is an ELF executable (or, for Type 1, an ISO image) with the
+# application filesystem appended.  libmagic reports the underlying kind; the
+# name gives the bundle format.  The bundle is the more specific type, but the
+# shared MIME database records the underlying kinds separately, so the
+# relationship is stated here.
+APPIMAGE_BASE_MIME_TYPES = frozenset(
+    {
+        "application/x-executable",
+        "application/x-pie-executable",
+        "application/x-sharedlib",
+        "application/x-iso9660-image",
+        "application/x-cd-image",
+        "application/vnd.efi.iso",
+    }
+)
+EXECUTABLE_BUNDLE_MIME_TYPES = frozenset(
+    {
+        "application/vnd.appimage",
+        "application/x-iso9660-appimage",
+    }
+)
 TEMPLATE_BODY_MIME_TYPES = frozenset(
     {
         "text/html",
@@ -231,6 +252,9 @@ def _compatible(magic_mime: str, extension_mime: str, index: TypeIndex) -> bool:
     magic_canonical = index.canonical(magic_mime)
     extension_canonical = index.canonical(extension_mime)
     if magic_canonical == extension_canonical:
+        return True
+    if (magic_canonical in APPIMAGE_BASE_MIME_TYPES
+            and extension_canonical in EXECUTABLE_BUNDLE_MIME_TYPES):
         return True
     if magic_canonical in index.family(extension_canonical):
         return True

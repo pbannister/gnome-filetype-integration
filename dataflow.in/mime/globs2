@@ -17,3 +17,4 @@
 50:application/x-php:*.php
 50:application/x-php:*.phtml
 50:application/x-tiled-tsx:*.tsx
+60:application/vnd.appimage:*.appimage

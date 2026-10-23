@@ -51,6 +51,12 @@ is a subclass of `application/zip`; a `.tar.gz` is a subclass of
 `application/gzip`. The identifier prefers the subclass, which is why a Word
 document is not reported as a plain ZIP.
 
+An AppImage is a bundle on top of an ELF executable. libmagic reports the
+executable or shared library; the name reports `application/vnd.appimage` or
+`application/x-iso9660-appimage`. The bundle is the more specific type, so the
+name wins and the file is identified as an AppImage rather than as an
+executable with a conflict.
+
 Odd ancestry is handled separately. Shared-mime-info records
 `text/x-python` as a subclass of `application/x-executable`, so a debugger
 would otherwise appear as a Python handler. The handler search widens only

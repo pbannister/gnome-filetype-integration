@@ -32,6 +32,13 @@
   <mime-type type="application/x-tiled-tsx">
     <comment>Tiled tileset files</comment>
   </mime-type>
+  <mime-type type="application/vnd.appimage">
+    <comment>AppImage application bundle</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="appimage-activator"/>
+    <glob pattern="*.appimage"/>
+    <glob pattern="*.AppImage"/>
+  </mime-type>
   <mime-type type="application/x-custom-format">
     <comment>Fixture custom format</comment>
     <glob pattern="*.custom" weight="50"/>

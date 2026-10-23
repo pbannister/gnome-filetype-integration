@@ -153,6 +153,10 @@ The decision follows the evidence:
   document. The same applies to JSP, ASP.NET/Razor, ERB, EJS, Handlebars,
   Mustache, Twig, Liquid, Nunjucks, Jinja, Pug, Haml, Slim, ColdFusion, Vue,
   Svelte, Astro, JSX/TSX, and server-side includes.
+- An AppImage is an ELF executable with the application filesystem appended, so
+  the bytes describe an executable and the name describes the bundle. The
+  `.AppImage` name wins, and the file is reported as an AppImage rather than as
+  a conflict.
 - If the bytes are specific and disagree with the name, the **bytes win** and
   the report names both types. A PNG renamed to `.txt` is reported as a PNG
   with a conflict, not silently as text.

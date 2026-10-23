@@ -686,7 +686,7 @@ CATEGORY_SUBTYPE = (
     ("x-compressed", "archive"),
     ("java-archive", "package"),
     ("x-deb", "package"),
-    ("x-appimage", "package"),
+    ("appimage", "package"),
     ("x-msi", "package"),
     ("x-krita", "drawing"),
     ("photoshop", "drawing"),

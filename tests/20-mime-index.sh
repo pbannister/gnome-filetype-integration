@@ -65,6 +65,13 @@ assert index.description("application/pdf") == "PDF document"
 assert index.icon("image/png") == "image-png"
 assert index.generic_icon("text/x-python") == "text-x-script"
 
+# 5.1 An AppImage is a package, recognized by name in either case.
+assert index.lookup_extension("download.AppImage")[0].mime == "application/vnd.appimage"
+assert index.lookup_extension("download.appimage")[0].mime == "application/vnd.appimage"
+assert index.category("application/vnd.appimage") == "package"
+assert index.description("application/vnd.appimage") == "AppImage application bundle"
+assert "application/x-executable" in index.ancestors("application/vnd.appimage")
+
 # 6. XML and globs2 agree; the longest pattern wins at equal weight.
 match = index.lookup_extension("x.tar.gz")[0]
 assert match.pattern == "*.tar.gz", match
