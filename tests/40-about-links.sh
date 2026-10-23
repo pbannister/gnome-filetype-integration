@@ -207,6 +207,56 @@ try:
     assert "https://csvkit.readthedocs.io/" in csvkit_urls, csvkit_urls
     assert all("/search?" not in url for url in csvkit_urls), csvkit_urls
 
+    # 14. PrusaSlicer's project page moved; the catalog carries the canonical
+    #     URL and the reviewable homepage wins over stale AppStream metadata.
+    prusa = catalog.get("com.prusa3d.PrusaSlicer")
+    assert prusa.homepage == "https://www.prusa3d.com/p/prusaslicer/", prusa.homepage
+    import filetype_integration.application_catalog as catalog_module
+    original_homepage = catalog_module.application_homepage
+    catalog_module.application_homepage = lambda _desktop: "https://www.prusa3d.com/prusaslicer/"
+    try:
+        prusa_desktop = InstalledApplication(
+            desktop_id="com.prusa3d.PrusaSlicer.desktop", name="PrusaSlicer",
+            comment="", executable="/usr/bin/prusa-slicer",
+            exec_line="/usr/bin/prusa-slicer %F",
+            mime_types=["model/stl"], source_path="/tmp/com.prusa3d.PrusaSlicer.desktop",
+        )
+        prusa_urls = about_candidates(prusa, prusa_desktop)
+    finally:
+        catalog_module.application_homepage = original_homepage
+    assert prusa_urls[0] == "https://www.prusa3d.com/p/prusaslicer/", prusa_urls
+    assert "https://github.com/prusa3d/PrusaSlicer" in prusa_urls, prusa_urls
+    assert "https://www.prusa3d.com/prusaslicer/" not in prusa_urls, prusa_urls
+
+    # 15. AppImage Activator has a catalog entry, so its About links name the
+    #     integrating project instead of packages guessed from its local path.
+    activator = InstalledApplication(
+        desktop_id="appimage-activator.desktop", name="AppImage Activator",
+        comment="", executable="/home/user/.local/bin/appimage-integrate",
+        exec_line="/home/user/.local/bin/appimage-integrate handle %f",
+        mime_types=["application/vnd.appimage"], source_path="/tmp/appimage-activator.desktop",
+    )
+    activator_entry = _catalog_entry_for(activator, catalog)
+    assert activator_entry is not None and activator_entry.id == (
+        "com.github.pbannister.AppImageActivator"), activator_entry
+    activator_urls = about_candidates(activator_entry, activator)
+    assert activator_urls[0] == (
+        "https://labs.bannister.us/projects/gnome-appimage-integration/"), activator_urls
+    assert "https://github.com/pbannister/gnome-appimage-integration" in activator_urls, activator_urls
+    assert "https://github.com/pbannister/gnome-appimage-integration/releases" in activator_urls, activator_urls
+    assert all("tracker.debian.org" not in url for url in activator_urls), activator_urls
+
+    # 16. An uncataloged AppImage offers no fabricated package page: its local
+    #     path is not a package name, and a reverse-DNS desktop id is not one.
+    uncataloged = InstalledApplication(
+        desktop_id="com.example.Viewer.desktop", name="Example Viewer",
+        comment="", executable="/home/user/Applications/Example-Viewer.AppImage",
+        exec_line="/home/user/Applications/Example-Viewer.AppImage %f",
+        mime_types=["application/vnd.appimage"], source_path="/tmp/com.example.Viewer.desktop",
+    )
+    assert _catalog_entry_for(uncataloged, catalog) is None
+    assert about_candidates(None, uncataloged) == []
+
     print("40-about-links: ok")
 finally:
     server.shutdown()

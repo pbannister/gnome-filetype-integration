@@ -2602,6 +2602,36 @@
       "homepage": "https://flatpak.org/"
     },
     {
+      "id": "com.github.pbannister.AppImageActivator",
+      "name": "AppImage Activator",
+      "purpose": "Run or integrate an AppImage into the desktop.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 10,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/vnd.appimage",
+          "application/x-appimage",
+          "application/x-iso9660-appimage"
+        ],
+        "extensions": [
+          "appimage"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/pbannister/gnome-appimage-integration/releases"
+      },
+      "desktop_ids": [
+        "appimage-activator.desktop"
+      ],
+      "binary": "appimage-integrate",
+      "homepage": "https://labs.bannister.us/projects/gnome-appimage-integration/",
+      "about": [
+        "https://github.com/pbannister/gnome-appimage-integration"
+      ]
+    },
+    {
       "id": "gnome-software",
       "name": "GNOME Software",
       "purpose": "Install applications and fonts from the desktop.",
@@ -3628,7 +3658,10 @@
         "com.prusa3d.PrusaSlicer.desktop"
       ],
       "binary": "prusa-slicer",
-      "homepage": "https://www.prusa3d.com/prusaslicer/"
+      "homepage": "https://www.prusa3d.com/p/prusaslicer/",
+      "about": [
+        "https://github.com/prusa3d/PrusaSlicer"
+      ]
     },
     {
       "id": "com.ultimaker.cura",

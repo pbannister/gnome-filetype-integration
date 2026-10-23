@@ -552,13 +552,37 @@ def _add_package_pages(add, package: str) -> None:
     add(f"https://repology.org/project/{quoted}/versions")
 
 
+SYSTEM_BIN_DIRECTORIES = ("/bin/", "/usr/bin/", "/usr/local/bin/")
+
+
+def _system_executable_name(executable: str) -> str:
+    """The package-like name of a program on the system bin directories.
+
+    An AppImage under ``$HOME/Applications`` or a tool under ``$HOME/.local``
+    is not a distribution package; using its file name builds package pages
+    that do not exist.
+    """
+    if not executable:
+        return ""
+    if not os.path.isabs(executable):
+        return executable
+    if executable.startswith(SYSTEM_BIN_DIRECTORIES):
+        return executable.rsplit("/", 1)[-1]
+    return ""
+
+
 def about_candidates(catalog_application: CatalogApplication | None,
                      desktop: InstalledApplication | None) -> list[str]:
     """Ordered pages that describe an application.
 
     The list is deliberately redundant: a project page, Flathub, the
-    distribution package page, and search pages.  The chooser probes them and
-    opens the first that answers, so one dead site is not a dead end.
+    distribution package page, and other reference pages.  The chooser probes
+    them and opens the first that answers, so one dead site is not a dead end.
+
+    A catalog entry supplies curated package hints.  Only an uncataloged
+    application gets a package name guessed from a system executable or a
+    simple desktop id; an AppImage path or a reverse-DNS desktop id is not a
+    package name.
     """
     urls: list[str] = []
 
@@ -566,10 +590,14 @@ def about_candidates(catalog_application: CatalogApplication | None,
         if url and url.startswith(("http://", "https://")) and url not in urls:
             urls.append(url)
 
-    if desktop is not None:
+    if catalog_application is not None and catalog_application.homepage:
+        # The catalog is reviewed; AppStream metadata can be stale and cannot
+        # be corrected on this machine.  Use AppStream only when the catalog
+        # has no project page of its own.
+        add(catalog_application.homepage)
+    elif desktop is not None:
         add(application_homepage(desktop))
     if catalog_application is not None:
-        add(catalog_application.homepage)
         for url in catalog_application.about:
             add(url)
         install = catalog_application.install
@@ -583,18 +611,20 @@ def about_candidates(catalog_application: CatalogApplication | None,
 
     if desktop is not None:
         executable = desktop.executable or desktop.name
-        package_names = []
-        if executable:
-            executable_name = executable.rsplit("/", 1)[-1]
-            if executable_name not in {"flatpak", "snap"}:
+        if executable.startswith("/snap/bin/"):
+            add(f"https://snapcraft.io/{quote(executable.rsplit('/', 1)[-1].split('.')[0])}")
+        if catalog_application is None:
+            package_names = []
+            executable_name = _system_executable_name(executable)
+            if executable_name and executable_name not in {"flatpak", "snap"}:
                 package_names.append(executable_name)
                 package_names.append(_package_name(executable_name))
-            if executable.startswith("/snap/bin/"):
-                add(f"https://snapcraft.io/{quote(executable_name.split('.')[0])}")
-        if desktop.desktop_id and not executable.endswith("/flatpak"):
-            package_names.append(_package_name(desktop.desktop_id))
-        for package in dict.fromkeys(name for name in package_names if name):
-            _add_package_pages(add, package)
+            desktop_stem = desktop.desktop_id.removesuffix(".desktop")
+            if (desktop_stem and "." not in desktop_stem
+                    and not executable.endswith("/flatpak")):
+                package_names.append(_package_name(desktop.desktop_id))
+            for package in dict.fromkeys(name for name in package_names if name):
+                _add_package_pages(add, package)
     return urls
 
 

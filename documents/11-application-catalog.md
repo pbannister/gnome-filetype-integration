@@ -74,12 +74,17 @@ application, it prints the command the user's package manager already knows.
 - `homepage` — optional; the project page shown first by the About link.
 - `about` — optional extra reference pages (for example Wikipedia and the
   source repository), used after `homepage` and before package pages.
-- The About candidates are built in this order: AppStream homepage, `homepage`,
-  `about`, `install.url`, Flathub, Snapcraft, and direct package pages
-  (`tracker.debian.org`, `sources.debian.org`, Launchpad, Repology). Package
-  search pages are not used: a search page answers HTTP 200 even when it finds
-  nothing, which makes it a false positive. On click the chooser shows the
-  candidates grouped by category, keeps every link disabled, probes them
+- The About candidates are built in this order: a catalog `homepage` (or, when
+  it has none, the installed application's AppStream homepage), `about`,
+  `install.url`, Flathub, Snapcraft, and direct package pages
+  (`tracker.debian.org`, `sources.debian.org`, Launchpad, Repology). The
+  catalog page is reviewed here; AppStream metadata comes from the installed
+  package and can be stale. Package pages are guessed only for an uncataloged
+  application: a program under a system bin directory, or a simple desktop id.
+  An AppImage path and a reverse-DNS desktop id are not package names.
+  Package search pages are not used: a search page answers HTTP 200 even when
+  it finds nothing, which makes it a false positive. On click the chooser shows
+  the candidates grouped by category, keeps every link disabled, probes them
   concurrently with short HEAD requests (one-byte GET fallback), and enables
   only the links that answer. Each site is visited at most once per local day;
   `filetype about-history` shows the recorded date, result, and status.
