@@ -2,12 +2,23 @@
 
 ## Open
 
-* [ ] verify the handler install and the chooser on a second distribution and on a non-GNOME XDG desktop.
 * [ ] add a Nautilus test that runs when `python3-nautilus` is present; the current test skips that path.
 * [ ] consider a GNOME Shell search provider for launching the chooser without a file.
 
 ## Recently Completed
 
+* [x] verify the handler install and the chooser on a second distribution
+      and a non-GNOME XDG desktop (2026-11-20):
+    * [x] install the published release in an isolated Fedora 45 container
+          with XFCE 4.20, as a non-root user; the digest check passes.
+    * [x] verify identification, handler registration, and defaults: 1024
+          defaults set, all for types with no installed handler; the XFCE
+          handler for `application/x-desktop` is kept.
+    * [x] build the chooser window under Xvfb with
+          `XDG_CURRENT_DESKTOP=XFCE` for choose and handle.
+    * [x] uninstall restores every changed default and removes the entry
+          and manifest; the result is recorded in
+          `documents/13-portability-verification.md`.
 * [x] widen the catalog in the least-covered categories (2026-11-20):
     * [x] add 21 applications (189 → 210): presentation gains Calligra Stage,
           FreeOffice, WPS Office, Impressive, and PDF Presenter Console;
