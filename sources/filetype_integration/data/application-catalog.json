@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-23",
+  "updated": "2026-11-20",
   "note": "Curated suggestions for applications that may not be installed. Installed applications are discovered from the desktop itself.",
   "scales": {
     "maturity": [
@@ -538,10 +538,37 @@
           "application/msword",
           "application/pdf",
           "application/rtf",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.ms-powerpoint.addin.macroenabled.12",
+          "application/vnd.ms-powerpoint.presentation.macroenabled.12",
+          "application/vnd.ms-powerpoint.slide.macroenabled.12",
+          "application/vnd.ms-powerpoint.slideshow.macroenabled.12",
+          "application/vnd.ms-powerpoint.template.macroenabled.12",
           "application/vnd.oasis.opendocument.graphics",
           "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.oasis.opendocument.presentation-flat-xml",
+          "application/vnd.oasis.opendocument.presentation-template",
           "application/vnd.oasis.opendocument.spreadsheet",
-          "application/vnd.oasis.opendocument.text"
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/vnd.openxmlformats-officedocument.presentationml.slide",
+          "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+          "application/vnd.openxmlformats-officedocument.presentationml.template"
+        ],
+        "extensions": [
+          "pot",
+          "potm",
+          "potx",
+          "ppam",
+          "pps",
+          "ppsm",
+          "ppsx",
+          "ppt",
+          "pptm",
+          "pptx",
+          "ppz",
+          "sldm",
+          "sldx"
         ],
         "categories": [
           "database",
@@ -576,9 +603,27 @@
       "handles": {
         "mime": [
           "application/msword",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.ms-powerpoint.presentation.macroenabled.12",
+          "application/vnd.ms-powerpoint.slideshow.macroenabled.12",
+          "application/vnd.ms-powerpoint.template.macroenabled.12",
           "application/vnd.oasis.opendocument.presentation",
           "application/vnd.oasis.opendocument.spreadsheet",
-          "application/vnd.oasis.opendocument.text"
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+          "application/vnd.openxmlformats-officedocument.presentationml.template"
+        ],
+        "extensions": [
+          "pot",
+          "potm",
+          "potx",
+          "pps",
+          "ppsm",
+          "ppsx",
+          "ppt",
+          "pptm",
+          "pptx"
         ],
         "categories": [
           "document",
@@ -4509,6 +4554,9 @@
       "popularity": 55,
       "usefulness": "specialized",
       "handles": {
+        "mime": [
+          "application/x-subrip"
+        ],
         "extensions": [
           "ass",
           "srt",
@@ -5041,6 +5089,600 @@
       },
       "homepage": "https://github.com/konradit/pkpass",
       "notes": "A Python library (pip install pkpass); it has no desktop window."
+    },
+    {
+      "id": "org.kde.calligra",
+      "name": "Calligra Stage",
+      "purpose": "KDE presentation editor that opens PowerPoint and OpenDocument slides.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 25,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/vnd.ms-powerpoint",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ],
+        "extensions": [
+          "odp",
+          "ppt",
+          "pptx"
+        ],
+        "categories": [
+          "presentation"
+        ]
+      },
+      "install": {
+        "apt": "calligra",
+        "flatpak": "org.kde.calligra"
+      },
+      "homepage": "https://calligra.org/"
+    },
+    {
+      "id": "freeoffice",
+      "name": "FreeOffice Presentations",
+      "purpose": "Presentation editor from the FreeOffice suite, with PowerPoint compatibility.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 40,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/vnd.ms-powerpoint",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ],
+        "extensions": [
+          "odp",
+          "pps",
+          "ppsx",
+          "ppt",
+          "pptx"
+        ],
+        "categories": [
+          "presentation"
+        ]
+      },
+      "install": {
+        "url": "https://www.freeoffice.com/"
+      },
+      "homepage": "https://www.freeoffice.com/",
+      "about": [
+        "https://en.wikipedia.org/wiki/SoftMaker_Office"
+      ]
+    },
+    {
+      "id": "wps-office",
+      "name": "WPS Office",
+      "purpose": "Office suite with a presentation editor closely modeled on PowerPoint.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 55,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "application/vnd.ms-powerpoint",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ],
+        "extensions": [
+          "odp",
+          "pps",
+          "ppsx",
+          "ppt",
+          "pptx"
+        ],
+        "categories": [
+          "presentation"
+        ]
+      },
+      "install": {
+        "url": "https://www.wps.com/"
+      },
+      "homepage": "https://www.wps.com/",
+      "about": [
+        "https://en.wikipedia.org/wiki/WPS_Office"
+      ]
+    },
+    {
+      "id": "impressive",
+      "name": "Impressive",
+      "purpose": "OpenGL-accelerated PDF viewer for giving slide presentations.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "presentation"
+        ]
+      },
+      "install": {
+        "apt": "impressive"
+      },
+      "homepage": "https://sourceforge.net/projects/impressive/"
+    },
+    {
+      "id": "pdfpc",
+      "name": "PDF Presenter Console",
+      "purpose": "Dual-screen PDF presentation console with notes, a timer, and an overview.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "specialized",
+      "handles": {
+        "mime": [
+          "application/pdf"
+        ],
+        "categories": [
+          "presentation"
+        ]
+      },
+      "install": {
+        "apt": "pdf-presenter-console"
+      },
+      "binary": "pdfpc",
+      "homepage": "https://pdfpc.github.io/",
+      "about": [
+        "https://github.com/pdfpc/pdfpc"
+      ]
+    },
+    {
+      "id": "khal",
+      "name": "khal",
+      "purpose": "Console calendar that reads and edits iCalendar files and syncs with CalDAV.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 20,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/calendar",
+          "text/x-vcalendar"
+        ],
+        "extensions": [
+          "ics",
+          "ifb",
+          "vcs"
+        ],
+        "categories": [
+          "calendar"
+        ]
+      },
+      "install": {
+        "apt": "khal"
+      },
+      "binary": "khal",
+      "homepage": "https://github.com/pimutils/khal"
+    },
+    {
+      "id": "org.kde.korganizer",
+      "name": "KOrganizer",
+      "purpose": "KDE calendar and scheduling application for events and to-dos.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 35,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/calendar",
+          "text/x-vcalendar"
+        ],
+        "extensions": [
+          "ics",
+          "ifb",
+          "vcs"
+        ],
+        "categories": [
+          "calendar"
+        ]
+      },
+      "install": {
+        "apt": "korganizer"
+      },
+      "homepage": "https://userbase.kde.org/KOrganizer"
+    },
+    {
+      "id": "net.sourceforge.osmo",
+      "name": "Osmo",
+      "purpose": "Lightweight personal organizer for calendar, contacts, tasks, and notes.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 10,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "text/calendar",
+          "text/vcard"
+        ],
+        "extensions": [
+          "ics",
+          "vcf"
+        ],
+        "categories": [
+          "calendar",
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "osmo",
+        "flatpak": "net.sourceforge.osmo"
+      },
+      "homepage": "http://osmo-pim.sourceforge.net/"
+    },
+    {
+      "id": "gcalcli",
+      "name": "gcalcli",
+      "purpose": "Command-line client for Google Calendar that imports and exports iCalendar.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 20,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "text/calendar"
+        ],
+        "extensions": [
+          "ics"
+        ],
+        "categories": [
+          "calendar"
+        ]
+      },
+      "install": {
+        "apt": "gcalcli"
+      },
+      "binary": "gcalcli",
+      "homepage": "https://github.com/insanum/gcalcli"
+    },
+    {
+      "id": "vdirsyncer",
+      "name": "vdirsyncer",
+      "purpose": "Synchronize calendars and address books between CalDAV/CardDAV servers and local files.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "text/calendar",
+          "text/vcard"
+        ],
+        "extensions": [
+          "ics",
+          "vcf"
+        ],
+        "categories": [
+          "calendar",
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "vdirsyncer"
+      },
+      "binary": "vdirsyncer",
+      "homepage": "https://github.com/pimutils/vdirsyncer"
+    },
+    {
+      "id": "python3-icalendar",
+      "name": "icalendar (Python)",
+      "purpose": "Parse and generate iCalendar files from Python.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "text/calendar"
+        ],
+        "extensions": [
+          "ics"
+        ],
+        "categories": [
+          "calendar"
+        ]
+      },
+      "install": {
+        "apt": "python3-icalendar"
+      },
+      "homepage": "https://github.com/collective/icalendar",
+      "notes": "A Python library; it has no desktop window."
+    },
+    {
+      "id": "org.kde.kaddressbook",
+      "name": "KAddressBook",
+      "purpose": "KDE address book for managing contacts and contact groups.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 30,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/vcard"
+        ],
+        "extensions": [
+          "vcf",
+          "vcard"
+        ],
+        "categories": [
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "kaddressbook"
+      },
+      "homepage": "https://userbase.kde.org/KAddressBook"
+    },
+    {
+      "id": "khard",
+      "name": "khard",
+      "purpose": "Console CardDAV address book that reads and writes vCard files.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "text/vcard"
+        ],
+        "extensions": [
+          "vcf",
+          "vcard"
+        ],
+        "categories": [
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "khard"
+      },
+      "binary": "khard",
+      "homepage": "https://github.com/lucc/khard",
+      "about": [
+        "https://khard.readthedocs.io/"
+      ]
+    },
+    {
+      "id": "abook",
+      "name": "abook",
+      "purpose": "Text-mode address book for mutt that imports and exports vCard.",
+      "kind": "cli",
+      "maturity": "legacy",
+      "popularity": 10,
+      "usefulness": "general",
+      "handles": {
+        "mime": [
+          "text/vcard"
+        ],
+        "extensions": [
+          "vcf"
+        ],
+        "categories": [
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "abook"
+      },
+      "binary": "abook",
+      "homepage": "http://abook.sourceforge.net/"
+    },
+    {
+      "id": "python3-vobject",
+      "name": "vobject (Python)",
+      "purpose": "Parse and generate vCard and iCalendar data from Python.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 10,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "text/calendar",
+          "text/vcard"
+        ],
+        "extensions": [
+          "ics",
+          "vcf"
+        ],
+        "categories": [
+          "calendar",
+          "contact"
+        ]
+      },
+      "install": {
+        "apt": "python3-vobject"
+      },
+      "homepage": "https://github.com/eventable/vobject",
+      "notes": "A Python library; it has no desktop window."
+    },
+    {
+      "id": "org.kde.subtitlecomposer",
+      "name": "Subtitle Composer",
+      "purpose": "KDE subtitle editor with timing, translation, and waveform views.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 20,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/ttml+xml",
+          "application/x-subrip",
+          "text/vtt"
+        ],
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa",
+          "sub",
+          "ttml",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "subtitlecomposer",
+        "flatpak": "org.kde.subtitlecomposer"
+      },
+      "homepage": "https://subtitlecomposer.kde.org/"
+    },
+    {
+      "id": "gaupol",
+      "name": "Gaupol",
+      "purpose": "Subtitle editor for timing and translating text-based subtitle files.",
+      "kind": "gui",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/ttml+xml",
+          "application/x-subrip",
+          "text/vtt"
+        ],
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa",
+          "sub",
+          "ttml",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "gaupol"
+      },
+      "homepage": "https://github.com/otsaloma/gaupol"
+    },
+    {
+      "id": "subtitle-edit",
+      "name": "Subtitle Edit",
+      "purpose": "Subtitle editor with format conversion, synchronization, and translation tools.",
+      "kind": "gui",
+      "maturity": "mature",
+      "popularity": 45,
+      "usefulness": "primary",
+      "handles": {
+        "mime": [
+          "application/ttml+xml",
+          "application/x-subrip",
+          "text/vtt"
+        ],
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa",
+          "sub",
+          "ttml",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/SubtitleEdit/subtitleedit"
+      },
+      "homepage": "https://github.com/SubtitleEdit/subtitleedit",
+      "notes": "The Linux build is a portable .NET archive.",
+      "about": [
+        "https://en.wikipedia.org/wiki/Subtitle_Edit"
+      ]
+    },
+    {
+      "id": "subliminal",
+      "name": "subliminal",
+      "purpose": "Download subtitles for video files from the command line.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 20,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "application/x-subrip"
+        ],
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa",
+          "sub",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "subliminal"
+      },
+      "binary": "subliminal",
+      "homepage": "https://github.com/Diaoul/subliminal"
+    },
+    {
+      "id": "python3-srt",
+      "name": "srt (Python)",
+      "purpose": "Parse, shift, and repair SubRip subtitle files from Python.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 10,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "application/x-subrip"
+        ],
+        "extensions": [
+          "srt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "apt": "python3-srt"
+      },
+      "homepage": "https://github.com/byroot/pysrt",
+      "notes": "A Python library; it has no desktop window."
+    },
+    {
+      "id": "ffsubsync",
+      "name": "ffsubsync",
+      "purpose": "Automatically synchronize subtitles to a video's audio track.",
+      "kind": "cli",
+      "maturity": "stable",
+      "popularity": 15,
+      "usefulness": "companion",
+      "handles": {
+        "mime": [
+          "application/x-subrip"
+        ],
+        "extensions": [
+          "ass",
+          "srt",
+          "ssa",
+          "sub",
+          "vtt"
+        ],
+        "categories": [
+          "subtitle"
+        ]
+      },
+      "install": {
+        "url": "https://github.com/smacke/ffsubsync"
+      },
+      "binary": "ffsubsync",
+      "homepage": "https://github.com/smacke/ffsubsync",
+      "notes": "A Python tool (pip install ffsubsync).",
+      "about": [
+        "https://pypi.org/project/ffsubsync/"
+      ]
     }
   ]
 }

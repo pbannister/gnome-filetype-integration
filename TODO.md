@@ -2,13 +2,27 @@
 
 ## Open
 
-* [ ] widen the catalog beyond the current 189 applications, starting with the least-covered categories (presentation, calendar, contact, subtitle).
 * [ ] verify the handler install and the chooser on a second distribution and on a non-GNOME XDG desktop.
 * [ ] add a Nautilus test that runs when `python3-nautilus` is present; the current test skips that path.
 * [ ] consider a GNOME Shell search provider for launching the chooser without a file.
 
 ## Recently Completed
 
+* [x] widen the catalog in the least-covered categories (2026-11-20):
+    * [x] add 21 applications (189 → 210): presentation gains Calligra Stage,
+          FreeOffice, WPS Office, Impressive, and PDF Presenter Console;
+          calendar gains khal, KOrganizer, Osmo, gcalcli, vdirsyncer, and
+          icalendar; contact gains KAddressBook, khard, abook, and vobject;
+          subtitle gains Subtitle Composer, Gaupol, Subtitle Edit, subliminal,
+          srt, and ffsubsync.
+    * [x] name the PowerPoint MIME types and extensions in LibreOffice and
+          ONLYOFFICE, and the SubRip MIME type in Aegisub, so the core types
+          match specifically instead of by category.
+    * [x] prove the specific matches with new assertions in
+          `tests/30-application-catalog.sh`, written before the data change.
+    * [x] replace the hardcoded catalog count in `site.in/index.txt` with the
+          `__CATALOG_APPLICATIONS__` placeholder; republish the page set
+          through the homelab.
 * [x] publish the page set to the homelab site (2026-11-20):
     * [x] register `gnome-filetype-integration` in the homelab
           `sources/projects.yaml` (`self_published`, local `pages_source`).

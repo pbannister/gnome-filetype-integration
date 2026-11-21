@@ -37,7 +37,9 @@ had at least one registered handler. This is host state, not project data.
 
 The catalog is hand-curated from the projects' documentation and homepages,
 distribution package indexes, and Flathub. Package names were checked on
-Ubuntu 26.04 on 2026-10-22; Flatpak IDs are the Flathub application IDs. The
+Ubuntu 26.04 on 2026-10-22 (the widened presentation, calendar, contact, and
+subtitle categories re-checked 2026-11-20); Flatpak IDs are the Flathub
+application IDs. The
 catalog does not download anything and does not check a package exists at run
 time: it prints the command the user's package manager already understands.
 

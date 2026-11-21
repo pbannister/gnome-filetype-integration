@@ -206,7 +206,7 @@ The scale and the sources are stated in `documents/11-application-catalog.md`.
 ## Coverage
 
 The MIME index on this machine is typically about 1,900 types and 2,200
-extensions. The shipped catalog has 189 applications across 28 categories.
+extensions. The shipped catalog has 210 applications across 28 categories.
 `dataflow.out/catalog-stats.json` records the coverage measured at build time,
 including how many known types have no installed handler yet. Every known type
 is required to have at least one installed or suggested application; the build

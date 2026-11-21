@@ -32,7 +32,7 @@ exercised under Xvfb. Release <code>v2026-10-23-master</code> is published.
 
 <ul>
   <li><b>Two witnesses.</b> libmagic reads the bytes; the shared-mime-info globs read the name. The report shows both and names a conflict instead of hiding it.</li>
-  <li><b>A curated catalog.</b> 169 applications with a purpose, maturity, popularity, usefulness, and install hints, for the programs that are not installed.</li>
+  <li><b>A curated catalog.</b> __CATALOG_APPLICATIONS__ applications with a purpose, maturity, popularity, usefulness, and install hints, for the programs that are not installed.</li>
   <li><b>A real handler.</b> The chooser is registered for every known type and becomes the default only where no working handler exists, or where the current default is broken.</li>
   <li><b>A reversible change.</b> A manifest records every file and every changed default; uninstall restores them and keeps a choice the user made afterwards.</li>
 </ul>

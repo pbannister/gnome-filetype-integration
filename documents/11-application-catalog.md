@@ -24,7 +24,9 @@ package indexes, and Flathub application IDs. A Flathub page that names a
 used to fill a missing `homepage`. `scripts/catalog-enrich-flathub.sh` and
 `scripts/catalog-enrich-debian.sh` perform that enrichment explicitly; neither
 is part of the portable build. Package names were checked on
-Ubuntu 26.04 (2026-10-22); Flatpak IDs are the Flathub application IDs. The
+Ubuntu 26.04 (2026-10-22; the widened presentation, calendar, contact, and
+subtitle categories re-checked 2026-11-20); Flatpak IDs are the Flathub
+application IDs. The
 catalog carries no licence or download URL requirement: it never downloads an
 application, it prints the command the user's package manager already knows.
 

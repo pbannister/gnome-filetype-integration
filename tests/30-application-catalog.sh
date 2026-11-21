@@ -171,6 +171,24 @@ assert all(application.match_score >= 100 for application in pkpass_recommendati
     [(application.name, application.match_score) for application in pkpass_recommendation.available[:5]]
 assert pkpass_names.index("Passes") < pkpass_names.index("Archive Manager"), pkpass_names
 
+# 4.6 The widened categories get specific matches for their core types:
+#     a PowerPoint presentation, an iCalendar file, a vCard, and a SubRip
+#     subtitle each match a named application exactly, not by category.
+pptx_matches = catalog.matches(
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "pptx", "presentation", index)
+assert any(match.application.id == "org.libreoffice.LibreOffice"
+           and match.match_score >= 100 for match in pptx_matches), pptx_matches
+calendar_matches = catalog.matches("text/calendar", "ics", "calendar", index)
+assert any(match.application.id == "khal" and match.match_score >= 100
+           for match in calendar_matches), calendar_matches
+contact_matches = catalog.matches("text/vcard", "vcf", "contact", index)
+assert any(match.application.id == "khard" and match.match_score >= 100
+           for match in contact_matches), contact_matches
+subtitle_matches = catalog.matches("application/x-subrip", "srt", "subtitle", index)
+assert any(match.application.id == "org.kde.subtitlecomposer"
+           and match.match_score >= 100 for match in subtitle_matches), subtitle_matches
+
 # 5. An unknown type still gets fallback suggestions, and is flagged.
 unknown = identify(os.path.join(os.environ["FILETYPE_FIXTURES"], "sample.custom"), index)
 assert unknown.mime == "application/x-custom-format"
