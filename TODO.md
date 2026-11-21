@@ -2,7 +2,6 @@
 
 ## Open
 
-* [ ] publish the page set to the homelab site (the public release `v2026-10-23-master` is published).
 * [ ] widen the catalog beyond the current 189 applications, starting with the least-covered categories (presentation, calendar, contact, subtitle).
 * [ ] verify the handler install and the chooser on a second distribution and on a non-GNOME XDG desktop.
 * [ ] add a Nautilus test that runs when `python3-nautilus` is present; the current test skips that path.
@@ -10,6 +9,15 @@
 
 ## Recently Completed
 
+* [x] publish the page set to the homelab site (2026-11-20):
+    * [x] register `gnome-filetype-integration` in the homelab
+          `sources/projects.yaml` (`self_published`, local `pages_source`).
+    * [x] refresh the live state, rebuild the page set, and pass the leak gate.
+    * [x] publish through the homelab's `make deploy`; the index, the extra
+          pages, and the full-text pages answer HTTP 200 with the one homelab
+          nav at labs.bannister.us/projects/gnome-filetype-integration/.
+    * [x] correct the stale release-pending status in `site.in/index.txt` and
+          `README.md`; phase 4 is complete in `PHASES.md`.
 * [x] publish a release and make it install with one command (2026-10-23; owner
       instruction):
     * [x] `make release-publish` and `scripts/release-publish.sh` tag the commit

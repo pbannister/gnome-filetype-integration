@@ -25,7 +25,7 @@ carries every capability, with stable JSON.
 The identifier, MIME index, desktop discovery, application catalog, GTK4
 chooser, handler install and uninstall, Nautilus extension, and command line
 are built. The test suite runs with <code>make test</code>; the GTK window is
-exercised under Xvfb. The public release is pending.
+exercised under Xvfb. Release <code>v2026-10-23-master</code> is published.
 </p>
 
 <h2>How it works</h2>
@@ -43,6 +43,10 @@ exercised under Xvfb. The public release is pending.
 make test
 make install</code></pre>
 
+<p>Or install the published release with one command:</p>
+
+<pre><code>curl -fsSL https://raw.githubusercontent.com/pbannister/gnome-filetype-integration/master/scripts/install.sh | sh</code></pre>
+
 <p>
 <code>PREFIX</code> installs elsewhere. Set
 <code>FILETYPE_INTEGRATION_NO_HANDLER=1</code> to install the tools without
@@ -57,4 +61,5 @@ time.
   <li><a href="coverage.html">Coverage</a></li>
   <li><a href="dashboard.html">Dashboard</a></li>
   <li><a href="https://github.com/pbannister/gnome-filetype-integration">Source</a></li>
+  <li><a href="https://github.com/pbannister/gnome-filetype-integration/releases/latest">Release</a></li>
 </ul>

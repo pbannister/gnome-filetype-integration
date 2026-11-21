@@ -44,7 +44,9 @@ uninstall, and the command line are built. The test suite runs with
 `make test`; the GTK window is exercised under Xvfb. Release
 `v2026-10-23-master` is published at
 <https://github.com/pbannister/gnome-filetype-integration/releases/latest>; the
-page set is pending. See `PHASES.md` and `TODO.md`.
+page set is published at
+<https://labs.bannister.us/projects/gnome-filetype-integration/>. See
+`PHASES.md` and `TODO.md`.
 
 ## The problem, in one example
 
