@@ -2,10 +2,16 @@
 
 ## Open
 
-* [ ] consider a GNOME Shell search provider for launching the chooser without a file.
-
 ## Recently Completed
 
+* [x] consider a GNOME Shell search provider (2026-11-22):
+    * [x] record the evidence, the options ladder, and the recommendation in
+          `documents/14-search-provider-decision.md`; GNOME Shell 50 still
+          uses the SearchProvider2 D-Bus mechanism, and `filetype choose`
+          currently needs a file path.
+    * [x] recommend no provider until someone asks for the flow; if built,
+          start with a recent-files provider that activates the existing
+          chooser, and verify user-level provider registration first.
 * [x] exercise the Nautilus extension when the bindings are present
       (2026-11-22):
     * [x] find the cause of the skip: this host has the Nautilus-4.1 typelib,
