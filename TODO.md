@@ -2,11 +2,21 @@
 
 ## Open
 
-* [ ] add a Nautilus test that runs when `python3-nautilus` is present; the current test skips that path.
 * [ ] consider a GNOME Shell search provider for launching the chooser without a file.
 
 ## Recently Completed
 
+* [x] exercise the Nautilus extension when the bindings are present
+      (2026-11-22):
+    * [x] find the cause of the skip: this host has the Nautilus-4.1 typelib,
+          but both the test and the install detection required 4.0.
+    * [x] add behavioral assertions to `tests/90-nautilus-extension.sh`:
+          menu items, empty selections, activation argv, an installed copy
+          equal to the source, and removal on uninstall; the test detects the
+          typelibs itself.
+    * [x] accept Nautilus 4.1 and 4.0 in `_nautilus_bindings_available`;
+          `filetype doctor` now reports `python3-nautilus available` and the
+          test runs the install path instead of skipping it.
 * [x] verify the handler install and the chooser on a second distribution
       and a non-GNOME XDG desktop (2026-11-20):
     * [x] install the published release in an isolated Fedora 45 container

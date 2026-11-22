@@ -51,16 +51,85 @@ if [ -e "$XDG_DATA_HOME/nautilus-python/extensions/filetype_nautilus.py" ]; then
     exit 1
 fi
 
-# 4. When the bindings are available, a normal install writes it and uninstall
-#    removes it.  Without them, the tool reports the package to install.
-if python3 -c "import gi; gi.require_version('Nautilus', '4.0'); from gi.repository import Nautilus" 2>/dev/null; then
+# 4. Detect the typelibs independently of the tool's own detector, so the
+#    check verifies the install decision rather than repeating it.
+NAUTILUS_VERSION=$(python3 - <<'PY'
+import gi
+for version in ("4.1", "4.0"):
+    try:
+        gi.require_version("Nautilus", version)
+        from gi.repository import Nautilus
+    except (ValueError, ImportError):
+        continue
+    print(version)
+    break
+PY
+)
+
+if [ -n "$NAUTILUS_VERSION" ]; then
     "$FILETYPE" handler install >/dev/null || exit 1
-    [ -f "$XDG_DATA_HOME/nautilus-python/extensions/filetype_nautilus.py" ] || {
+    FILE_EXTENSION_INSTALLED="$XDG_DATA_HOME/nautilus-python/extensions/filetype_nautilus.py"
+    [ -f "$FILE_EXTENSION_INSTALLED" ] || {
         echo '90-nautilus-extension: the bindings exist but the extension was not installed' >&2
         exit 1
     }
+    cmp -s "$FILE_EXTENSION_INSTALLED" "$SOURCE_EXTENSION" || {
+        echo '90-nautilus-extension: the installed copy differs from the source' >&2
+        exit 1
+    }
+
+    # 5. The installed extension builds the two menu items and launches the
+    #    right commands.  A recorder replaces the launcher, so no process
+    #    starts and no real file is touched.
+    python3 - "$FILE_EXTENSION_INSTALLED" "$NAUTILUS_VERSION" "$FILETYPE" <<'PY' || exit 1
+import importlib.util
+import os
+import sys
+
+import gi
+gi.require_version("Nautilus", sys.argv[2])
+from gi.repository import Nautilus
+
+os.environ["PATH"] = os.path.dirname(sys.argv[3]) + os.pathsep + os.environ.get("PATH", "")
+
+spec = importlib.util.spec_from_file_location("filetype_nautilus_under_test", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+extension = module.FiletypeExtension()
+target = "/tmp/sample file.srt"
+
+class Location:
+    def get_path(self):
+        return target
+
+class FileInfo:
+    def get_location(self):
+        return Location()
+
+    def get_uri(self):
+        return "file://" + target
+
+items = extension.get_file_items([FileInfo()])
+assert len(items) == 2, items
+assert items[0].get_property("name") == "FiletypeExtension::choose"
+assert items[1].get_property("name") == "FiletypeExtension::inspect"
+assert items[0].get_property("label") == "Choose Application…"
+assert items[1].get_property("label") == "Inspect File Type"
+assert extension.get_file_items([]) == []
+assert extension.get_background_items([]) == []
+
+calls = []
+module._launch = lambda arguments: calls.append(list(arguments))
+items[0].emit("activate")
+items[1].emit("activate")
+assert calls == [
+    [sys.argv[3], "choose", target],
+    [sys.argv[3], "identify", "--apps", target],
+], calls
+PY
+
     "$FILETYPE" handler uninstall >/dev/null || exit 1
-    [ ! -e "$XDG_DATA_HOME/nautilus-python/extensions/filetype_nautilus.py" ] || {
+    [ ! -e "$FILE_EXTENSION_INSTALLED" ] || {
         echo '90-nautilus-extension: uninstall left the extension' >&2
         exit 1
     }

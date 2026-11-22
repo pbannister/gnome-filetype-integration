@@ -320,10 +320,22 @@ class MimeAppsEditor:
 @lru_cache(maxsize=1)
 def _nautilus_bindings_available() -> bool:
     python = shutil.which("python3") or "python3"
+    # Nautilus 50 ships the 4.1 typelib; older releases ship 4.0.
+    probe = """
+import gi
+for version in ("4.1", "4.0"):
+    try:
+        gi.require_version("Nautilus", version)
+        from gi.repository import Nautilus
+    except (ValueError, ImportError):
+        continue
+    break
+else:
+    raise SystemExit(1)
+"""
     try:
         result = subprocess.run(
-            [python, "-c",
-             "import gi; gi.require_version('Nautilus', '4.0'); from gi.repository import Nautilus"],
+            [python, "-c", probe],
             capture_output=True, timeout=30, check=False,
         )
     except (OSError, subprocess.TimeoutExpired):
